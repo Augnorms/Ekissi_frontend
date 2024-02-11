@@ -1,13 +1,30 @@
-import { HeaderProps } from "../../Interfaces/HeaderInterface";
+
 import { useState, useEffect } from "react";
 import { Link } from "react-router-dom";
 import { Avatar } from "../reusables/Avatar";
 import { LogoutDialogue } from "../reusables/LogoutDialogue";
+import { useLocation } from "react-router-dom";
+import { AvatarList } from "../reusables/AvatarList";
+
+export interface HeaderProps {
+  logo?: string;
+  label?: string;
+  navlist?: string[];
+  loginoutlabel?: boolean;
+  loggedUserId?: string;
+  avatarArray?: { logo: string; initials: string }[];
+  handlechangeLogout?: (e: React.MouseEvent<HTMLDivElement>) => void;
+  handlechangeDigital?: (e: React.MouseEvent<HTMLDivElement>) => void;
+  handlesearch?: (e: React.MouseEvent<HTMLDivElement>) => void;
+}
 
 export const HeaderComponent = (props: HeaderProps) => {
   const [ismobile, setIsmobile] = useState<boolean>(false);
   const [controlNav, setControlNav] = useState<boolean>(false);
   const [logDialStatus, setlogDialStatus] = useState<boolean>(false);
+  const [enablesearch, setEnablesearch] = useState<boolean>(false);
+
+  const router = useLocation();
 
   const checkWindowSize = () => {
     setIsmobile(window.innerWidth <= 900);
@@ -36,17 +53,27 @@ export const HeaderComponent = (props: HeaderProps) => {
     setlogDialStatus(!logDialStatus)
   };
 
+  const handlesearch = ()=>{
+    setEnablesearch(!enablesearch);
+  };
+
   return (
     <>
       {!ismobile ? (
         <div className="w-full flex shadow-sm">
+          {/* Desktop view */}
+
           <div className="w-[50rem] font-bold flex gap-2 items-center">
             <Avatar logo={props.logo} />
             <div className="">{props.label}</div>
           </div>
 
           {!props.loginoutlabel ? (
-            <div className="w-[200rem] p-3 flex justify-end">
+            <div className="w-[200rem] p-3 flex justify-end items-center">
+              {enablesearch && router.pathname === "/gallery" && (
+                <div className="mr-44">search</div>
+              )}
+
               {props?.navlist?.map((data, idx) => (
                 <div
                   className="p-2 cursor-pointer hover:border-b-2
@@ -73,20 +100,60 @@ export const HeaderComponent = (props: HeaderProps) => {
                 </div>
               ))}
 
-              <div className="border-l-2 border-l-cyan-400 pl-2">
-                <div
-                  className="
+              {router.pathname === "/" && (
+                <div className="border-l-2 border-l-cyan-400 pl-2">
+                  <div
+                    className="
                     w-[8rem] p-2 text-center 
                     shadow-md rounded-tl-[8rem]
                     rounded-br-[8rem]
                     cursor-pointer hover:bg-cyan-400 hover:text-white
                    "
-                  id={!props.loginoutlabel && "login"}
-                  onClick={props.handlechangeLogout}
-                >
-                  {!props.loginoutlabel && "Login"}
+                    id={!props.loginoutlabel && "login"}
+                    onClick={props.handlechangeLogout}
+                  >
+                    {!props.loginoutlabel && "Login"}
+                  </div>
                 </div>
-              </div>
+              )}
+
+              {router.pathname === "/gallery" && (
+                <div className="border-l-2 border-l-cyan-400 pl-2">
+                  <div
+                    className="
+                    w-[8rem] p-2 text-center 
+                    shadow-md rounded-tl-[8rem]
+                    rounded-br-[8rem]
+                    cursor-pointer hover:bg-cyan-400 hover:text-white
+                    flex gap-2
+                   "
+                    id="search"
+                    onClick={handlesearch}
+                  >
+                    <img src="/images/searchIcon.svg" /> search
+                  </div>
+                </div>
+              )}
+
+              {router.pathname === "/about" && (
+                <div className="border-l-2 border-l-cyan-400 pl-2">
+                  <div
+                    className="
+                    w-[8rem] p-2 text-center 
+                    cursor-pointer
+                    flex gap-2
+                   "
+                    id="search"
+                    onClick={handlesearch}
+                  >
+                    <AvatarList
+                      width="10"
+                      height="10"
+                      avatarArray={props.avatarArray}
+                    />
+                  </div>
+                </div>
+              )}
             </div>
           ) : (
             <div className="w-[200rem] p-2 flex justify-end items-center gap-2 ">
@@ -116,6 +183,8 @@ export const HeaderComponent = (props: HeaderProps) => {
         </div>
       ) : (
         <div className="w-full overflow-auto">
+          {/* Mobile view */}
+
           <div className="w-full font-bold text-base p-1 flex gap-4 shadow-md">
             <Avatar logo={props.logo} handlechange={handleNavigation} />
 
@@ -143,6 +212,7 @@ export const HeaderComponent = (props: HeaderProps) => {
                 hover:text-cyan-300
                "
                   key={idx}
+                  onClick={handleNavigation}
                 >
                   <Link
                     to={

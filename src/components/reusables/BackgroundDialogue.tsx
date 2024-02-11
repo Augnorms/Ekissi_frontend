@@ -6,20 +6,27 @@ interface BackgroundDialogueProps {
 
 interface Props {
   status?: boolean;
+  backgroundColor?: string;
 }
 
-export const BackgroundDialogue = ({status, children}: Props & BackgroundDialogueProps) => {
+export const BackgroundDialogue = ({
+  status,
+  backgroundColor, 
+  children,
+}: Props & BackgroundDialogueProps) => {
+
   return (
     <div
-      className="
+      className={`
         w-full h-screen 
-        fixed inset-0 bg-black 
+        fixed inset-0 ${backgroundColor} 
         bg-opacity-50 flex items-center 
-        justify-center"
+        justify-center`}
       style={{
         position: "fixed",
         top: status ? "0vh" : "-100vh",
         transition: "top 0.3s ease",
+        zIndex:"30"
       }}
     >
       {children}
