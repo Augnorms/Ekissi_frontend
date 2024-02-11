@@ -7,8 +7,14 @@ export const LoginPageView = () => {
 //   const route = useLocation()
 const [_LoginDialogue, setLoginDialogue] = useState<string>("");
 
-const handlechange = (_e: React.MouseEvent<HTMLDivElement>) => {
+const handlechangeLogout = (_e: React.MouseEvent<HTMLDivElement>) => {
   setLoginDialogue(_e.currentTarget.id);
+  console.log(_e.currentTarget.id);
+};
+
+const handlechangeDigital = (_e: React.MouseEvent<HTMLDivElement>) => {
+  setLoginDialogue(_e.currentTarget.id);
+  console.log(_e.currentTarget.id);
 };
 
   return (
@@ -18,14 +24,12 @@ const handlechange = (_e: React.MouseEvent<HTMLDivElement>) => {
         label="Ekissi Family Leanage"
         navlist={["Home", "About", "Gallery", "Contact"]}
         loginoutlabel={false}
-        handlechange={handlechange}
+        loggedUserId="1"
+        handlechangeLogout={handlechangeLogout}
+        handlechangeDigital={handlechangeDigital}
       />
-
       everyday with God {_LoginDialogue}
-
-      <BackgroundDialogue status={true}>
-        bcgc
-      </BackgroundDialogue>
+      <BackgroundDialogue status={false}>bcgc</BackgroundDialogue>
     </div>
   );
 };

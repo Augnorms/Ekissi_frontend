@@ -1,22 +1,29 @@
+import React from "react";
 
 interface AvatarProps {
   logo?: string;
   initials?: string;
-  handlechange?:()=>void;
+  handlechange?: () => void;
+  width?: string;
+  height?: string;
 }
 
-export const Avatar = (props: AvatarProps) => {
+export const Avatar: React.FC<AvatarProps> = (props) => {
+  const { logo, initials, handlechange, width = "14", height = "14" } = props;
+
   return (
-    <div className="w-14 h-14 rounded-full flex justify-center items-center shadow-lg">
-      {props.logo && props.logo !== 'null' ? (
+    <div
+      className={`w-${width} h-${height} rounded-full flex justify-center items-center shadow-lg`}
+    >
+      {logo && logo !== "null" ? (
         <img
-          src={props.logo}
-          className="w-10 h-10 rounded-full"
+          src={logo}
+          className={`w-${width} h-${height} rounded-full`}
           alt="User Avatar"
-          onClick={props.handlechange}
+          onClick={handlechange}
         />
       ) : (
-        <span className="text-xl font-bold">{props.initials}</span>
+        <span className="text-xl font-bold">{initials}</span>
       )}
     </div>
   );

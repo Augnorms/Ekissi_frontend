@@ -3,5 +3,7 @@ export interface HeaderProps {
   label?: string;
   navlist?: string[];
   loginoutlabel?: boolean;
-  handlechange?: (e: React.MouseEvent<HTMLDivElement>) => void;
+  loggedUserId?: string;
+  handlechangeLogout?: (e: React.MouseEvent<HTMLDivElement>) => void;
+  handlechangeDigital?: (e: React.MouseEvent<HTMLDivElement>) => void;
 }

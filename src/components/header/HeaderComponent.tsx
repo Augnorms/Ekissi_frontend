@@ -2,10 +2,12 @@ import { HeaderProps } from "../../Interfaces/HeaderInterface";
 import { useState, useEffect } from "react";
 import { Link } from "react-router-dom";
 import { Avatar } from "../reusables/Avatar";
+import { LogoutDialogue } from "../reusables/LogoutDialogue";
 
 export const HeaderComponent = (props: HeaderProps) => {
   const [ismobile, setIsmobile] = useState<boolean>(false);
   const [controlNav, setControlNav] = useState<boolean>(false);
+  const [logDialStatus, setlogDialStatus] = useState<boolean>(false);
 
   const checkWindowSize = () => {
     setIsmobile(window.innerWidth <= 900);
@@ -26,21 +28,30 @@ export const HeaderComponent = (props: HeaderProps) => {
     };
   }, []);
 
+  const hanldeDisplayLogDiag = ()=>{
+    setlogDialStatus(!logDialStatus);
+  };
+
+  const hanldeDisplayLog = ()=>{
+    setlogDialStatus(!logDialStatus)
+  };
+
   return (
     <>
       {!ismobile ? (
-        <div className="w-full p-2 flex shadow-sm">
-          <div className="w-[50rem] font-bold text-base p-1 flex gap-2">
+        <div className="w-full flex shadow-sm">
+          <div className="w-[50rem] font-bold flex gap-2 items-center">
             <Avatar logo={props.logo} />
-            <div className="mt-4">{props.label}</div>
+            <div className="">{props.label}</div>
           </div>
 
           {!props.loginoutlabel ? (
-            <div className="w-[200rem] p-2 flex justify-end">
+            <div className="w-[200rem] p-3 flex justify-end">
               {props?.navlist?.map((data, idx) => (
                 <div
-                  className="mt-3 p-2 cursor-pointer hover:border-b
-                hover:text-cyan-300
+                  className="p-2 cursor-pointer hover:border-b-2
+                  border-b-cyan-400
+                hover:text-cyan-300 
                "
                   key={idx}
                 >
@@ -53,7 +64,7 @@ export const HeaderComponent = (props: HeaderProps) => {
                           : idx === 2
                             ? "/gallery"
                             : idx === 3
-                              ? "/contact"
+                              ? "#contact"
                               : "/"
                     }
                   >
@@ -61,31 +72,47 @@ export const HeaderComponent = (props: HeaderProps) => {
                   </Link>
                 </div>
               ))}
-            </div>
-          ) : (
-            <div className="w-[200rem] p-2 flex justify-end gap-2">
-              <Avatar logo="u" />
 
-              <div className="font-bold text-base p-1 mt-3">
-                bbbkhhfhdfvidfvh
+              <div className="border-l-2 border-l-cyan-400 pl-2">
+                <div
+                  className="
+                    w-[8rem] p-2 text-center 
+                    shadow-md rounded-tl-[8rem]
+                    rounded-br-[8rem]
+                    cursor-pointer hover:bg-cyan-400 hover:text-white
+                   "
+                  id={!props.loginoutlabel && "login"}
+                  onClick={props.handlechangeLogout}
+                >
+                  {!props.loginoutlabel && "Login"}
+                </div>
               </div>
             </div>
-          )}
+          ) : (
+            <div className="w-[200rem] p-2 flex justify-end items-center gap-2 ">
+              <div className="w-[80%] text-base p-2 flex justify-end">
+                bbbkhhfhdfvidfvh
+              </div>
 
-          <div className="w-[40rem] text-base p-2 flex">
-            <div
-              className="
-              w-[8rem] mt-3 p-2 text-center 
-              shadow-md rounded-tl-[8rem]
-              rounded-br-[8rem]
-              cursor-pointer
-            "
-              id={props.loginoutlabel ? "logout" : "login"}
-              onClick={props.handlechange}
-            >
-              {props.loginoutlabel ? "Logout" : "Login"}
+              <div className="w-[20%] text-base p-2 flex justify-end gap-3">
+                <Avatar />
+                <img
+                  className="cursor-pointer"
+                  src="/images/arrowdown.svg"
+                  onClick={hanldeDisplayLogDiag}
+                />
+              </div>
+
+              <LogoutDialogue
+                onMouseclick={hanldeDisplayLog}
+                logStatus={props.loginoutlabel}
+                handleChangeLogout={props.handlechangeLogout}
+                handleChangeDigital={props.handlechangeDigital}
+                loggedUserId={props.loggedUserId}
+                show={logDialStatus}
+              />
             </div>
-          </div>
+          )}
         </div>
       ) : (
         <div className="w-full overflow-auto">
@@ -126,7 +153,7 @@ export const HeaderComponent = (props: HeaderProps) => {
                           : idx === 2
                             ? "/gallery"
                             : idx === 3
-                              ? "/contact"
+                              ? "#contact"
                               : "/"
                     }
                   >
@@ -141,15 +168,15 @@ export const HeaderComponent = (props: HeaderProps) => {
             <div className="w-[40rem] text-base p-2">
               <div
                 className="
-              w-[8rem] mt-3 p-2 text-center 
-              shadow-md rounded-tl-[8rem]
-              rounded-br-[8rem]
-              cursor-pointer
-            "
-                id={props.loginoutlabel ? "logout" : "login"}
-                onClick={props.handlechange}
+                  w-[8rem] mt-3 p-2 text-center 
+                  shadow-md rounded-sm
+                  cursor-pointer text-cyan-400
+                  hover:bg-cyan-400 hover:text-white
+                "
+                id={!props.loginoutlabel ? "login" : undefined}
+                onClick={props.handlechangeLogout}
               >
-                {props.loginoutlabel ? "Logout" : "Login"}
+                {!props.loginoutlabel && "login"}
               </div>
             </div>
           </div>
