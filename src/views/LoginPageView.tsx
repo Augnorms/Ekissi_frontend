@@ -2,7 +2,6 @@ import { useState } from "react";
 import { HeaderComponent } from "../components/header/HeaderComponent";
 import { BackgroundDialogue } from "../components/reusables/BackgroundDialogue";
 
-
 export const LoginPageView = () => {
   const [_LoginDialogue, setLoginDialogue] = useState<string>("");
 
@@ -19,10 +18,10 @@ export const LoginPageView = () => {
   return (
     <div className="w-full h-screen">
       <HeaderComponent
-        logo="/images/logo.svg"
+        logo="/images/Ekissi2.PNG"
         label="Ekissi Family Leanage"
         navlist={["Home", "About", "Gallery", "Contact"]}
-        loginoutlabel={true}
+        loginoutlabel={false}
         loggedUserId="1"
         handlechangeLogout={handlechangeLogout}
         handlechangeDigital={handlechangeDigital}
@@ -34,7 +33,6 @@ export const LoginPageView = () => {
       >
         dhh
       </BackgroundDialogue>
-
     </div>
   );
 };

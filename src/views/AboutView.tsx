@@ -2,23 +2,22 @@ import { HeaderComponent } from "../components/header/HeaderComponent"
 
 export const AboutView = () => {
     const images = [
-      { logo: "", initials: "L G" },
-      { logo: "images/searchIcon.svg", initials: "L G" },
-      { logo: "", initials: "L G" },
-      { logo: "images/searchIcon.svg", initials: "L G" },
+      { logo: "", initials: "F A" },
+      { logo: "", initials: "J Q" },
+      { logo: "", initials: "J Q" },
+      { logo: "", initials: "R A" },
     ];
 
   return (
     <div className="w-full h-screen">
       <HeaderComponent
-        logo="/images/logo.svg"
+        logo="/images/Ekissi2.PNG"
         label="Ekissi Family Leanage"
         navlist={["Home", "About", "Gallery"]}
         loginoutlabel={false}
         loggedUserId="1"
         avatarArray={images}
       />
-      
     </div>
   );
 }

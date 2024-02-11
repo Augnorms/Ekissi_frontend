@@ -9,16 +9,24 @@ interface AvatarProps {
 }
 
 export const Avatar: React.FC<AvatarProps> = (props) => {
-  const { logo, initials, handlechange, width = "14", height = "14" } = props;
+  const { logo, initials, handlechange, width="40" , height="40"  } = props;
 
   return (
     <div
-      className={`w-${width} h-${height} rounded-full flex justify-center items-center shadow-lg`}
+      className={`rounded-full flex justify-center items-center shadow-lg`}
+      style={{
+        width: `${width}px`,
+        height: `${height}px`,
+      }}
     >
       {logo && logo !== "null" ? (
         <img
           src={logo}
-          className={`w-${width} h-${height} rounded-full`}
+          className={`rounded-full border`}
+          style={{
+            width: `${width}px`,
+            height: `${height}px`,
+          }}
           alt="User Avatar"
           onClick={handlechange}
         />

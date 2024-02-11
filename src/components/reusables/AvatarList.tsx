@@ -8,8 +8,8 @@ interface Props {
 
 export const AvatarList = ({
   avatarArray,
-  width = "14",
-  height = "14",
+  width = "10",
+  height = "10",
   sliceFirstIdx = 0,
   sliceSecondIdx = avatarArray?.length || 0,
 }: Props) => {
@@ -21,22 +21,30 @@ export const AvatarList = ({
             items-center 
             text-center 
             rounded-full 
-            ring-2 ring-gray-300 
-            hover:ml-0 transition-transform delay-500 
+            ring-1 
+            hover:ml-0 transition-transform delay-700 duration-300 ease-in-out 
             ${_idx > 0 ? "-ml-5" : ""}
             cursor-pointer
           `}
           key={_idx}
         >
           <div
-            className={`w-${width} h-${height} rounded-full flex justify-center items-center shadow-lg bg-white`}
+            className={`rounded-full flex justify-center items-center shadow-lg bg-white`}
             key={_idx}
+            style={{
+              width: `${width}px`,
+              height: `${height}px`,
+            }}
           >
             {data.logo && data.logo !== "" ? (
               <img
                 src={data.logo}
-                className={`w-${width} h-${height} rounded-full`}
-                alt="User Avatar"
+                className={`rounded-full`}
+                style={{
+                  width: `${width}px`,
+                  height: `${height}px`,
+                }}
+                alt="User Avatar List"
               />
             ) : (
               <span className="text-xl font-bold">{data.initials}</span>

@@ -26,6 +26,7 @@ export const HeaderComponent = (props: HeaderProps) => {
 
   const router = useLocation();
 
+
   const checkWindowSize = () => {
     setIsmobile(window.innerWidth <= 900);
   };
@@ -70,7 +71,7 @@ export const HeaderComponent = (props: HeaderProps) => {
 
           {!props.loginoutlabel ? (
             <div className="w-[200rem] p-3 flex justify-end items-center">
-              {enablesearch && router.pathname === "/gallery" && (
+              {enablesearch && router.pathname.split("/")[1] === "gallery" && (
                 <div className="mr-44">search</div>
               )}
 
@@ -100,7 +101,7 @@ export const HeaderComponent = (props: HeaderProps) => {
                 </div>
               ))}
 
-              {router.pathname === "/" && (
+              {router.pathname.split("/")[1] === "" && (
                 <div className="border-l-2 border-l-cyan-400 pl-2">
                   <div
                     className="
@@ -117,7 +118,7 @@ export const HeaderComponent = (props: HeaderProps) => {
                 </div>
               )}
 
-              {router.pathname === "/gallery" && (
+              {router.pathname.split("/")[1] === "gallery" && (
                 <div className="border-l-2 border-l-cyan-400 pl-2">
                   <div
                     className="
@@ -135,7 +136,7 @@ export const HeaderComponent = (props: HeaderProps) => {
                 </div>
               )}
 
-              {router.pathname === "/about" && (
+              {router.pathname.split("/")[1] === "about" && (
                 <div className="border-l-2 border-l-cyan-400 pl-2">
                   <div
                     className="
@@ -147,8 +148,8 @@ export const HeaderComponent = (props: HeaderProps) => {
                     onClick={handlesearch}
                   >
                     <AvatarList
-                      width="10"
-                      height="10"
+                      width="35"
+                      height="35"
                       avatarArray={props.avatarArray}
                     />
                   </div>
@@ -162,7 +163,7 @@ export const HeaderComponent = (props: HeaderProps) => {
               </div>
 
               <div className="w-[20%] text-base p-2 flex justify-end gap-3">
-                <Avatar />
+                <Avatar width={'50'} height={'50'}/>
                 <img
                   className="cursor-pointer"
                   src="/images/arrowdown.svg"
@@ -255,3 +256,16 @@ export const HeaderComponent = (props: HeaderProps) => {
     </>
   );
 };
+
+
+/*
+    <HeaderComponent
+        logo="/images/Ekissi2.PNG"
+        label="Ekissi Family Leanage"
+        navlist={["Home", "About", "Gallery", "Contact"]}
+        loginoutlabel={false}
+        loggedUserId="1"
+        handlechangeLogout={handlechangeLogout}
+        handlechangeDigital={handlechangeDigital}
+      />
+*/
