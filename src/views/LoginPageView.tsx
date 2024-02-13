@@ -26,13 +26,45 @@ export const LoginPageView = () => {
         handlechangeLogout={handlechangeLogout}
         handlechangeDigital={handlechangeDigital}
       />
-      everyday with God {_LoginDialogue}
       <BackgroundDialogue
         status={_LoginDialogue === "login" ? true : false}
-        backgroundColor="bg-slate-100"
+        backgroundColor="bg-black"
       >
         dhh
       </BackgroundDialogue>
+
+      <div className="container mx-auto">
+        <div className="mt-20  flex">
+          <div className="w-1/2 h-[460px] p-2 flex justify-center items-center">
+            <div className="w-3/4">
+              <h2 className="font-semibold text-3xl">Ekissi Family Leanage</h2>
+              <p className="mt-4 text-gray-500">
+                Family, where life begins and love never ends. Cherish every
+                moment, celebrate every milestone, and embrace the journey
+                together. Our roots may be different, but our family tree is
+                forever growing. Welcome to our space of love, laughter, and
+                endless memories
+              </p>
+              <div
+                className="
+               w-[140px] rounded-tl-[8rem] rounded-br-[8rem] 
+               text-center p-2 bg-[#37806B] text-white cursor-pointer 
+               text-white mt-4 hover:bg-opacity-50"
+              >
+                CONTACT
+              </div>
+            </div>
+          </div>
+          <div className="w-1/2 h-[460px] p-2">
+            <div className="h-[100%] border rounded-tl-[8rem] rounded-br-[8rem]">
+              <div
+                className="h-[100%] border border-red-500 rounded-tl-[8rem] rounded-br-[8rem] relative 
+              -top-5 right-5"
+              ></div>
+            </div>
+          </div>
+        </div>
+      </div>
     </div>
   );
 };
