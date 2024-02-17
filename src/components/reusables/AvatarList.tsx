@@ -23,7 +23,7 @@ export const AvatarList = ({
             rounded-full 
             ring-1 
             hover:ml-0 transition-transform delay-700 duration-300 ease-in-out 
-            ${_idx > 0 ? "-ml-5" : ""}
+            ${_idx > 0 ? "-ml-3" : ""}
             cursor-pointer
           `}
           key={_idx}

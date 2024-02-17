@@ -28,7 +28,7 @@ export const HeaderComponent = (props: HeaderProps) => {
 
 
   const checkWindowSize = () => {
-    setIsmobile(window.innerWidth <= 900);
+    setIsmobile(window.innerWidth <= 900 && window.innerWidth >= 200);
   };
 
   const handleNavigation = () => {
@@ -44,7 +44,7 @@ export const HeaderComponent = (props: HeaderProps) => {
     return () => {
       window.removeEventListener("resize", checkWindowSize);
     };
-  }, []);
+  }, [ismobile]);
 
   const hanldeDisplayLogDiag = ()=>{
     setlogDialStatus(!logDialStatus);
@@ -58,10 +58,11 @@ export const HeaderComponent = (props: HeaderProps) => {
     setEnablesearch(!enablesearch);
   };
 
+
   return (
     <>
       {!ismobile ? (
-        <div className="w-full flex shadow-sm">
+        <div className="w-full flex shadow-sm p-2">
           {/* Desktop view */}
 
           <div className="w-[50rem] font-bold flex gap-2 items-center">
@@ -236,7 +237,7 @@ export const HeaderComponent = (props: HeaderProps) => {
 
             <hr />
 
-            <div className="w-[40rem] text-base p-2">
+            <div className="text-base p-2">
               <div
                 className="
                   w-[8rem] mt-3 p-2 text-center 

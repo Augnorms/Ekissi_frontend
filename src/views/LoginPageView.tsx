@@ -1,12 +1,17 @@
-import { useEffect, useState } from "react";
+import { useEffect, useRef, useState} from "react";
 import { HeaderComponent } from "../components/header/HeaderComponent";
 import { BackgroundDialogue } from "../components/reusables/BackgroundDialogue";
 import { CarouselComp } from "../components/reusables/CarouselComp";
+import { FooterComponent } from "../components/footer/FooterComponent";
+import { useLocation } from "react-router-dom";
 
 export const LoginPageView = () => {
   const [_LoginDialogue, setLoginDialogue] = useState<string>("");
   const [imageIdx, setImageIdx] = useState<number>(0);
   const [isMobile, setIsMobile] = useState<boolean>(false);
+  const footerRef = useRef<HTMLDivElement>(null);
+
+  const router = useLocation();
 
   const handlechangeLogout = (_e: React.MouseEvent<HTMLDivElement>) => {
     setLoginDialogue(_e.currentTarget.id);
@@ -43,7 +48,8 @@ export const LoginPageView = () => {
 
   //handling mobile screen here
   const handlescreen = () => {
-    setIsMobile(window.innerWidth <= 900);
+    setIsMobile(window.innerWidth <= 900 && window.innerWidth >= 200);
+
   };
 
   useEffect(() => {
@@ -56,26 +62,38 @@ export const LoginPageView = () => {
     };
   }, []);
 
+   useEffect(() => {
+     if (router.hash === "#contact" && footerRef.current) {
+       footerRef.current.scrollIntoView({
+         behavior: "smooth",
+       });
+     }
+   
+   }, [router.hash]);
+
+
   return (
     <>
+      <div className="w-full">
+        <HeaderComponent
+          logo="/images/Ekissi2.PNG"
+          label="Ekissi Family Leanage"
+          navlist={["Home", "About", "Gallery", "Contact"]}
+          loginoutlabel={false}
+          loggedUserId="1"
+          handlechangeLogout={handlechangeLogout}
+          handlechangeDigital={handlechangeDigital}
+        />
+        <BackgroundDialogue
+          status={_LoginDialogue === "login" ? true : false}
+          backgroundColor="bg-black"
+        >
+          dhh
+        </BackgroundDialogue>
+      </div>
+
       {!isMobile ? (
         <div className="w-full">
-          <HeaderComponent
-            logo="/images/Ekissi2.PNG"
-            label="Ekissi Family Leanage"
-            navlist={["Home", "About", "Gallery", "Contact"]}
-            loginoutlabel={false}
-            loggedUserId="1"
-            handlechangeLogout={handlechangeLogout}
-            handlechangeDigital={handlechangeDigital}
-          />
-          <BackgroundDialogue
-            status={_LoginDialogue === "login" ? true : false}
-            backgroundColor="bg-black"
-          >
-            dhh
-          </BackgroundDialogue>
-
           <div className="container mx-auto">
             <div className="mt-20  flex">
               <div className="w-1/2 h-[460px] p-2 flex justify-center items-center">
@@ -95,6 +113,13 @@ export const LoginPageView = () => {
                     w-[140px] rounded-tl-[8rem] rounded-br-[8rem] 
                     text-center p-2 bg-[#37806B] text-white cursor-pointer 
                     text-white mt-4 hover:bg-opacity-50"
+                    onClick={() => {
+                      if (footerRef.current) {
+                        footerRef.current.scrollIntoView({
+                          behavior: "smooth",
+                        });
+                      }
+                    }}
                   >
                     CONTACT
                   </div>
@@ -170,7 +195,7 @@ export const LoginPageView = () => {
                     Message from Josephine Quiacoe
                   </h2>
                   <p className="mt-4 text-gray-500">
-                    Explore the 'Our Story' section to journey through the
+                    Explore the 'About' section to journey through the
                     chronicles of our family's past, discovering the triumphs,
                     challenges, and laughter that have shaped us. 'Family
                     Moments' captures the essence of our present, a gallery of
@@ -264,6 +289,18 @@ export const LoginPageView = () => {
       ) : (
         <div></div>
       )}
+
+      <div className="w-full" ref={footerRef}>
+        <FooterComponent
+          logo="/images/Ekissi2.PNG"
+          arrayofmediaicons={[
+            { logo: "/images/facebook.svg", initials: "F B" },
+            { logo: "/images/tweet.svg", initials: "T T" },
+            { logo: "/images/linkedin.svg", initials: "L N" },
+            { logo: "/images/watsapp.svg", initials: "W P" },
+          ]}
+        />
+      </div>
     </>
   );
 };
