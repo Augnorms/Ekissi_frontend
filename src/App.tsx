@@ -1,4 +1,5 @@
 import { Mainroute } from "./Mainroute"
+import "../src/index.css";
 
 function App() {
 
