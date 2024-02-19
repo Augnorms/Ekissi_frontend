@@ -1,13 +1,31 @@
+import { useEffect, useState } from "react";
 import { FooterComponent } from "../components/footer/FooterComponent";
-import { HeaderComponent } from "../components/header/HeaderComponent"
+import { HeaderComponent } from "../components/header/HeaderComponent";
 
 export const AboutView = () => {
-    const images = [
-      { logo: "", initials: "F A" },
-      { logo: "", initials: "J Q" },
-      { logo: "", initials: "J Q" },
-      { logo: "", initials: "R A" },
-    ];
+  const [isMobile, setIsMobile] = useState<boolean>(false);
+
+  const images = [
+    { logo: "", initials: "F A" },
+    { logo: "", initials: "J Q" },
+    { logo: "", initials: "J Q" },
+    { logo: "", initials: "R A" },
+  ];
+
+  //handling mobile screen here
+  const handlescreen = () => {
+    setIsMobile(window.innerWidth <= 900 && window.innerWidth >= 200);
+  };
+
+  useEffect(() => {
+    window.addEventListener("resize", handlescreen);
+
+    handlescreen();
+
+    return () => {
+      window.addEventListener("resize", handlescreen);
+    };
+  }, []);
 
   return (
     <div className="w-full h-screen">
@@ -19,6 +37,16 @@ export const AboutView = () => {
         loggedUserId="1"
         avatarArray={images}
       />
+
+      {!isMobile ? (
+        <div className="w-full h-[60vh] overflow-auto">
+          
+        </div>
+      ) : (
+        <div>
+
+        </div>
+      )}
 
       <div className="w-full">
         <FooterComponent
@@ -33,4 +61,4 @@ export const AboutView = () => {
       </div>
     </div>
   );
-}
+};

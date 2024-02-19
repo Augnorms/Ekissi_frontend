@@ -4,6 +4,7 @@ import { BackgroundDialogue } from "../components/reusables/BackgroundDialogue";
 import { CarouselComp } from "../components/reusables/CarouselComp";
 import { FooterComponent } from "../components/footer/FooterComponent";
 import { useLocation } from "react-router-dom";
+import { Avatar } from "../components/reusables/Avatar";
 
 export const LoginPageView = () => {
   const [_LoginDialogue, setLoginDialogue] = useState<string>("");
@@ -287,7 +288,149 @@ export const LoginPageView = () => {
           </div>
         </div>
       ) : (
-        <div></div>
+        <div className="w-full">
+          <div className="flex p-10">
+            <div
+              className="
+             border w-[115px] h-[115px] 
+             rounded-full shadow-lg flex 
+             justify-center items-center
+             relative -top-8 p-2 border-cyan-500
+             "
+            >
+              <Avatar
+                logo={"/images/Ekissi2.PNG"}
+                width={"100"}
+                height={"100"}
+              />
+            </div>
+            <div className="ml-3">
+              <h2 className="font-semibold text-3xl">Ekissi Family Leanage</h2>
+              <p className="mt-4 text-gray-500">
+                Family, where life begins and love never ends. Cherish every
+                moment, celebrate every milestone, and embrace the journey
+                together. Our roots may be different, but our family tree is
+                forever growing. Welcome to our space of love, laughter, and
+                endless memories
+              </p>
+            </div>
+          </div>
+
+          <div className="flex p-10">
+            <div
+              className="
+             border w-[115px] h-[115px] 
+             rounded-full shadow-lg flex 
+             justify-center items-center
+             relative -top-8 p-2 border-cyan-500
+             "
+            >
+              <Avatar
+                logo={"/images/auntFlo.jpg"}
+                width={"100"}
+                height={"100"}
+              />
+            </div>
+            <div className="ml-3">
+              <h2 className="font-semibold text-3xl">
+                Message from Florence Austin
+              </h2>
+              <p className="mt-4 text-gray-500">
+                Welcome to our family's digital home, a place where stories are
+                woven, memories cherished, and bonds strengthened. Just as the
+                roots of a family tree anchor generations, this website aims to
+                be a digital sanctuary for our shared experiences.
+              </p>
+            </div>
+          </div>
+
+          <div className="flex p-10">
+            <div
+              className="
+              border w-[115px] h-[115px] 
+             rounded-full shadow-lg flex 
+             justify-center items-center
+             relative -top-8 p-2 border-cyan-500
+             "
+            >
+              <Avatar
+                logo={"/images/IMG-20210808-WA0010.jpg"}
+                width={"100"}
+                height={"100"}
+              />
+            </div>
+            <div className="ml-3">
+              <h2 className="font-semibold text-3xl">
+                Message from Josephine Quiacoe
+              </h2>
+              <p className="mt-4 text-gray-500">
+                Explore the 'About' section to journey through the chronicles of
+                our family's past, discovering the triumphs, challenges, and
+                laughter that have shaped us. 'Family Moments' captures the
+                essence of our present, a gallery of shared celebrations,
+                vacations, and day-to-day joys.
+              </p>
+            </div>
+          </div>
+
+          <div className="flex p-10">
+            <div
+              className="
+              border w-[115px] h-[115px] 
+             rounded-full shadow-lg flex 
+             justify-center items-center
+             relative -top-8 p-2 border-cyan-500
+             "
+            >
+              <Avatar
+                logo={"/images/james2.jpg"}
+                width={"100"}
+                height={"100"}
+              />
+            </div>
+            <div className="ml-3">
+              <h2 className="font-semibold text-3xl">
+                Message from James Quaicoe
+              </h2>
+              <p className="mt-4 text-gray-500">
+                In 'Generations,' pay homage to our elders, the pillars of
+                wisdom and the keepers of traditions. Their tales, lessons, and
+                photographs paint a vivid portrait of our heritage. The 'Family
+                Tree' unfolds the branches of our kinship, connecting relatives
+                across time and distance.
+              </p>
+            </div>
+          </div>
+
+          <div className="flex p-10">
+            <div
+              className="
+              border w-[115px] h-[115px] 
+             rounded-full shadow-lg flex 
+             justify-center items-center
+             relative -top-8 p-2 border-cyan-500
+             "
+            >
+              <Avatar
+                logo={"/images/Rurh.jpg"}
+                width={"100"}
+                height={"100"}
+              />
+            </div>
+            <div className="ml-3">
+              <h2 className="font-semibold text-3xl">
+                Message from Ruth Aboah
+              </h2>
+              <p className="mt-4 text-gray-500">
+                Our values are the heartbeat of our family, and 'Family Values'
+                is a space to articulate and celebrate the principles that bind
+                us together. 'Recipes from Grandma's Kitchen' invites you to
+                savor the flavors that have been passed down through the ages,
+                bridging generations with the magic of shared meals.
+              </p>
+            </div>
+          </div>
+        </div>
       )}
 
       <div className="w-full" ref={footerRef}>
