@@ -6,11 +6,13 @@ import { FooterComponent } from "../components/footer/FooterComponent";
 import { useLocation } from "react-router-dom";
 import { Avatar } from "../components/reusables/Avatar";
 import { LoginForm } from "../components/non-reusables/LoginForm";
+import { ResetForm } from "../components/non-reusables/ResetForm";
 
 export const LoginPageView = () => {
   const [_LoginDialogue, setLoginDialogue] = useState<string>("");
   const [imageIdx, setImageIdx] = useState<number>(0);
   const [isMobile, setIsMobile] = useState<boolean>(false);
+  const [forgotPass, setForgotPass] = useState<boolean>(false);
   const footerRef = useRef<HTMLDivElement>(null);
 
   const router = useLocation();
@@ -73,7 +75,12 @@ export const LoginPageView = () => {
 
   const Closedialog = () => {
     setLoginDialogue("");
+    
   };
+
+  const handleforgotpassword = ()=>{
+    setForgotPass(!forgotPass);
+  }
 
   return (
     <>
@@ -87,12 +94,22 @@ export const LoginPageView = () => {
           handlechangeLogout={handlechangeLogout}
           handlechangeDigital={handlechangeDigital}
         />
+
         <BackgroundDialogue
           status={_LoginDialogue === "login" ? true : false}
-          // status={true}
           backgroundColor="bg-black"
         >
-          <LoginForm onClick={Closedialog} />
+          {!forgotPass ? (
+            <LoginForm
+              onClick={Closedialog}
+              onForgotpass={handleforgotpassword}
+            />
+          ) : (
+            <ResetForm
+              onClickcancel={handleforgotpassword}
+              onClickclose={Closedialog}
+            />
+          )}
         </BackgroundDialogue>
       </div>
 

@@ -4,10 +4,11 @@ import { CloseDiagComp } from "../reusables/CloseDiagComp";
 
 interface Props{
     onClick?:()=>void
+    onForgotpass?:()=>void
 }
 
 export const LoginForm = (props:Props) => {
-const {onClick} = props;
+const { onClick, onForgotpass } = props;
 
   return (
     <div className="max-sm:w-[90%] md:w-[70%] xl:w-[30%] bg-white p-4 rounded">
@@ -26,7 +27,8 @@ const {onClick} = props;
            h-8 rounded-xl
            text-gray-500 
            outline-cyan-300
-           p-4
+           p-5
+           placeholder:text-sm
           "
           id={"username"}
           useIcons
@@ -45,7 +47,8 @@ const {onClick} = props;
            h-8 rounded-xl
            text-gray-500 
            outline-cyan-300
-           p-4
+           p-5
+           placeholder:text-sm
           "
           id={"password"}
           useIcons
@@ -55,6 +58,15 @@ const {onClick} = props;
           showPaswword={false}
           placeholder="Enter your password..."
         />
+      </div>
+
+      <div className="w-full p-2">
+        <p
+          className="cursor-pointer underline italic text-orange-400"
+          onClick={onForgotpass}
+        >
+          forgot password ?
+        </p>
       </div>
 
       <div className="py-4">
