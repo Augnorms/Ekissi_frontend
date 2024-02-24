@@ -2,6 +2,8 @@ import { useEffect, useState } from "react";
 import { FooterComponent } from "../components/footer/FooterComponent";
 import { HeaderComponent } from "../components/header/HeaderComponent";
 
+
+
 export const AboutView = () => {
   const [isMobile, setIsMobile] = useState<boolean>(false);
 
@@ -27,6 +29,17 @@ export const AboutView = () => {
     };
   }, []);
 
+  //   const headers = [
+  //     { key: "name", label: "Form Name" },
+  //     { key: "status", label: "Status" },
+  //     { key: "action", label: "Action" },
+  //   ];
+
+  //  const addform = [
+  //    { name: "form1", status: "Active" },
+  //    { name: "form2", status: "Active" },
+  //  ];
+
   return (
     <div className="w-full h-screen">
       <HeaderComponent
@@ -40,12 +53,10 @@ export const AboutView = () => {
 
       {!isMobile ? (
         <div className="w-full h-[60vh] overflow-auto">
-          
+        
         </div>
       ) : (
-        <div>
-
-        </div>
+        <div></div>
       )}
 
       <div className="w-full">
@@ -62,3 +73,4 @@ export const AboutView = () => {
     </div>
   );
 };
+

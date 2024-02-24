@@ -1,10 +1,11 @@
-import { useEffect, useRef, useState} from "react";
+import { useEffect, useRef, useState } from "react";
 import { HeaderComponent } from "../components/header/HeaderComponent";
 import { BackgroundDialogue } from "../components/reusables/BackgroundDialogue";
 import { CarouselComp } from "../components/reusables/CarouselComp";
 import { FooterComponent } from "../components/footer/FooterComponent";
 import { useLocation } from "react-router-dom";
 import { Avatar } from "../components/reusables/Avatar";
+import { LoginForm } from "../components/non-reusables/LoginForm";
 
 export const LoginPageView = () => {
   const [_LoginDialogue, setLoginDialogue] = useState<string>("");
@@ -42,7 +43,6 @@ export const LoginPageView = () => {
     return () => clearInterval(intervalId);
   }, [imageIdx]);
 
-
   const handleCarousel = (event: React.MouseEvent<HTMLDivElement>) => {
     setImageIdx(Number(event.currentTarget.id));
   };
@@ -50,7 +50,6 @@ export const LoginPageView = () => {
   //handling mobile screen here
   const handlescreen = () => {
     setIsMobile(window.innerWidth <= 900 && window.innerWidth >= 200);
-
   };
 
   useEffect(() => {
@@ -63,15 +62,18 @@ export const LoginPageView = () => {
     };
   }, []);
 
-   useEffect(() => {
-     if (router.hash === "#contact" && footerRef.current) {
-       footerRef.current.scrollIntoView({
-         behavior: "smooth",
-       });
-     }
-   
-   }, [router.hash]);
+  //this handle the contact page button
+  useEffect(() => {
+    if (router.hash === "#contact" && footerRef.current) {
+      footerRef.current.scrollIntoView({
+        behavior: "smooth",
+      });
+    }
+  }, [router.hash]);
 
+  const Closedialog = () => {
+    setLoginDialogue("");
+  };
 
   return (
     <>
@@ -87,9 +89,10 @@ export const LoginPageView = () => {
         />
         <BackgroundDialogue
           status={_LoginDialogue === "login" ? true : false}
+          // status={true}
           backgroundColor="bg-black"
         >
-          dhh
+          <LoginForm onClick={Closedialog} />
         </BackgroundDialogue>
       </div>
 
@@ -411,11 +414,7 @@ export const LoginPageView = () => {
              relative -top-8 p-2 border-cyan-500
              "
             >
-              <Avatar
-                logo={"/images/Rurh.jpg"}
-                width={"100"}
-                height={"100"}
-              />
+              <Avatar logo={"/images/Rurh.jpg"} width={"100"} height={"100"} />
             </div>
             <div className="ml-3">
               <h2 className="font-semibold text-3xl">

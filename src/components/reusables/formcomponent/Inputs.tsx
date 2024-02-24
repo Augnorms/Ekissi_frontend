@@ -55,7 +55,7 @@ export const Inputs = (props: InputsProps) => {
           disabled={props.disabled}
         />
         {props.addpasswordVisibility ? (
-          <div className="flex items-center p-2 cursor-pointer position absolute top-0 right-0 mt-1">
+          <div className="flex items-center p-2 cursor-pointer position absolute top-0 right-0">
             {props.showPaswword ? (
               <FiEye name="open" onClick={props.onShowpass} />
             ) : (
