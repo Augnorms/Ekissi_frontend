@@ -22,11 +22,6 @@ export const LoginPageView = () => {
     console.log(_e.currentTarget.id);
   };
 
-  const handlechangeDigital = (_e: React.MouseEvent<HTMLDivElement>) => {
-    setLoginDialogue(_e.currentTarget.id);
-    console.log(_e.currentTarget.id);
-  };
-
   const imageObject = [
     { id: 1, image: "/carousel/caro1.jpg" },
     { id: 2, image: "/carousel/caro2.jpg" },
@@ -90,9 +85,7 @@ export const LoginPageView = () => {
           label="Ekissi Family Leanage"
           navlist={["Home", "About", "Gallery", "Contact"]}
           loginoutlabel={false}
-          loggedUserId="1"
-          handlechangeLogout={handlechangeLogout}
-          handlechangeDigital={handlechangeDigital}
+          handlechangeLogout={handlechangeLogout}  
         />
 
         <BackgroundDialogue

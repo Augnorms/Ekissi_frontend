@@ -1,9 +1,46 @@
-
+import { useState } from "react";
+import { HeaderComponent } from "../components/header/HeaderComponent";
+import { AppsComponent } from "../components/reusables/AppsComponent";
 
 export const DashboardView = () => {
+  const [_LoginDialogue, setLoginDialogue] = useState<string>("");
+  const [_openApps, setOpenApps] = useState<boolean>(false);
+
+  const handlechangeLogout = (_e: React.MouseEvent<HTMLDivElement>) => {
+    setLoginDialogue(_e.currentTarget.id);
+    console.log(_e.currentTarget.id);
+  };
+
+  const handlechangeDigital = (_e: React.MouseEvent<HTMLDivElement>) => {
+    setLoginDialogue(_e.currentTarget.id);
+    console.log(_e.currentTarget.id);
+  };
+
+  const handleAppToggle = () => {
+    setOpenApps(!_openApps);
+  };
+
+  const selectedApp = (e: React.MouseEvent<HTMLDivElement>) => {
+    setOpenApps(!_openApps);
+    console.log(e.currentTarget.id);
+  };
+
   return (
     <>
-      <div>DashboardView</div>
+      <div className="w-full h-screen ">
+        <HeaderComponent
+          logo="/images/Ekissi2.PNG"
+          label="Ekissi Family Leanage"
+          loginoutlabel={true}
+          loggedUserId={"1"}
+          username={"Augustine Normanyo"}
+          handlechangeLogout={handlechangeLogout}
+          handlechangeDigital={handlechangeDigital}
+          handleAppToggle={handleAppToggle}
+        />
+        <AppsComponent show={_openApps} selectedApp={selectedApp} />
+        DashboardView
+      </div>
     </>
   );
-}
+};

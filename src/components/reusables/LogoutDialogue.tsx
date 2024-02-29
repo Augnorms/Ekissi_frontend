@@ -17,7 +17,8 @@ export const LogoutDialogue = (props: Props) => {
               cursor-pointer
               fixed 
               top-20
-              z-10
+              z-20
+              bg-white
             "
       style={{
         position: "fixed",
@@ -27,7 +28,7 @@ export const LogoutDialogue = (props: Props) => {
       onClick={props.onMouseclick}
     >
       <div
-        className="p-2 mb-2 hover:bg-cyan-300 hover:text-white"
+        className="p-2 mb-2 hover:bg-cyan-300 hover:text-white rounded"
         id={props.logStatus ? "logout" : "login"}
         onClick={props.handleChangeLogout}
       >
@@ -37,7 +38,7 @@ export const LogoutDialogue = (props: Props) => {
       <div
         id={props.loggedUserId}
         onClick={props.handleChangeDigital}
-        className="p-2 hover:bg-cyan-300 hover:text-white"
+        className="p-2 hover:bg-cyan-300 hover:text-white rounded"
       >
         {"Digital Profile"}
       </div>

@@ -1,4 +1,3 @@
-
 import { useState, useEffect } from "react";
 import { Link } from "react-router-dom";
 import { Avatar } from "../reusables/Avatar";
@@ -12,10 +11,12 @@ export interface HeaderProps {
   navlist?: string[];
   loginoutlabel?: boolean;
   loggedUserId?: string;
+  username?: string;
   avatarArray?: { logo: string; initials: string }[];
   handlechangeLogout?: (e: React.MouseEvent<HTMLDivElement>) => void;
   handlechangeDigital?: (e: React.MouseEvent<HTMLDivElement>) => void;
   handlesearch?: (e: React.MouseEvent<HTMLDivElement>) => void;
+  handleAppToggle?:()=>void;
 }
 
 export const HeaderComponent = (props: HeaderProps) => {
@@ -25,7 +26,6 @@ export const HeaderComponent = (props: HeaderProps) => {
   const [enablesearch, setEnablesearch] = useState<boolean>(false);
 
   const router = useLocation();
-
 
   const checkWindowSize = () => {
     setIsmobile(window.innerWidth <= 900 && window.innerWidth >= 200);
@@ -46,18 +46,17 @@ export const HeaderComponent = (props: HeaderProps) => {
     };
   }, [ismobile]);
 
-  const hanldeDisplayLogDiag = ()=>{
+  const hanldeDisplayLogDiag = () => {
     setlogDialStatus(!logDialStatus);
   };
 
-  const hanldeDisplayLog = ()=>{
-    setlogDialStatus(!logDialStatus)
+  const hanldeDisplayLog = () => {
+    setlogDialStatus(!logDialStatus);
   };
 
-  const handlesearch = ()=>{
+  const handlesearch = () => {
     setEnablesearch(!enablesearch);
   };
-
 
   return (
     <>
@@ -160,11 +159,19 @@ export const HeaderComponent = (props: HeaderProps) => {
           ) : (
             <div className="w-[200rem] p-2 flex justify-end items-center gap-2 ">
               <div className="w-[80%] text-base p-2 flex justify-end">
-                bbbkhhfhdfvidfvh
+                <img
+                  src="/images/appsIcon.svg"
+                  alt="appsi-icon"
+                  className="cursor-pointer"
+                  onClick={props.handleAppToggle}
+                />
               </div>
 
-              <div className="w-[20%] text-base p-2 flex justify-end gap-3">
-                <Avatar width={'50'} height={'50'}/>
+              <div className="w-[16%] text-base p-1 flex justify-end gap-3">
+                <div className="w-[70%] h-[50px] flex items-center justify-center">
+                  <p>{props.username?.split(" ")[0]}</p>
+                </div>
+                <Avatar width={"50"} height={"50"} />
                 <img
                   className="cursor-pointer"
                   src="/images/arrowdown.svg"
@@ -257,7 +264,6 @@ export const HeaderComponent = (props: HeaderProps) => {
     </>
   );
 };
-
 
 /*
     <HeaderComponent
