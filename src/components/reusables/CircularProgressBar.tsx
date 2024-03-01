@@ -3,10 +3,11 @@ import { useEffect, useState } from "react";
 interface Props {
   rotate?: string;
   size?: string;
+  color?:string;
 }
 
 export const CircularProgressBar = (props: Props) => {
-  const { rotate, size } = props;
+  const { rotate, size, color } = props;
   const [percentage, setPercentage] = useState<string>("0");
   const [circleWidth, setCircleWidth] = useState<number>(0);
   const radius = 0.4 * circleWidth; 
@@ -62,7 +63,7 @@ export const CircularProgressBar = (props: Props) => {
           r={radius}
           style={{
             fill: "none",
-            stroke: "dodgerblue",
+            stroke: color,
             strokeDasharray: dashArray,
             strokeDashoffset: dashOffset,
             strokeLinecap: "round",

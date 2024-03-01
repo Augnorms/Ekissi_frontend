@@ -40,7 +40,8 @@ export const DashboardView = () => {
           handleAppToggle={handleAppToggle}
         />
         <AppsComponent show={_openApps} selectedApp={selectedApp} />
-        <CircularProgressBar rotate="10" size="large" />
+        <CircularProgressBar rotate="10" size="large" color="deeppink"/>
+        <CircularProgressBar rotate="70" size="small" color="dodgerblue"/>
       </div>
     </>
   );
