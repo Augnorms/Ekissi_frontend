@@ -2,6 +2,7 @@ import { useState } from "react";
 import { HeaderComponent } from "../components/header/HeaderComponent";
 import { AppsComponent } from "../components/reusables/AppsComponent";
 import { CircularProgressBar } from "../components/reusables/CircularProgressBar";
+// import { LoaderComponent } from "../components/reusables/LoaderComponent";
 
 export const DashboardView = () => {
   const [_LoginDialogue, setLoginDialogue] = useState<string>("");
@@ -40,8 +41,10 @@ export const DashboardView = () => {
           handleAppToggle={handleAppToggle}
         />
         <AppsComponent show={_openApps} selectedApp={selectedApp} />
-        <CircularProgressBar rotate="10" size="large" color="deeppink"/>
-        <CircularProgressBar rotate="70" size="small" color="dodgerblue"/>
+        <CircularProgressBar rotate="10" size="large" color="deeppink" />
+        <CircularProgressBar rotate="70" size="small" color="dodgerblue" />
+        {/* <LoaderComponent />    */}
+     
       </div>
     </>
   );
