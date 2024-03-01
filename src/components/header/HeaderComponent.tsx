@@ -17,6 +17,7 @@ export interface HeaderProps {
   handlechangeDigital?: (e: React.MouseEvent<HTMLDivElement>) => void;
   handlesearch?: (e: React.MouseEvent<HTMLDivElement>) => void;
   handleAppToggle?:()=>void;
+  pagedisplayed?:string;
 }
 
 export const HeaderComponent = (props: HeaderProps) => {
@@ -157,14 +158,20 @@ export const HeaderComponent = (props: HeaderProps) => {
               )}
             </div>
           ) : (
-            <div className="w-[200rem] p-2 flex justify-end items-center gap-2 ">
-              <div className="w-[80%] text-base p-2 flex justify-end">
-                <img
-                  src="/images/appsIcon.svg"
-                  alt="appsi-icon"
-                  className="cursor-pointer"
-                  onClick={props.handleAppToggle}
-                />
+            <div className="w-[200rem] p-2 flex justify-end items-center gap-2">
+
+              {/*Dashboard display*/}
+
+              <div className="w-[80%] text-base p-2 flex justify-between">
+                <div className="w-[50%] text-center font-bold text-md text-cyan-500">{props.pagedisplayed}</div>
+                <div className="w-[50%] flex justify-end">
+                  <img
+                    src="/images/appsIcon.svg"
+                    alt="appsi-icon"
+                    className="cursor-pointer"
+                    onClick={props.handleAppToggle}
+                  />
+                </div>
               </div>
 
               <div className="w-[16%] text-base p-1 flex justify-end gap-3">

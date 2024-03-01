@@ -1,12 +1,12 @@
 import { useState } from "react";
 import { HeaderComponent } from "../components/header/HeaderComponent";
 import { AppsComponent } from "../components/reusables/AppsComponent";
-import { CircularProgressBar } from "../components/reusables/CircularProgressBar";
-// import { LoaderComponent } from "../components/reusables/LoaderComponent";
+import { DashboardComponent } from "../components/non-reusables/DashboardComponent";
 
 export const DashboardView = () => {
   const [_LoginDialogue, setLoginDialogue] = useState<string>("");
   const [_openApps, setOpenApps] = useState<boolean>(false);
+  const [page, setPage] = useState<string>("");
 
   const handlechangeLogout = (_e: React.MouseEvent<HTMLDivElement>) => {
     setLoginDialogue(_e.currentTarget.id);
@@ -24,6 +24,7 @@ export const DashboardView = () => {
 
   const selectedApp = (e: React.MouseEvent<HTMLDivElement>) => {
     setOpenApps(!_openApps);
+    setPage(e.currentTarget.id);
     console.log(e.currentTarget.id);
   };
 
@@ -39,12 +40,15 @@ export const DashboardView = () => {
           handlechangeLogout={handlechangeLogout}
           handlechangeDigital={handlechangeDigital}
           handleAppToggle={handleAppToggle}
+          pagedisplayed={page}
         />
         <AppsComponent show={_openApps} selectedApp={selectedApp} />
-        <CircularProgressBar rotate="10" size="large" color="deeppink" />
-        <CircularProgressBar rotate="70" size="small" color="dodgerblue" />
-        {/* <LoaderComponent />    */}
-     
+
+        <div className="w-full h-[90%] p-5 bg-[url('/images/grey-image-bg.jpg')]">
+          <div className="w-full h-[100%] shadow-lg bg-white rounded-lg">
+            <DashboardComponent />
+          </div>
+        </div>
       </div>
     </>
   );
