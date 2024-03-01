@@ -8,6 +8,7 @@ export const DashboardComponent = () => {
         <div className="w-full flex justify-center">
           <CircularProgressBar rotate="10" size="large" color="deeppink" />
           <CircularProgressBar rotate="10" size="small" color="dodgerblue" />
+          <CircularProgressBar rotate="10" size="extrasmall" color="white" />
         </div>
       </div>
 
@@ -16,6 +17,7 @@ export const DashboardComponent = () => {
         <div className="w-full flex justify-center">
           <CircularProgressBar rotate="20" size="large" color="deeppink" />
           <CircularProgressBar rotate="20" size="small" color="dodgerblue" />
+          <CircularProgressBar rotate="20" size="extrasmall" color="white" />
         </div>
       </div>
 
@@ -24,6 +26,7 @@ export const DashboardComponent = () => {
         <div className="w-full flex justify-center">
           <CircularProgressBar rotate="30" size="large" color="deeppink" />
           <CircularProgressBar rotate="30" size="small" color="dodgerblue" />
+          <CircularProgressBar rotate="30" size="extrasmall" color="white" />
         </div>
       </div>
 
@@ -32,6 +35,7 @@ export const DashboardComponent = () => {
         <div className="w-full flex justify-center">
           <CircularProgressBar rotate="40" size="large" color="deeppink" />
           <CircularProgressBar rotate="40" size="small" color="dodgerblue" />
+          <CircularProgressBar rotate="40" size="extrasmall" color="white" />
         </div>
       </div>
 
