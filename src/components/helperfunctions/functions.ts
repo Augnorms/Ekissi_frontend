@@ -18,3 +18,19 @@ export function Decrypt(text: string | string[]) {
   const sanitizedText = (text as string).replace(/-/g, "/");
   return AES.decrypt(sanitizedText, key).toString(enc.Utf8);
 }
+
+export function getInitials(name?: string): string {
+  // Check if name is undefined or null
+  if (name == null) {
+    return "";
+  }
+
+  // Split the name into words
+  const words = name.split(" ");
+
+  // Extract the first character from each word
+  const initials = words.map((word) => word.charAt(0).toUpperCase());
+
+  // Join the initials to form the result
+  return initials.join("");
+}
