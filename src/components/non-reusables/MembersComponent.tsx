@@ -3,6 +3,7 @@ import { SearchComp } from "../reusables/formcomponent/SearchComp";
 import { Select } from "../reusables/formcomponent/Select";
 import { Avatar } from "../reusables/Avatar";
 import { SkeletalLoader } from "../reusables/SkeletalLoader";
+import Dropdown from "../reusables/ActionComponent";
 
 export const MembersComponent = () => {
   const [searchVal, setSearchVal] = useState<string>("");
@@ -17,6 +18,10 @@ export const MembersComponent = () => {
     const value = event.target.value;
     setSelected(value);
   };
+
+  const emitAction = (id:string|number)=>{
+    console.log(id)
+  }
 
   return (
     <div className="w-full h-[100%] p-10">
@@ -55,7 +60,7 @@ export const MembersComponent = () => {
       </div>
       <hr />
       <div className="mt-4 w-full border-2 h-[55vh] overflow-auto grid grid-cols-4 grid-rows-2 p-2 gap-1">
-        <div className="w-full border rounded-md shadow-md grid grid-cols-2 grid-rows-2">
+        <div className="w-full border rounded-md shadow-md grid grid-cols-2 grid-rows-2 relative">
           <div className="w-full flex justify-center p-2">
             <Avatar
               width="100"
@@ -90,6 +95,31 @@ export const MembersComponent = () => {
               className="cursor-pointer"
               src="/images/flatEclipse.svg"
               alt="flateclipse"
+            />
+          </div>
+          <div className="absolute top-2 right-4">
+            <Dropdown
+              dropdownItems={[
+                {
+                  id: "1",
+                  image: "/images/view.svg",
+                  label: "View",
+                  dataCy: "view",
+                },
+                {
+                  id: "2",
+                  image: "/images/editicon.svg",
+                  label: "Edit",
+                  dataCy: "edit",
+                },
+                {
+                  id: "3",
+                  image: "/images/delete.svg",
+                  label: "Delete",
+                  dataCy: "delete",
+                },
+              ]}
+              emitAction={emitAction}
             />
           </div>
         </div>
