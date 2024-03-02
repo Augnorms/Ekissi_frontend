@@ -59,7 +59,7 @@ export const MembersComponent = () => {
         </div>
       </div>
       <hr />
-      <div className="mt-4 w-full border-2 h-[55vh] overflow-auto grid grid-cols-4 grid-rows-2 p-2 gap-1">
+      <div className="mt-4 w-full h-[55vh] overflow-auto grid grid-cols-4 grid-rows-2 p-2 gap-1">
         <div className="w-full border rounded-md shadow-md grid grid-cols-2 grid-rows-2 relative">
           <div className="w-full flex justify-center p-2">
             <Avatar
@@ -125,6 +125,9 @@ export const MembersComponent = () => {
         </div>
 
         <SkeletalLoader />
+      </div>
+      <div>
+        {/*pgination goes here..*/}
       </div>
     </div>
   );
