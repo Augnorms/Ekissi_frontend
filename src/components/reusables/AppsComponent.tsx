@@ -21,10 +21,60 @@ export const AppsComponent = (props: Props) => {
       }}
     >
       <div
-        className="w-full border cursor-pointer"
-        id="app1"
+        id="dashboard"
         onClick={selectedApp}
-      ></div>
+        className="w-full shadow-md rounded cursor-pointer item-center p-2 hover:bg-cyan-200 hover:text-white"
+      >
+        <img
+          id="dashboard"
+          onClick={selectedApp}
+          src="/images/dashboardIcon.svg"
+          alt="dashboard-icon"
+        />
+        <p className="text-xs">Dashboard</p>
+      </div>
+
+      <div
+        id="settings"
+        onClick={selectedApp}
+        className="w-full shadow-md rounded cursor-pointer item-center p-2 hover:bg-cyan-200 hover:text-white"
+      >
+        <img
+          id="settings"
+          onClick={selectedApp}
+          src="/images/settings.svg"
+          alt="settings-icon"
+        />
+        <p className="text-xs">Settings</p>
+      </div>
+
+      <div
+        id="heirarchy"
+        onClick={selectedApp}
+        className="w-full shadow-md rounded cursor-pointer item-center p-2 hover:bg-cyan-200 hover:text-white"
+      >
+        <img
+          id="heirarchy"
+          onClick={selectedApp}
+          src="/images/heirarchy.svg"
+          alt="heirarchy-icon"
+        />
+        <p className="text-xs">Heirarchy</p>
+      </div>
+
+      <div
+        id="Accounts"
+        onClick={selectedApp}
+        className="w-full shadow-md rounded cursor-pointer item-center p-2 hover:bg-cyan-200 hover:text-white"
+      >
+        <img
+          id="Accounts"
+          onClick={selectedApp}
+          src="/images/Accounts.svg"
+          alt="Accounts-icon"
+        />
+        <p className="text-xs">Accounts</p>
+      </div>
     </div>
   );
 };
