@@ -5,6 +5,7 @@ import { DashboardComponent } from "../components/non-reusables/DashboardCompone
 import { SettingsComponent } from "../components/non-reusables/SettingsComponent";
 import { HeirarchyComponent } from "../components/non-reusables/HeirarchyComponent";
 import { AccountComponent } from "../components/non-reusables/AccountComponent";
+import { MembersComponent } from "../components/non-reusables/MembersComponent";
 import { useNavigate } from "react-router-dom";
 import { Encrypt } from "../components/helperfunctions/functions";
 
@@ -62,6 +63,7 @@ export const DashboardView = () => {
               page === "Accounts" ? 
               <AccountComponent />
               : 
+              page === "Members" ? <MembersComponent /> : 
               <></>
             )}
           </div>

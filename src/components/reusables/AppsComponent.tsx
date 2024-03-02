@@ -75,6 +75,20 @@ export const AppsComponent = (props: Props) => {
         />
         <p className="text-xs">Accounts</p>
       </div>
+
+      <div
+        id="Members"
+        onClick={selectedApp}
+        className="w-full shadow-md rounded cursor-pointer item-center p-2 hover:bg-cyan-200 hover:text-white"
+      >
+        <img
+          id="Members"
+          onClick={selectedApp}
+          src="/images/group.svg"
+          alt="Members-icon"
+        />
+        <p className="text-xs">Members</p>
+      </div>
     </div>
   );
 };
