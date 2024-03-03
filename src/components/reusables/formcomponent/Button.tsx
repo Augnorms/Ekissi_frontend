@@ -2,6 +2,7 @@ import React, { MouseEvent } from "react";
 
 interface ButtonProps {
   variant?: "primary" | "secondary" | "with_border";
+  logo?:string;
   disabled?: boolean;
   buttonLabel?: string;
   loading?: boolean;
@@ -20,6 +21,7 @@ const Button: React.FC<ButtonProps> = ({
   className = "",
   buttonStyle = {},
   onClick,
+  logo,
 }) => {
   const handleClick = (event: MouseEvent<HTMLButtonElement>) => {
     event.preventDefault();
@@ -39,6 +41,7 @@ const Button: React.FC<ButtonProps> = ({
       data-cy={dataCy}
     >
       {loading && <Loader />}
+      {logo && <img className="mr-1" src={logo} alt={logo} />}
       {buttonLabel}
     </button>
   );
