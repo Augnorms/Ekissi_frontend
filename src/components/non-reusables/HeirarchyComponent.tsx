@@ -29,7 +29,7 @@ export const HeirarchyComponent = () => {
         return <div className="whitespace-nowrap">{item.loan_type}</div>;
 
       case "action":
-        function emitAction(id: string | number, label: string): void {
+        function emitAction(_id: string | number, _label: string): void {
           throw new Error("Function not implemented.");
         }
 

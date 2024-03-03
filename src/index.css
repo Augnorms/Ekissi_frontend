@@ -65,7 +65,7 @@ body {
   width: 160px;
   box-shadow: 0px 4px 8px rgba(16, 24, 64, 0.16);
   border-radius: 8px;
-  z-index: 20;
+  z-index: 2;
   margin-bottom:20px;
 }
 .dropdown-content a:hover {
