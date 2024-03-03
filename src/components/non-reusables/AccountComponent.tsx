@@ -2,7 +2,7 @@ import { useState } from "react";
 import { SearchComp } from "../reusables/formcomponent/SearchComp";
 import { Select } from "../reusables/formcomponent/Select";
 import Button from "../reusables/formcomponent/Button";
-
+import { AccountSummary } from "../reusables/AccountSummary";
 
 export const AccountComponent = () => {
     const [searchVal, setSearchVal] = useState<string>("");
@@ -35,7 +35,9 @@ export const AccountComponent = () => {
         <p className="font-bold text-md">Family Account Summary</p>
       </div>
 
-      <div className="w-full h-[80px] border mt-5"></div>
+      <div className="w-full h-[80px] mt-5">
+        <AccountSummary logo={"/images/export.svg"} figure={10} label="Amount"/>
+      </div>
 
       <div className="w-full mt-5 flex justify-between">
         <div className="w-1/2 flex gap-2">
@@ -64,7 +66,7 @@ export const AccountComponent = () => {
 
         <div className="w-1/2 flex gap-2 justify-end">
           <Button
-            logo="/public/images/export.svg"
+            logo="/images/export.svg"
             buttonLabel="Export Account"
             className="border p-2 rounded-md text-white bg-red-900"
           />
