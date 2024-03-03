@@ -31,12 +31,16 @@ export const AccountComponent = () => {
         />
       </div>
 
-      <div className="w-full mt-4">
+      <div className="w-full mt-4 text-end">
         <p className="font-bold text-md">Family Account Summary</p>
       </div>
 
       <div className="w-full h-[80px] mt-5">
-        <AccountSummary logo={"/images/export.svg"} figure={10} label="Amount"/>
+        <AccountSummary
+          logo={"/public/images/moneyone.svg"}
+          figure={10}
+          label="Amount"
+        />
       </div>
 
       <div className="w-full mt-5 flex justify-between">
