@@ -35,20 +35,6 @@ export const AppsComponent = (props: Props) => {
       </div>
 
       <div
-        id="settings"
-        onClick={selectedApp}
-        className="w-full shadow-md rounded cursor-pointer item-center p-2 hover:bg-cyan-200 hover:text-white"
-      >
-        <img
-          id="settings"
-          onClick={selectedApp}
-          src="/images/settings.svg"
-          alt="settings-icon"
-        />
-        <p className="text-xs">Settings</p>
-      </div>
-
-      <div
         id="heirarchy"
         onClick={selectedApp}
         className="w-full shadow-md rounded cursor-pointer item-center p-2 hover:bg-cyan-200 hover:text-white"
@@ -88,6 +74,20 @@ export const AppsComponent = (props: Props) => {
           alt="Members-icon"
         />
         <p className="text-xs">Members</p>
+      </div>
+
+      <div
+        id="settings"
+        onClick={selectedApp}
+        className="w-full shadow-md rounded cursor-pointer item-center p-2 hover:bg-cyan-200 hover:text-white"
+      >
+        <img
+          id="settings"
+          onClick={selectedApp}
+          src="/images/settings.svg"
+          alt="settings-icon"
+        />
+        <p className="text-xs">Settings</p>
       </div>
     </div>
   );

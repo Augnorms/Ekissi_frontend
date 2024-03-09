@@ -22,6 +22,20 @@ export const SettingsComponent = () => {
         >
           add_members
         </span>
+
+        <span
+          className="p-2 flex items-center cursor-pointer rounded bg-blue-200
+         hover:bg-gradient-to-r from-indigo-500 hover:scale-75"
+        >
+          Manage_About
+        </span>
+
+        <span
+          className="p-2 flex items-center cursor-pointer rounded bg-blue-200
+         hover:bg-gradient-to-r from-indigo-500 hover:scale-75"
+        >
+          Manage_Gallery
+        </span>
       </div>
     </div>
   );
