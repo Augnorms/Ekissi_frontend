@@ -1,6 +1,9 @@
-import { CircularProgressBar } from "../reusables/CircularProgressBar"
+import { CircularProgressBar } from "../reusables/CircularProgressBar";
+
 
 export const DashboardComponent = () => {
+
+
   return (
     <div className="w-full h-[100%] grid grid-cols-4 grid-rows-2 gap-1">
       <div className="shadow-xl rounded-lg">
@@ -10,6 +13,7 @@ export const DashboardComponent = () => {
           <CircularProgressBar rotate="10" size="small" color="dodgerblue" />
           <CircularProgressBar rotate="10" size="extrasmall" color="white" />
         </div>
+
       </div>
 
       <div className="shadow-xl rounded-lg">
@@ -39,8 +43,10 @@ export const DashboardComponent = () => {
         </div>
       </div>
 
-      <div className="col-span-2 shadow-xl rounded-lg"></div>
+      <div className="col-span-2 shadow-xl rounded-lg pt-10">
+   
+      </div>
       <div className="col-span-2 shadow-xl rounded-lg"></div>
     </div>
   );
-}
+};
