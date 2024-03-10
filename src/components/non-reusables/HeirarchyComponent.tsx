@@ -5,12 +5,13 @@ import { CloseDiagComp } from "../reusables/CloseDiagComp";
 import { useState } from "react";
 import { Multiselect } from "../reusables/formcomponent/Multiselect";
 import { Select } from "../reusables/formcomponent/Select";
-
+import { SuccessBlock } from "../reusables/SuccessBlock";
+import { ErrorBlock } from "../reusables/ErrorBlock";
 
 export const HeirarchyComponent = () => {
   const [isclose, setIsClose] = useState<boolean>(false);
   const [parent, setParent] = useState<string>("");
-  const [relation, setRelation] = useState<number|string[]>([]);
+  const [_relation, setRelation] = useState<number|string[]>([]);
 
   const handleCloseDialogue = () => {
     setIsClose(false);
@@ -41,7 +42,10 @@ export const HeirarchyComponent = () => {
     <div className="w-full h-[100%] p-4">
       <div className="w-full flex justify-between mb-2">
         <div className="font-bold text-lg">Members Count ({12})</div>
-        {relation}
+
+        <SuccessBlock blockControl={false} />
+        <ErrorBlock blockControl={false}/>
+        
         <div>
           <Button
             buttonLabel="Create Relationship"
