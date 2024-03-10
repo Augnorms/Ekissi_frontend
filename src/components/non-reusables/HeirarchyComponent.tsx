@@ -42,10 +42,10 @@ export const HeirarchyComponent = () => {
     <div className="w-full h-[100%] p-4">
       <div className="w-full flex justify-between mb-2">
         <div className="font-bold text-lg">Members Count ({12})</div>
-
+        {/*Success and Error Block*/}
         <SuccessBlock blockControl={false} />
         <ErrorBlock blockControl={false}/>
-        
+
         <div>
           <Button
             buttonLabel="Create Relationship"
