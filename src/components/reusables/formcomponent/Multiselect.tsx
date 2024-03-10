@@ -9,10 +9,13 @@ interface Props {
   style?: string;
   dropdownstyle?:string;
   clear?:boolean;
+  required?:boolean;
+  label?:string;
 }
 
 export const Multiselect = (prop: Props) => {
-  const { data, onSelect, clear, placeholder, dropdownstyle, style } = prop;
+  const { data, onSelect, clear, placeholder, dropdownstyle, style, required, label } =
+    prop;
 
   const [openClose, setOpenClose] = useState<boolean>(false);
   const [selectedOptions, setSelectedOptions] = useState<
@@ -51,7 +54,7 @@ useEffect(() => {
  if (onSelect) {
      onSelect(selectedOptions);
     }
-}, [selectedOptions, onSelect]);
+}, [selectedOptions]);
 
 //handle clear
 useEffect(()=>{
@@ -63,8 +66,13 @@ useEffect(()=>{
 
   return (
     <>
+      <div className="flex justify-between mb-1">
+        <label className="font-bold">{label}</label>
+
+        {required && <label className="text-red-400">Required</label>}
+      </div>
       <div className={`w-full border p-1 rounded-md flex gap-2 ${style}`}>
-        <div className="w-[90%]" onClick={handleOpenClose}>
+        <div className="w-[90%] pl-2 p-1" onClick={handleOpenClose}>
           {selectedOptions.length > 0 ? (
             selectedOptions.map((selectedOption) => (
               <span

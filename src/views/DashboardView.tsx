@@ -15,20 +15,24 @@ export const DashboardView = () => {
   const [page, setPage] = useState<string>("dashboard");
   const navigate = useNavigate();
 
+  //use to handle the logout
   const handlechangeLogout = (_e: React.MouseEvent<HTMLDivElement>) => {
     setLoginDialogue(_e.currentTarget.id);
     console.log(_e.currentTarget.id);
   };
 
+  //handles the digital information of a user by routing to the details page
   const handlechangeDigital = (_e: React.MouseEvent<HTMLDivElement>) => {
     setLoginDialogue(_e.currentTarget.id);
     navigate(`/profile/${Encrypt(_e.currentTarget.id)}`);
   };
 
+  //tandle the apps component toggle behaviour
   const handleAppToggle = () => {
     setOpenApps(!_openApps);
   };
 
+  //handles the selection of a selected app
   const selectedApp = (e: React.MouseEvent<HTMLDivElement>) => {
     setOpenApps(!_openApps);
     setPage(e.currentTarget.id);
@@ -49,6 +53,7 @@ export const DashboardView = () => {
           handleAppToggle={handleAppToggle}
           pagedisplayed={page}
         />
+        
         <AppsComponent show={_openApps} selectedApp={selectedApp} />
 
         <div className="w-full h-[90%] p-5 bg-[url('/images/grey-image-bg.jpg')]">

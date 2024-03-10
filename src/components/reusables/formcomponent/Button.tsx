@@ -1,4 +1,5 @@
 import React, { MouseEvent } from "react";
+import {ButtonSpinner} from "../../reusables/Spinner";
 
 interface ButtonProps {
   variant?: "primary" | "secondary" | "with_border";
@@ -51,7 +52,7 @@ const Button: React.FC<ButtonProps> = ({
 
 const Loader: React.FC = () => {
   // Implement your loader component or replace it with your actual Loader component
-  return <div>Loading...</div>;
+  return <div><ButtonSpinner size={'small'}/></div>;
 };
 
 export default Button;
