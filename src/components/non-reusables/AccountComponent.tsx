@@ -19,7 +19,7 @@ export const AccountComponent = () => {
     };
 
   return (
-    <div className="w-full h-[100%] p-4 border border-red-400 overflow-auto">
+    <div className="w-full h-[100%] p-4 overflow-auto">
       <div className="w-full flex justify-between">
         <p className="font-bold text-xl">
           Family Account <span>({20})</span>
