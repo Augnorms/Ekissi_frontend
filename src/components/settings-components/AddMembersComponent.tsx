@@ -7,6 +7,7 @@ import { CloseDiagComp } from "../reusables/CloseDiagComp";
 import TableComponent from "../reusables/TableComponent";
 import Dropdown from "../reusables/ActionComponent";
 import axios from "axios";
+import { useNavigate } from "react-router-dom";
 
 interface transformData {
   nameofcompany: string;
@@ -25,9 +26,11 @@ interface ListMembers{
 
 type Prop = {
   listallMembers?: ListMembers[];
+  refetch?:()=>void;
 };
 
 export const AddMembersComponent = (props:Prop) => {
+  const navigate = useNavigate();
   const [firstname, setFirstname] = useState<string>("");
   const [lastname, setLastname] = useState<string>("");
   const [email, setEmail] = useState<string>("");
@@ -234,8 +237,7 @@ export const AddMembersComponent = (props:Prop) => {
 
       case "action":
         function emitAction(_id: string | number, _label: string): void {
-   
-          throw new Error("Function not implemented.");
+          // handling action emit
         }
 
         return (
@@ -629,6 +631,7 @@ export const AddMembersComponent = (props:Prop) => {
             className="w-[50%] border p-2 
              rounded-xl text-white bg-cyan-400"
             loading={false}
+            disabled={false}
           />
         </div>
       </div>
