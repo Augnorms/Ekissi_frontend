@@ -40,7 +40,6 @@ export const SettingsComponent = () => {
         logo="/images/Ekissi2.PNG"
         label="Ekissi Family Leanage"
         loginoutlabel={true}
-        loggedUserId={"1"}
         username={"Augustine Normanyo"}
       />
       <div className="w-full h-[50px] p-1 shadow-md overflow-y-auto flex gap-2">

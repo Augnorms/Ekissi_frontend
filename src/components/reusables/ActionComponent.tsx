@@ -2,7 +2,7 @@ import React from "react";
 
 interface DropdownProps {
   dropdownItems: Array<{
-    id: number | string;
+    id: any ;
     image: string;
     label: string;
     dataCy: string;

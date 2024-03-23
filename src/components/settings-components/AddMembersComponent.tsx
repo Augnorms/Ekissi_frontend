@@ -36,9 +36,7 @@ export const AddMembersComponent = (props:Prop) => {
   const [dateOfBirth, setDateOfBirth] = useState<string>("");
   const [placeOfBirth, setPlaceOfBirth] = useState<string>("");
   const [occupation, setOccupation] = useState<string>("");
-  const [selectedOccupation, setSelectedOccupation] = useState<transformData[]>(
-    [],
-  );
+  const [selectedOccupation, setSelectedOccupation] = useState<transformData[]>([]);
   const [nationality, setNationality] = useState<string>("");
   const [phoneNumber, setPhoneNumber] = useState<string>("");
   const [mothersName, setMothersName] = useState<string>("");
@@ -236,7 +234,7 @@ export const AddMembersComponent = (props:Prop) => {
 
       case "action":
         function emitAction(_id: string | number, _label: string): void {
-       
+   
           throw new Error("Function not implemented.");
         }
 
@@ -254,19 +252,19 @@ export const AddMembersComponent = (props:Prop) => {
                 onMouseLeave={handleMouseLeave}
                 dropdownItems={[
                   {
-                    id: "1",
+                    id: item.id,
                     image: "/images/view.svg",
                     label: "View",
                     dataCy: "view",
                   },
                   {
-                    id: "1",
+                    id: item.id,
                     image: "/images/editicon.svg",
                     label: "Edit",
                     dataCy: "edit",
                   },
                   {
-                    id: "1",
+                    id: item.id,
                     image: "/images/delete.svg",
                     label: "Delete",
                     dataCy: "delete",
