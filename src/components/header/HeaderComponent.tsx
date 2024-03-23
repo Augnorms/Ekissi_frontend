@@ -18,6 +18,8 @@ export interface HeaderProps {
   handlesearch?: (e: React.MouseEvent<HTMLDivElement>) => void;
   handleAppToggle?:()=>void;
   pagedisplayed?:string;
+  displayAppIcon?:boolean;
+  displaydropdownIcon?:boolean;
 }
 
 export const HeaderComponent = (props: HeaderProps) => {
@@ -160,17 +162,17 @@ export const HeaderComponent = (props: HeaderProps) => {
           ) : (
             <div className="w-[200rem] p-2 flex justify-end items-center gap-2">
 
-              {/*Dashboard display*/}
+              {/*Dashboard display displayed content*/}
 
               <div className="w-[80%] text-base p-2 flex justify-between">
                 <div className="w-[50%] text-center font-bold text-md text-cyan-500">{props.pagedisplayed}</div>
                 <div className="w-[50%] flex justify-end">
-                  <img
+                  {props.displayAppIcon && <img
                     src="/images/appsIcon.svg"
                     alt="appsi-icon"
                     className="cursor-pointer"
                     onClick={props.handleAppToggle}
-                  />
+                  />}
                 </div>
               </div>
 
@@ -179,11 +181,11 @@ export const HeaderComponent = (props: HeaderProps) => {
                   <p>{props.username?.split(" ")[0]}</p>
                 </div>
                 <Avatar width={"50"} height={"50"} />
-                <img
+                {props.displaydropdownIcon && <img
                   className="cursor-pointer"
                   src="/images/arrowdown.svg"
                   onClick={hanldeDisplayLogDiag}
-                />
+                />}
               </div>
 
               <LogoutDialogue

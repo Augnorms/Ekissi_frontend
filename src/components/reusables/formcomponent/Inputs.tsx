@@ -28,7 +28,7 @@ export const Inputs = (props: InputsProps) => {
       <div className="w-full flex justify-between">
         <label className="mb-2 font-bold">{props.labelOne}</label>
 
-        <label className="mb-2 font-bold">{props.labelTwo}</label>
+        <label className="mb-2 font-bold text-red-500">{props.labelTwo}</label>
       </div>
 
       <div className="flex relative">

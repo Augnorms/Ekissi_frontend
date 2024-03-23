@@ -2,7 +2,6 @@ import { useState } from "react";
 import { HeaderComponent } from "../components/header/HeaderComponent";
 import { AppsComponent } from "../components/reusables/AppsComponent";
 import { DashboardComponent } from "../components/non-reusables/DashboardComponent";
-import { SettingsComponent } from "../components/non-reusables/SettingsComponent";
 import { HeirarchyComponent } from "../components/non-reusables/HeirarchyComponent";
 import { AccountComponent } from "../components/non-reusables/AccountComponent";
 import { MembersComponent } from "../components/non-reusables/MembersComponent";
@@ -35,8 +34,12 @@ export const DashboardView = () => {
   //handles the selection of a selected app
   const selectedApp = (e: React.MouseEvent<HTMLDivElement>) => {
     setOpenApps(!_openApps);
+
     setPage(e.currentTarget.id);
-    console.log(e.currentTarget.id);
+
+    if(e.currentTarget.id === 'settings'){
+      navigate("/settings");
+    }
   };
 
   return (
@@ -52,23 +55,23 @@ export const DashboardView = () => {
           handlechangeDigital={handlechangeDigital}
           handleAppToggle={handleAppToggle}
           pagedisplayed={page}
+          displayAppIcon
+          displaydropdownIcon
         />
-        
+
         <AppsComponent show={_openApps} selectedApp={selectedApp} />
 
         <div className="w-full h-[90%] p-5 bg-[url('/images/grey-image-bg.jpg')]">
           <div className="w-full h-[100%] shadow-lg bg-white rounded-lg">
             {page === "dashboard" ? (
               <DashboardComponent />
-            ) : page === "settings" ? (
-              <SettingsComponent />
             ) : page === "heirarchy" ? (
               <HeirarchyComponent />
-            ) : (
-              page === "Accounts" ? 
+            ) : page === "Accounts" ? (
               <AccountComponent />
-              : 
-              page === "Members" ? <MembersComponent /> : 
+            ) : page === "Members" ? (
+              <MembersComponent />
+            ) : (
               <></>
             )}
           </div>

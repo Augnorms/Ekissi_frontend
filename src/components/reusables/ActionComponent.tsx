@@ -8,11 +8,16 @@ interface DropdownProps {
     dataCy: string;
   }>;
   emitAction: (id: number | string, label: string) => void;
+  onMouseLeave:()=>void;
 }
 
-const Dropdown: React.FC<DropdownProps> = ({ dropdownItems, emitAction }) => {
+const Dropdown: React.FC<DropdownProps> = ({
+  dropdownItems,
+  emitAction,
+  onMouseLeave,
+}) => {
   return (
-    <div className="dropdown-content p-2">
+    <div className="dropdown-content p-2" onMouseLeave={onMouseLeave}>
       <p className="p-4 P100 N600 text-center">ACTIONS</p>
 
       {dropdownItems.map((item, index) => (
@@ -23,7 +28,7 @@ const Dropdown: React.FC<DropdownProps> = ({ dropdownItems, emitAction }) => {
           data-cy={item.dataCy}
           onClick={() => emitAction(item.id, item.label)}
         >
-          <img src={item.image} alt={item.image}/>
+          <img src={item.image} alt={item.image} />
           <p className="w-full">{item.label}</p>
         </a>
       ))}

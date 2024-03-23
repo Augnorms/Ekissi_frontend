@@ -1,9 +1,10 @@
 import React, { useState } from "react";
+import { ButtonSpinner } from "./Spinner";
 
 interface TableProps {
   headers: { key: string; label: string }[];
   items: Record<string, any>[];
-  renderCellContent: (
+  renderCellContent?: (
     headerKey: string,
     item: Record<string, any>,
   ) => React.ReactNode;
@@ -21,6 +22,31 @@ const TableComponent: React.FC<TableProps> = ({
   const startIndex = (currentPage - 1) * itemsPerPage;
   const endIndex = currentPage * itemsPerPage;
   const displayedItems = items.slice(startIndex, endIndex);
+
+  if (items.length === 0) {
+    return (
+      <div className="w-full p-2 ">
+        <table className="min-w-full border border-gray-300">
+          <thead className="bg-gray-100">
+            <tr>
+              {headers.map((header) => (
+                <th
+                  key={header.key}
+                  className="py-2 px-4 border-b font-bold text-sm text-left text-gray-800"
+                >
+                  {header.label}
+                </th>
+              ))}
+            </tr>
+          </thead>
+        </table>
+        <div className="w-full text-center p-2 font-bold">Sorry no data to display</div>
+        <div className="w-full flex justify-center">
+          <ButtonSpinner />
+        </div>
+      </div>
+    );
+  }
 
   return (
     <div className="overflow-x-auto">
