@@ -36,7 +36,11 @@ const Button: React.FC<ButtonProps> = ({
   return (
     <button
       style={buttonStyle}
-      className={`flex items-center justify-center gap-1 ${classes}`}
+      className={
+        disabled === false
+          ? `flex items-center justify-center gap-1 ${classes}`
+          : `flex items-center justify-center gap-1 cursor-not-allowed opacity-50 ${classes}`
+      }
       onClick={handleClick}
       disabled={disabled}
       data-cy={dataCy}

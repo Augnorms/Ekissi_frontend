@@ -9,20 +9,20 @@ import { useNavigate } from "react-router-dom";
 import { Encrypt } from "../components/helperfunctions/functions";
 
 export const DashboardView = () => {
-  const [_LoginDialogue, setLoginDialogue] = useState<string>("");
   const [_openApps, setOpenApps] = useState<boolean>(false);
   const [page, setPage] = useState<string>("dashboard");
   const navigate = useNavigate();
 
   //use to handle the logout
   const handlechangeLogout = (_e: React.MouseEvent<HTMLDivElement>) => {
-    setLoginDialogue(_e.currentTarget.id);
-    console.log(_e.currentTarget.id);
+    if (_e.currentTarget.id === "logout") {
+      localStorage.removeItem("token");
+      navigate("/");
+    }
   };
 
   //handles the digital information of a user by routing to the details page
   const handlechangeDigital = (_e: React.MouseEvent<HTMLDivElement>) => {
-    setLoginDialogue(_e.currentTarget.id);
     navigate(`/profile/${Encrypt(_e.currentTarget.id)}`);
   };
 

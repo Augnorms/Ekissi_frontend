@@ -7,19 +7,25 @@ import { useLocation } from "react-router-dom";
 import { Avatar } from "../components/reusables/Avatar";
 import { LoginForm } from "../components/non-reusables/LoginForm";
 import { ResetForm } from "../components/non-reusables/ResetForm";
+import { SuccessBlock } from "../components/reusables/SuccessBlock";
+import { ErrorBlock } from "../components/reusables/ErrorBlock";
+import { useNavigate } from "react-router-dom";
 
 export const LoginPageView = () => {
   const [_LoginDialogue, setLoginDialogue] = useState<string>("");
   const [imageIdx, setImageIdx] = useState<number>(0);
   const [isMobile, setIsMobile] = useState<boolean>(false);
   const [forgotPass, setForgotPass] = useState<boolean>(false);
+  const [successBlockStatus, setSuccessBlockStatus] = useState<boolean>(false);
+  const [errorBlockStatus, setErrorBlockStatus] = useState<boolean>(false);
+  const [blockmessage, setBlockMessage] = useState<string>("");
   const footerRef = useRef<HTMLDivElement>(null);
+  const navigate = useNavigate();
 
   const router = useLocation();
 
   const handlechangeLogout = (_e: React.MouseEvent<HTMLDivElement>) => {
     setLoginDialogue(_e.currentTarget.id);
-    console.log(_e.currentTarget.id);
   };
 
   const imageObject = [
@@ -77,15 +83,36 @@ export const LoginPageView = () => {
     setForgotPass(!forgotPass);
   }
 
+  //emit function from the login form
+  const handleLoginEmit = (success:boolean, error:boolean, message:string)=>{
+    if(success){
+      setLoginDialogue("");
+    }
+
+    setSuccessBlockStatus(success);
+    setErrorBlockStatus(error);
+    setBlockMessage(message);
+
+    setTimeout(()=>{
+       setSuccessBlockStatus(false);
+       setErrorBlockStatus(false);
+       setBlockMessage("");
+        navigate("/dashboard");
+    },4000)
+  }
+
   return (
     <>
+      <SuccessBlock blockControl={successBlockStatus} message={blockmessage} />
+      <ErrorBlock blockControl={errorBlockStatus} message={blockmessage} />
+      
       <div className="w-full">
         <HeaderComponent
           logo="/images/Ekissi2.PNG"
           label="Ekissi Family Leanage"
           navlist={["Home", "About", "Gallery", "Contact"]}
           loginoutlabel={false}
-          handlechangeLogout={handlechangeLogout}  
+          handlechangeLogout={handlechangeLogout}
         />
 
         <BackgroundDialogue
@@ -96,6 +123,7 @@ export const LoginPageView = () => {
             <LoginForm
               onClick={Closedialog}
               onForgotpass={handleforgotpassword}
+              emitme={handleLoginEmit}
             />
           ) : (
             <ResetForm

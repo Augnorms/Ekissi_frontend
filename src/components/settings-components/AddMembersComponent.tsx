@@ -1,4 +1,4 @@
-import {useState } from "react";
+import { useState } from "react";
 import { Inputs } from "../reusables/formcomponent/Inputs";
 import Button from "../reusables/formcomponent/Button";
 import { Select } from "../reusables/formcomponent/Select";
@@ -8,6 +8,8 @@ import TableComponent from "../reusables/TableComponent";
 import Dropdown from "../reusables/ActionComponent";
 import axios from "axios";
 import { useNavigate } from "react-router-dom";
+import { SuccessBlock } from "../reusables/SuccessBlock";
+import { ErrorBlock } from "../reusables/ErrorBlock";
 
 interface transformData {
   nameofcompany: string;
@@ -16,20 +18,20 @@ interface transformData {
   position: string;
 }
 
-interface ListMembers{
-  firtname:string;
-  lastname:string;
-  email:string;
-  gender:string;
-  children:number;
+interface ListMembers {
+  firtname: string;
+  lastname: string;
+  email: string;
+  gender: string;
+  children: number;
 }
 
 type Prop = {
   listallMembers?: ListMembers[];
-  refetch?:()=>void;
+  refetch?: () => void;
 };
 
-export const AddMembersComponent = (props:Prop) => {
+export const AddMembersComponent = (props: Prop) => {
   const navigate = useNavigate();
   const [firstname, setFirstname] = useState<string>("");
   const [lastname, setLastname] = useState<string>("");
@@ -39,7 +41,9 @@ export const AddMembersComponent = (props:Prop) => {
   const [dateOfBirth, setDateOfBirth] = useState<string>("");
   const [placeOfBirth, setPlaceOfBirth] = useState<string>("");
   const [occupation, setOccupation] = useState<string>("");
-  const [selectedOccupation, setSelectedOccupation] = useState<transformData[]>([]);
+  const [selectedOccupation, setSelectedOccupation] = useState<transformData[]>(
+    [],
+  );
   const [nationality, setNationality] = useState<string>("");
   const [phoneNumber, setPhoneNumber] = useState<string>("");
   const [mothersName, setMothersName] = useState<string>("");
@@ -50,6 +54,10 @@ export const AddMembersComponent = (props:Prop) => {
   const [secondaryEducation, setSecondaryEducation] = useState<string>("");
   const [tertiaryEducation, setTertiaryEducation] = useState<string>("");
   const [hometown, setHometown] = useState<string>("");
+  const [isLoading, setIsLoading] = useState<boolean>(false); 
+  const [successBlockStatus, setSuccessBlockStatus] = useState<boolean>(false);
+  const [errorBlockStatus, setErrorBlockStatus] = useState<boolean>(false);
+  const [blockMessage, setBlockMessage] = useState<string>("");
 
   const handleChange = (event: React.ChangeEvent<HTMLInputElement>) => {
     const value = event.currentTarget.value;
@@ -100,6 +108,7 @@ export const AddMembersComponent = (props:Prop) => {
 
   const onClick = () => {
     setOccupation("");
+    setInputs([]);
   };
 
   const [inputs, setInputs] = useState([
@@ -198,11 +207,83 @@ export const AddMembersComponent = (props:Prop) => {
     setInputs([]);
   };
 
+  //creating or mutation code here
+
+  const handleCreationOfMember = async()=>{
+    try {
+      setIsLoading(true);
+
+      let response = await axios.post(import.meta.env.VITE_CREATE_MEMBER, {
+        firstname: firstname,
+        lastName: lastname,
+        email: email,
+        password: password,
+        gender: gender,
+        dateofbirth: dateOfBirth,
+        placeofbirth: placeOfBirth,
+        occupation: selectedOccupation,
+        nationality: nationality,
+        phonenumber: phoneNumber,
+        mothersname: mothersName,
+        fathersname: fathersName,
+        maritalstatus: maritalStatus,
+        numberofchildren: numberOfChildren,
+        primaryeducation: primaryEducation,
+        secondaryeducation: secondaryEducation,
+        tertiaryeducation: tertiaryEducation,
+        hometown: hometown,
+      });
+     
+      if (response && response?.data?.code === 200) {
+        setSuccessBlockStatus(true);
+        setBlockMessage(response?.data?.message);
+        setTimeout(() => {
+          setSuccessBlockStatus(false);
+          setBlockMessage("");
+          props.refetch && props.refetch();
+        }, 3000);
+        resetStates();
+      }
+    } catch (error: any) {
+      console.error(error);
+      setErrorBlockStatus(true);
+      setBlockMessage(error.message);
+      setTimeout(() => {
+        setErrorBlockStatus(false);
+      }, 3000);
+    } finally {
+      setIsLoading(false);
+    }
+  };
+
+  const resetStates = () => {
+    setFirstname("");
+    setLastname("");
+    setEmail("");
+    setPasword("");
+    setGender("");
+    setDateOfBirth("");
+    setPlaceOfBirth("");
+    setOccupation("");
+    setSelectedOccupation([]);
+    setNationality("");
+    setPhoneNumber("");
+    setMothersName("");
+    setFathersName("");
+    setMaritalStatus("");
+    setNumberOfChildren(0);
+    setPrimaryEducation("");
+    setSecondaryEducation("");
+    setTertiaryEducation("");
+    setHometown("");
+  };
+
   //table codes down here
   const [isDropdownOpen, setIsDropdownOpen] = useState(false);
-
-  const handleMouseEnter = () => {
+  const [dropDownId, setDropDownId] = useState<number>(0);
+  const handleMouseClick = (param:number) => {
     setIsDropdownOpen(true);
+    setDropDownId(param)
   };
 
   const handleMouseLeave = () => {
@@ -246,10 +327,10 @@ export const AddMembersComponent = (props:Prop) => {
               src="/images/flatEclipse.svg"
               alt="eclipse"
               className="cursor-pointer"
-              onMouseEnter={handleMouseEnter}
+              onClick={() => handleMouseClick(item.id)}
             />
 
-            {isDropdownOpen && (
+            {isDropdownOpen && dropDownId === item.id && (
               <Dropdown
                 onMouseLeave={handleMouseLeave}
                 dropdownItems={[
@@ -284,18 +365,18 @@ export const AddMembersComponent = (props:Prop) => {
 
   return (
     <>
+      <SuccessBlock blockControl={successBlockStatus} message={blockMessage} />
+      <ErrorBlock blockControl={errorBlockStatus} message={blockMessage} />
+
       <div className="w-full shadow-md p-2 mt-1 bg-slate-200 grid grid-cols-2 lg:grid-cols-4 gap-2">
         <Inputs
           type="text"
-          style="w-full 
-           border-2
-           border-cyan-300
-           h-8 rounded-xl
-           text-gray-500 
-           outline-cyan-300
-           p-5
-           placeholder:text-sm
-          "
+          style={
+            firstname === ""
+              ? "w-full border-2 border-red-300 h-8 rounded-xl text-gray-500 outline-red-300 p-5 placeholder:text-sm"
+              : "w-full border-2 border-cyan-300 h-8 rounded-xl text-gray-500 outline-cyan-300 p-5 placeholder:text-sm"
+          }
+          labelStyle={firstname === "" ? "text-red-300" : ""}
           id={"firstname"}
           labelOne="Firstname:"
           placeholder="Enter your username..."
@@ -305,15 +386,12 @@ export const AddMembersComponent = (props:Prop) => {
 
         <Inputs
           type="text"
-          style="w-full 
-           border-2
-           border-cyan-300
-           h-8 rounded-xl
-           text-gray-500 
-           outline-cyan-300
-           p-5
-           placeholder:text-sm
-          "
+          style={
+            lastname === ""
+              ? "w-full border-2 border-red-300 h-8 rounded-xl text-gray-500 outline-red-300 p-5 placeholder:text-sm"
+              : "w-full border-2 border-cyan-300 h-8 rounded-xl text-gray-500 outline-cyan-300 p-5 placeholder:text-sm"
+          }
+          labelStyle={lastname === "" ? "text-red-300" : ""}
           id={"lastname"}
           labelOne="Lastname:"
           placeholder="Enter your lastname..."
@@ -323,15 +401,20 @@ export const AddMembersComponent = (props:Prop) => {
 
         <Inputs
           type="email"
-          style="w-full 
-           border-2
-           border-cyan-300
-           h-8 rounded-xl
-           text-gray-500 
-           outline-cyan-300
-           p-5
-           placeholder:text-sm
-          "
+          style={
+            /^[\w-]+(\.[\w-]+)*@[A-Za-z0-9]+(\.[A-Za-z0-9]+)*(\.[A-Za-z]{2,})$/.test(
+              email,
+            ) === false
+              ? "w-full border-2 border-red-300 h-8 rounded-xl text-gray-500 outline-red-300 p-5 placeholder:text-sm"
+              : "w-full border-2 border-cyan-300 h-8 rounded-xl text-gray-500 outline-cyan-300 p-5 placeholder:text-sm"
+          }
+          labelStyle={
+            /^[\w-]+(\.[\w-]+)*@[A-Za-z0-9]+(\.[A-Za-z0-9]+)*(\.[A-Za-z]{2,})$/.test(
+              email,
+            ) === false
+              ? "text-red-300"
+              : ""
+          }
           id={"email"}
           labelOne="Email:"
           placeholder="Enter your email..."
@@ -341,15 +424,18 @@ export const AddMembersComponent = (props:Prop) => {
 
         <Inputs
           type="password"
-          style="w-full 
-           border-2
-           border-cyan-300
-           h-8 rounded-xl
-           text-gray-500 
-           outline-cyan-300
-           p-5
-           placeholder:text-sm
-          "
+          style={
+            /^(?=.*[!@#$%^&*(),.?":{}|<>])(?=.*[A-Z]).{8,}$/.test(password) ===
+            false
+              ? "w-full border-2 border-red-300 h-8 rounded-xl text-gray-500 outline-red-300 p-5 placeholder:text-sm"
+              : "w-full border-2 border-cyan-300 h-8 rounded-xl text-gray-500 outline-cyan-300 p-5 placeholder:text-sm"
+          }
+          labelStyle={
+            /^(?=.*[!@#$%^&*(),.?":{}|<>])(?=.*[A-Z]).{8,}$/.test(password) ===
+            false
+              ? "text-red-300"
+              : ""
+          }
           id={"password"}
           labelOne="Password:"
           placeholder="Enter your password..."
@@ -374,7 +460,7 @@ export const AddMembersComponent = (props:Prop) => {
           value={gender}
         />
         <Inputs
-          type="text"
+          type="date"
           style="w-full 
           border-2
           border-cyan-300
@@ -407,7 +493,7 @@ export const AddMembersComponent = (props:Prop) => {
         />
 
         <Select
-          labelOne="Occupation"
+          labelOne={`Occupation ${selectedOccupation.length}`}
           style="
                   w-full rounded-xl
                   p-2 border-2 border-cyan-300
@@ -415,15 +501,15 @@ export const AddMembersComponent = (props:Prop) => {
                   dark:text-white dark:focus:ring-[#F2BEAB] 
                   dark:focus:border-cyan-300 mb-4
                   "
-          data={[{ id: "1", name: "select occupations" }]}
-          placeholder={"Select parent"}
-          value={occupation}
+          data={[{ id: "1", name: "selected occupations" }]}
+          placeholder={"Select occupations"}
+          value={selectedOccupation?.length > 0 ? "1" : occupation}
           onChange={handleOccupations}
         />
 
         <BackgroundDialogue
           status={occupation == "1" ? true : false}
-          backgroundColor="bg-black"
+          backgroundColor=""
         >
           <div className="w-[60%] bg-white p-2 rounded-md">
             <div>
@@ -625,13 +711,29 @@ export const AddMembersComponent = (props:Prop) => {
           onChange={handleChange}
           value={hometown}
         />
-        <div className="flex justify-start items-end">
+        <div className="flex justify-start items-end gap-1">
           <Button
             buttonLabel="Submit"
             className="w-[50%] border p-2 
              rounded-xl text-white bg-cyan-400"
-            loading={false}
-            disabled={false}
+            loading={isLoading}
+            disabled={
+              firstname === "" ||
+              lastname === "" ||
+              /^(?=.*[!@#$%^&*(),.?":{}|<>])(?=.*[A-Z]).{8,}$/.test(
+                password,
+              ) === false ||
+              /^[\w-]+(\.[\w-]+)*@[A-Za-z0-9]+(\.[A-Za-z0-9]+)*(\.[A-Za-z]{2,})$/.test(
+                email,
+              ) === false
+            }
+            onClick={handleCreationOfMember}
+          />
+          <Button
+            buttonLabel="Clear"
+            className="w-[50%] border p-2 
+             rounded-xl text-white bg-red-400"
+             onClick={resetStates}
           />
         </div>
       </div>

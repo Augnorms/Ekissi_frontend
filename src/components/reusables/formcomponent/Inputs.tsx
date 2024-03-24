@@ -8,6 +8,7 @@ type InputsProps = {
   type: string;
   id?: string;
   style: string;
+  labelStyle?:string;
   useIcons?: boolean;
   iconUser?: boolean;
   iconUserPass?: boolean;
@@ -26,7 +27,9 @@ export const Inputs = (props: InputsProps) => {
   return (
     <div className="w-full">
       <div className="w-full flex justify-between">
-        <label className="mb-2 font-bold">{props.labelOne}</label>
+        <label className={`${props.labelStyle} mb-2 font-bold`}>
+          {props.labelOne}
+        </label>
 
         <label className="mb-2 font-bold text-red-500">{props.labelTwo}</label>
       </div>
