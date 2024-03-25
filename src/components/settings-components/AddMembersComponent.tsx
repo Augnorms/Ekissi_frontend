@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { Inputs } from "../reusables/formcomponent/Inputs";
 import Button from "../reusables/formcomponent/Button";
 import { Select } from "../reusables/formcomponent/Select";
@@ -10,6 +10,7 @@ import axios from "axios";
 import { useNavigate } from "react-router-dom";
 import { SuccessBlock } from "../reusables/SuccessBlock";
 import { ErrorBlock } from "../reusables/ErrorBlock";
+import { formatDate } from "../helperfunctions/functions";
 
 interface transformData {
   nameofcompany: string;
@@ -19,6 +20,7 @@ interface transformData {
 }
 
 interface ListMembers {
+  [x: string]: string | number;
   firtname: string;
   lastname: string;
   email: string;
@@ -54,10 +56,12 @@ export const AddMembersComponent = (props: Prop) => {
   const [secondaryEducation, setSecondaryEducation] = useState<string>("");
   const [tertiaryEducation, setTertiaryEducation] = useState<string>("");
   const [hometown, setHometown] = useState<string>("");
-  const [isLoading, setIsLoading] = useState<boolean>(false); 
+  const [isLoading, setIsLoading] = useState<boolean>(false);
   const [successBlockStatus, setSuccessBlockStatus] = useState<boolean>(false);
   const [errorBlockStatus, setErrorBlockStatus] = useState<boolean>(false);
   const [blockMessage, setBlockMessage] = useState<string>("");
+  const [emitStatus, setEmitStatus] = useState<string>("");
+  const [editOccupation, setEditOccupation] = useState<transformData[]>([]);
 
   const handleChange = (event: React.ChangeEvent<HTMLInputElement>) => {
     const value = event.currentTarget.value;
@@ -107,8 +111,12 @@ export const AddMembersComponent = (props: Prop) => {
   };
 
   const onClick = () => {
-    setOccupation("");
-    setInputs([]);
+    if(editOccupation.length > 0){
+      setOccupation("");
+    }else{
+      setOccupation("");
+      setInputs([]);
+    }
   };
 
   const [inputs, setInputs] = useState([
@@ -202,6 +210,7 @@ export const AddMembersComponent = (props: Prop) => {
         position: chunk[3].value,
       };
     });
+
     setSelectedOccupation(transformedData);
     onClick();
     setInputs([]);
@@ -209,7 +218,7 @@ export const AddMembersComponent = (props: Prop) => {
 
   //creating or mutation code here
 
-  const handleCreationOfMember = async()=>{
+  const handleCreationOfMember = async () => {
     try {
       setIsLoading(true);
 
@@ -233,7 +242,7 @@ export const AddMembersComponent = (props: Prop) => {
         tertiaryeducation: tertiaryEducation,
         hometown: hometown,
       });
-     
+
       if (response && response?.data?.code === 200) {
         setSuccessBlockStatus(true);
         setBlockMessage(response?.data?.message);
@@ -276,14 +285,17 @@ export const AddMembersComponent = (props: Prop) => {
     setSecondaryEducation("");
     setTertiaryEducation("");
     setHometown("");
+    setEmitStatus("");
+    setEditOccupation([]);
   };
 
   //table codes down here
+  //this is for handling the action component
   const [isDropdownOpen, setIsDropdownOpen] = useState(false);
   const [dropDownId, setDropDownId] = useState<number>(0);
-  const handleMouseClick = (param:number) => {
+  const handleMouseClick = (param: number) => {
     setIsDropdownOpen(true);
-    setDropDownId(param)
+    setDropDownId(param);
   };
 
   const handleMouseLeave = () => {
@@ -298,6 +310,49 @@ export const AddMembersComponent = (props: Prop) => {
     { key: "Hometown", label: "Hometown" },
     { key: "action", label: "Actions" },
   ];
+
+  // edit input tag for occupation selection
+  const handleEditFieldCopy = (occupationData: transformData) => {
+    setInputs((prevInputs) => [
+      ...prevInputs,
+      {
+        id: `companyname-${prevInputs.length}`,
+        label: "Companyname:",
+        type: "text",
+        placeholder: "Enter your companyname...",
+        value: occupationData.nameofcompany,
+      },
+      {
+        id: `startdate-${prevInputs.length}`,
+        label: "Startdate:",
+        type: "date",
+        placeholder: "Select start date...",
+        value: occupationData.startdate,
+      },
+      {
+        id: `enddate-${prevInputs.length}`,
+        label: "Enddate:",
+        type: "date",
+        placeholder: "Select end date...",
+        value: occupationData.enddate,
+      },
+      {
+        id: `position-${prevInputs.length}`,
+        label: "Position:",
+        type: "text",
+        placeholder: "Enter position here...",
+        value: occupationData.position,
+      },
+    ]);
+  };
+
+  useEffect(() => {
+    if (editOccupation.length > 0) {
+      editOccupation.forEach((occupationData) => {
+        handleEditFieldCopy(occupationData);
+      });
+    }
+  }, [editOccupation]);
 
   const renderCellContent = (headerKey: string, item: Record<string, any>) => {
     switch (headerKey) {
@@ -319,6 +374,38 @@ export const AddMembersComponent = (props: Prop) => {
       case "action":
         function emitAction(_id: string | number, _label: string): void {
           // handling action emit
+          console.log(_id, _label);
+          if (_label === "Edit") {
+            setEmitStatus(_label);
+            const member = props.listallMembers?.find(
+              (user) => user?.id === _id,
+            );
+   
+            if (member) {
+              setFirstname(member.firstname.toString());
+              setLastname(member.lastname);
+              setEmail(member.email);
+              setGender(member.gender);
+              setDateOfBirth(member.dateofbirth.toString().split("T")[0]);
+              setPlaceOfBirth(member.placeofbirth.toString());
+              setNationality(member.nationality.toString());
+              setPhoneNumber(member.phonenumber.toString());
+              setMothersName(member.mothersname.toString());
+              setFathersName(member.fathersname.toString());
+              setMaritalStatus(member.maritalstatus.toString());
+              setNumberOfChildren(Number(member.numberofchildren));
+              setPrimaryEducation(member.primaryeducation.toString());
+              setSecondaryEducation(member.secondaryeducation.toString());
+              setTertiaryEducation(member.tertiaryeducation.toString());
+              setHometown(member.hometown.toString());
+              setEditOccupation(
+                typeof member.occupation === "string"
+                  ? JSON.parse(member.occupation)
+                  : [],
+              );
+              setInputs([]);
+            }
+          }
         }
 
         return (
@@ -367,7 +454,9 @@ export const AddMembersComponent = (props: Prop) => {
     <>
       <SuccessBlock blockControl={successBlockStatus} message={blockMessage} />
       <ErrorBlock blockControl={errorBlockStatus} message={blockMessage} />
-
+      <div className="w-full bg-white p-2 text-center font-bold text-xl">
+        {emitStatus === "Edit" ? "Edit Member Form" : "Add Member Form"}
+      </div>
       <div className="w-full shadow-md p-2 mt-1 bg-slate-200 grid grid-cols-2 lg:grid-cols-4 gap-2">
         <Inputs
           type="text"
@@ -422,26 +511,32 @@ export const AddMembersComponent = (props: Prop) => {
           value={email}
         />
 
-        <Inputs
-          type="password"
-          style={
-            /^(?=.*[!@#$%^&*(),.?":{}|<>])(?=.*[A-Z]).{8,}$/.test(password) ===
-            false
-              ? "w-full border-2 border-red-300 h-8 rounded-xl text-gray-500 outline-red-300 p-5 placeholder:text-sm"
-              : "w-full border-2 border-cyan-300 h-8 rounded-xl text-gray-500 outline-cyan-300 p-5 placeholder:text-sm"
-          }
-          labelStyle={
-            /^(?=.*[!@#$%^&*(),.?":{}|<>])(?=.*[A-Z]).{8,}$/.test(password) ===
-            false
-              ? "text-red-300"
-              : ""
-          }
-          id={"password"}
-          labelOne="Password:"
-          placeholder="Enter your password..."
-          onChange={handleChange}
-          value={password}
-        />
+        {emitStatus === "Edit" ? (
+          ""
+        ) : (
+          <Inputs
+            type="password"
+            style={
+              /^(?=.*[!@#$%^&*(),.?":{}|<>])(?=.*[A-Z]).{8,}$/.test(
+                password,
+              ) === false
+                ? "w-full border-2 border-red-300 h-8 rounded-xl text-gray-500 outline-red-300 p-5 placeholder:text-sm"
+                : "w-full border-2 border-cyan-300 h-8 rounded-xl text-gray-500 outline-cyan-300 p-5 placeholder:text-sm"
+            }
+            labelStyle={
+              /^(?=.*[!@#$%^&*(),.?":{}|<>])(?=.*[A-Z]).{8,}$/.test(
+                password,
+              ) === false
+                ? "text-red-300"
+                : ""
+            }
+            id={"password"}
+            labelOne="Password:"
+            placeholder="Enter your password..."
+            onChange={handleChange}
+            value={password}
+          />
+        )}
 
         <Inputs
           type="text"
@@ -493,7 +588,8 @@ export const AddMembersComponent = (props: Prop) => {
         />
 
         <Select
-          labelOne={`Occupation ${selectedOccupation.length}`}
+          labelOne={`Occupation`}
+          labelTwo={`${editOccupation.length > 0 ? editOccupation.length : selectedOccupation.length}`}
           style="
                   w-full rounded-xl
                   p-2 border-2 border-cyan-300
@@ -512,8 +608,18 @@ export const AddMembersComponent = (props: Prop) => {
           backgroundColor=""
         >
           <div className="w-[60%] bg-white p-2 rounded-md">
-            <div>
-              <CloseDiagComp styles="flex justify-end" onClick={onClick} />
+            <div className="flex">
+              <div className="w-[50%] text-center">
+                {emitStatus === "Edit" ? (
+                  <p className="text-xl font-bold">Edit Occupations</p>
+                ) : (
+                  <p className="text-xl font-bold">Add Occupation</p>
+                )}
+              </div>
+              <CloseDiagComp
+                styles="w-[50%] flex justify-end -mt-2"
+                onClick={onClick}
+              />
             </div>
             <div className="w-[100%] flex justify-end">
               <Button
@@ -523,7 +629,7 @@ export const AddMembersComponent = (props: Prop) => {
                 onClick={handleAddFieldCopy}
               />
             </div>
-            <div className="flex gap-2">
+            <div className="flex gap-2 justify-center">
               <div className="pb-4 grid grid-cols-4 gap-2">
                 {inputs.map((input, index) => (
                   <Inputs
@@ -713,7 +819,7 @@ export const AddMembersComponent = (props: Prop) => {
         />
         <div className="flex justify-start items-end gap-1">
           <Button
-            buttonLabel="Submit"
+            buttonLabel={emitStatus === "Edit" ? "Update" : "Submit"}
             className="w-[50%] border p-2 
              rounded-xl text-white bg-cyan-400"
             loading={isLoading}
@@ -733,7 +839,7 @@ export const AddMembersComponent = (props: Prop) => {
             buttonLabel="Clear"
             className="w-[50%] border p-2 
              rounded-xl text-white bg-red-400"
-             onClick={resetStates}
+            onClick={resetStates}
           />
         </div>
       </div>
