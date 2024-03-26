@@ -43,7 +43,7 @@ export const DigitalProfileView = () => {
               </div>
 
               {/* email */}
-              <div className="w-full mt-10 flex gap-2">
+              <div className="w-full mt-5 flex gap-2">
                 <div
                   className="w-10 h-10 rounded-full full shadow-lg 
                 flex justify-center items-center border border-cyan-500 hover:scale-[1.2] cursor-pointer"
@@ -89,7 +89,7 @@ export const DigitalProfileView = () => {
           </div>
 
           {/* Tertiary Education */}
-          <div className="w-full mt-5 flex gap-2">
+          <div className="w-full mt-2 flex gap-2">
             <div
               className="w-10 h-10 rounded-full full shadow-lg 
                 flex justify-center items-center border border-cyan-500 hover:scale-[1.2] cursor-pointer"
@@ -228,7 +228,7 @@ export const DigitalProfileView = () => {
           </div>
 
           {/* Home Town */}
-          <div className="w-full mt-5 flex gap-2">
+          <div className="w-full mt-10 flex gap-2">
             <div
               className="w-10 h-10 rounded-full full shadow-lg 
                 flex justify-center items-center border border-cyan-500 hover:scale-[1.2] cursor-pointer"
