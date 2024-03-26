@@ -10,7 +10,7 @@ import axios from "axios";
 import { useNavigate } from "react-router-dom";
 import { SuccessBlock } from "../reusables/SuccessBlock";
 import { ErrorBlock } from "../reusables/ErrorBlock";
-import { formatDate } from "../helperfunctions/functions";
+import { Encrypt, formatDate } from "../helperfunctions/functions";
 
 interface transformData {
   nameofcompany: string;
@@ -111,9 +111,9 @@ export const AddMembersComponent = (props: Prop) => {
   };
 
   const onClick = () => {
-    if(editOccupation.length > 0){
+    if (editOccupation.length > 0) {
       setOccupation("");
-    }else{
+    } else {
       setOccupation("");
       setInputs([]);
     }
@@ -184,6 +184,13 @@ export const AddMembersComponent = (props: Prop) => {
       },
     ]);
   };
+ 
+  //removal of input arrays
+  const handleRemoveFieldCopy = () => {
+    setInputs((prevInputs) => prevInputs.slice(0, prevInputs.length - 4));
+  };
+
+
 
   //handles the change for every inputs
   const handleCopyChange = (
@@ -215,6 +222,49 @@ export const AddMembersComponent = (props: Prop) => {
     onClick();
     setInputs([]);
   };
+
+  // edit input tag for occupation selection
+  const handleEditFieldCopy = (occupationData: transformData) => {
+    setInputs((prevInputs) => [
+      ...prevInputs,
+      {
+        id: `companyname-${prevInputs.length}`,
+        label: "Companyname:",
+        type: "text",
+        placeholder: "Enter your companyname...",
+        value: occupationData.nameofcompany,
+      },
+      {
+        id: `startdate-${prevInputs.length}`,
+        label: "Startdate:",
+        type: "date",
+        placeholder: "Select start date...",
+        value: occupationData.startdate,
+      },
+      {
+        id: `enddate-${prevInputs.length}`,
+        label: "Enddate:",
+        type: "date",
+        placeholder: "Select end date...",
+        value: occupationData.enddate,
+      },
+      {
+        id: `position-${prevInputs.length}`,
+        label: "Position:",
+        type: "text",
+        placeholder: "Enter position here...",
+        value: occupationData.position,
+      },
+    ]);
+  };
+
+  useEffect(() => {
+    if (editOccupation.length > 0) {
+      editOccupation.forEach((occupationData) => {
+        handleEditFieldCopy(occupationData);
+      });
+    }
+  }, [editOccupation]);
 
   //creating or mutation code here
 
@@ -265,6 +315,31 @@ export const AddMembersComponent = (props: Prop) => {
     }
   };
 
+  //edit mutation code here
+
+  const handleEditOfMember = async()=>{
+    console.log({
+      firstname: firstname,
+      lastName: lastname,
+      email: email,
+      gender: gender,
+      dateofbirth: dateOfBirth,
+      placeofbirth: placeOfBirth,
+      occupation: selectedOccupation,
+      nationality: nationality,
+      phonenumber: phoneNumber,
+      mothersname: mothersName,
+      fathersname: fathersName,
+      maritalstatus: maritalStatus,
+      numberofchildren: numberOfChildren,
+      primaryeducation: primaryEducation,
+      secondaryeducation: secondaryEducation,
+      tertiaryeducation: tertiaryEducation,
+      hometown: hometown,
+    });
+  }
+
+  //clear
   const resetStates = () => {
     setFirstname("");
     setLastname("");
@@ -311,49 +386,6 @@ export const AddMembersComponent = (props: Prop) => {
     { key: "action", label: "Actions" },
   ];
 
-  // edit input tag for occupation selection
-  const handleEditFieldCopy = (occupationData: transformData) => {
-    setInputs((prevInputs) => [
-      ...prevInputs,
-      {
-        id: `companyname-${prevInputs.length}`,
-        label: "Companyname:",
-        type: "text",
-        placeholder: "Enter your companyname...",
-        value: occupationData.nameofcompany,
-      },
-      {
-        id: `startdate-${prevInputs.length}`,
-        label: "Startdate:",
-        type: "date",
-        placeholder: "Select start date...",
-        value: occupationData.startdate,
-      },
-      {
-        id: `enddate-${prevInputs.length}`,
-        label: "Enddate:",
-        type: "date",
-        placeholder: "Select end date...",
-        value: occupationData.enddate,
-      },
-      {
-        id: `position-${prevInputs.length}`,
-        label: "Position:",
-        type: "text",
-        placeholder: "Enter position here...",
-        value: occupationData.position,
-      },
-    ]);
-  };
-
-  useEffect(() => {
-    if (editOccupation.length > 0) {
-      editOccupation.forEach((occupationData) => {
-        handleEditFieldCopy(occupationData);
-      });
-    }
-  }, [editOccupation]);
-
   const renderCellContent = (headerKey: string, item: Record<string, any>) => {
     switch (headerKey) {
       case "Firstname":
@@ -380,7 +412,7 @@ export const AddMembersComponent = (props: Prop) => {
             const member = props.listallMembers?.find(
               (user) => user?.id === _id,
             );
-   
+
             if (member) {
               setFirstname(member.firstname.toString());
               setLastname(member.lastname);
@@ -403,8 +435,12 @@ export const AddMembersComponent = (props: Prop) => {
                   ? JSON.parse(member.occupation)
                   : [],
               );
-              setInputs([]);
-            }
+              setInputs([]); //clears the empty fileds populated in the input array for occupation
+            }          
+          }
+
+          if(_label === 'View'){
+            navigate(`/profile/${Encrypt(_id.toString())}`);
           }
         }
 
@@ -628,6 +664,13 @@ export const AddMembersComponent = (props: Prop) => {
                 rounded-xl text-white bg-emerald-400"
                 onClick={handleAddFieldCopy}
               />
+
+              <Button
+                buttonLabel="Remove fields"
+                className="w-[15%] border p-2 
+                rounded-xl text-white bg-red-400"
+                onClick={handleRemoveFieldCopy}
+              />
             </div>
             <div className="flex gap-2 justify-center">
               <div className="pb-4 grid grid-cols-4 gap-2">
@@ -652,6 +695,13 @@ export const AddMembersComponent = (props: Prop) => {
                 className="w-[10%] border p-2 
                 rounded-xl text-white bg-cyan-400"
                 onClick={handleSlice}
+              />
+
+              <Button
+                buttonLabel="Cancel"
+                className="w-[10%] border p-2 
+                rounded-xl text-white bg-red-400"
+                onClick={onClick}
               />
             </div>
           </div>
@@ -826,14 +876,14 @@ export const AddMembersComponent = (props: Prop) => {
             disabled={
               firstname === "" ||
               lastname === "" ||
-              /^(?=.*[!@#$%^&*(),.?":{}|<>])(?=.*[A-Z]).{8,}$/.test(
+              (emitStatus ==='' && /^(?=.*[!@#$%^&*(),.?":{}|<>])(?=.*[A-Z]).{8,}$/.test(
                 password,
-              ) === false ||
+              ) === false )||
               /^[\w-]+(\.[\w-]+)*@[A-Za-z0-9]+(\.[A-Za-z0-9]+)*(\.[A-Za-z]{2,})$/.test(
                 email,
               ) === false
             }
-            onClick={handleCreationOfMember}
+            onClick={emitStatus === 'Edit' ? handleEditOfMember : handleCreationOfMember}
           />
           <Button
             buttonLabel="Clear"
