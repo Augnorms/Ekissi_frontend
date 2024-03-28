@@ -35,10 +35,10 @@ export const DigitalProfileView = () => {
   return (
     <div className="w-full h-screen bg-slate-100 p-10">
       <div className="w-[100%] h-[100%] shadow-xl rounded bg-white grid grid-cols-2 grid-rows-2 gap-2 p-2">
-        <div className="w-full  shadow-lg p-2">
+        <div className="w-full  shadow-lg p-2 overflow-auto">
           <div className="w-full flex">
             <div className="rounded-md border-r-[3px] border-r-cyan-400 w-[25%] flex">
-              <Avatar width={"200"} height={"200"} />
+              <Avatar width={"150"} height={"150"} />
               <div
                 className="w-10 h-10 rounded-full full shadow-lg relative right-12 z-2 
                 flex justify-center items-center border border-cyan-500 hover:scale-[1.2] cursor-pointer"
@@ -139,7 +139,7 @@ export const DigitalProfileView = () => {
           </div>
         </div>
 
-        <div className="w-full shadow-lg pl-4">
+        <div className="w-full shadow-lg pl-4 overflow-auto">
           {/* Gender */}
           <div className="w-full mt-2 flex gap-2">
             <div
@@ -219,7 +219,7 @@ export const DigitalProfileView = () => {
           </div>
         </div>
 
-        <div className="w-full shadow-lg pl-2">
+        <div className="w-full shadow-lg pl-2 overflow-auto">
           {/* Mothers Name */}
           <div className="w-full mt-2 flex gap-2">
             <div
@@ -318,7 +318,7 @@ export const DigitalProfileView = () => {
           </div>
 
           <div className=" grid grid-cols-2 gap-1 mt-4 ">
-            {usersDetails?.occupation && Number(usersDetails.occupation) === 0  ? (
+            {usersDetails?.occupation && Number(usersDetails.occupation) !== 0  ? (
               JSON.parse(usersDetails.occupation as any).map(
                 (job: any, index: any) => (
                   <div
