@@ -106,7 +106,7 @@ export const MembersComponent = (props:Prop) => {
                     "..."}
                 </div>
                 <div className="w-full p-2 text-sm">
-                  {member.email.slice(0, 20) + "..."}
+                  {member.email.slice(0, 15) + "..."}
                 </div>
                 <div className="w-full p-2 text-sm">{member.phonenumber?member.phonenumber:"N/A"}</div>
               </div>
