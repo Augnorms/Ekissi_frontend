@@ -8,7 +8,7 @@ interface DropdownProps {
     dataCy: string;
   }>;
   emitAction: (id: number | string, label: string) => void;
-  onMouseLeave:()=>void;
+  onMouseLeave?:()=>void;
 }
 
 const Dropdown: React.FC<DropdownProps> = ({

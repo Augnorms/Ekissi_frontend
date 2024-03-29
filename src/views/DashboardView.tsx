@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { HeaderComponent } from "../components/header/HeaderComponent";
 import { AppsComponent } from "../components/reusables/AppsComponent";
 import { DashboardComponent } from "../components/non-reusables/DashboardComponent";
@@ -7,6 +7,7 @@ import { AccountComponent } from "../components/non-reusables/AccountComponent";
 import { MembersComponent } from "../components/non-reusables/MembersComponent";
 import { useNavigate } from "react-router-dom";
 import { Encrypt } from "../components/helperfunctions/functions";
+import axios from "axios";
 
 export const DashboardView = () => {
   const [_openApps, setOpenApps] = useState<boolean>(false);
@@ -41,10 +42,25 @@ export const DashboardView = () => {
 
     localStorage.setItem("page", e.currentTarget.id);
 
-    if(e.currentTarget.id === 'settings'){
+    if (e.currentTarget.id === "settings") {
       navigate("/settings");
     }
   };
+
+  //fetch all members
+    const [listallMembers, setLisallMembers] = useState([]);
+  const handleFetchmembers = async () => {
+    try {
+      const response = await axios.get(import.meta.env.VITE_GET_ALL_MEMBERS);
+      setLisallMembers(response?.data?.data);
+    } catch (err) {
+      console.error(err);
+    }
+  };
+
+  useEffect(() => {
+    handleFetchmembers();
+  }, []);
 
   return (
     <>
@@ -74,7 +90,7 @@ export const DashboardView = () => {
             ) : page === "Accounts" ? (
               <AccountComponent />
             ) : page === "Members" ? (
-              <MembersComponent />
+              <MembersComponent listallMembers={listallMembers} />
             ) : (
               <></>
             )}
