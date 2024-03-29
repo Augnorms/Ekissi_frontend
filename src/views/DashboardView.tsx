@@ -10,7 +10,9 @@ import { Encrypt } from "../components/helperfunctions/functions";
 
 export const DashboardView = () => {
   const [_openApps, setOpenApps] = useState<boolean>(false);
-  const [page, setPage] = useState<string>("dashboard");
+  const [page, setPage] = useState<string>(
+    localStorage.getItem("page") || "dashboard",
+  );
   const navigate = useNavigate();
 
   //use to handle the logout
@@ -36,6 +38,8 @@ export const DashboardView = () => {
     setOpenApps(!_openApps);
 
     setPage(e.currentTarget.id);
+
+    localStorage.setItem("page", e.currentTarget.id);
 
     if(e.currentTarget.id === 'settings'){
       navigate("/settings");

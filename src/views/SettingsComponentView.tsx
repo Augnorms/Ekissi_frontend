@@ -10,7 +10,9 @@ import { HeaderComponent } from "../components/header/HeaderComponent";
 
 export const SettingsComponent = () => {
 
-  const [components, setComponents] = useState<string>("accesslevel");
+  const [components, setComponents] = useState<string>(
+    localStorage.getItem("component") || "accesslevel",
+  );
   const [listallMembers, setLisallMembers] = useState([]);
 
 
@@ -18,6 +20,7 @@ export const SettingsComponent = () => {
   const handleComponents = (event: React.MouseEvent<HTMLSpanElement>) => {
     const targetId = event.currentTarget.id;
     setComponents(targetId);
+    localStorage.setItem("component", targetId);
   };
 
   //fetch all members
