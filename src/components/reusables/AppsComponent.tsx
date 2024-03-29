@@ -8,7 +8,7 @@ export const AppsComponent = (props: Props) => {
   return (
     <div
       className="
-     w-[20%] h-[200px] 
+     w-[25%] h-[200px] 
      rounded-md p-2 shadow-lg 
      fixed top-20 right-28 z-10
      bg-white grid grid-cols-4 
