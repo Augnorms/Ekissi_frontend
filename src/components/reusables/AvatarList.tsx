@@ -1,3 +1,4 @@
+import { getInitials } from "../helperfunctions/functions";
 interface Props {
   avatarArray?: { logo: string; initials: string }[];
   width?: string;
@@ -47,7 +48,9 @@ export const AvatarList = ({
                 alt="User Avatar List"
               />
             ) : (
-              <span className="text-xl font-bold">{data.initials}</span>
+              <span className="text-xl font-bold">
+                {data.initials.length === 2 ? data.initials : getInitials(data.initials)}
+              </span>
             )}
           </div>
         </div>

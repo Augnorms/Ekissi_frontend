@@ -1,7 +1,8 @@
 import { useEffect, useState } from "react";
+import { Inputs } from "./Inputs";
 
 interface Props {
-  data: { id: number | string; label: string }[];
+  data: { id: number | string; label: string }[] | undefined;
   onSelect?: (
     selectedOptions: { id: number | string; label: string }[],
   ) => void;
@@ -14,7 +15,7 @@ interface Props {
 }
 
 export const Multiselect = (prop: Props) => {
-  const { data, onSelect, clear, placeholder, dropdownstyle, style, required, label } =
+  let { data, onSelect, clear, placeholder, dropdownstyle, style, required, label } =
     prop;
 
   const [openClose, setOpenClose] = useState<boolean>(false);
@@ -64,6 +65,25 @@ useEffect(()=>{
     }
 },[clear])
 
+const [search, setSearch] = useState<string>("");
+
+const handleSearch = (e:React.ChangeEvent<HTMLInputElement>)=>{
+   const id = e.currentTarget.id
+   const value = e.currentTarget.value;
+   if(id === "search"){
+    setSearch(value);
+   }
+};
+
+const [filteredData, setFilteredData] = useState<{ id: number | string; label: string }[]>(data);
+
+useEffect(() => {
+  const filtered = data.filter((name) => {
+    return name.label.split(" ")[0].toLowerCase() === search.toLowerCase();
+  });
+  setFilteredData(filtered);
+}, [search, data]);
+
   return (
     <>
       <div className="flex justify-between mb-1">
@@ -104,26 +124,65 @@ useEffect(()=>{
           )}
         </div>
       </div>
+      <div>
+        {openClose && (
+          <Inputs
+            type="text"
+            style="w-full 
+              border-2
+              border-cyan-300
+              h-8 rounded
+              text-gray-500 
+              outline-cyan-300
+              p-2
+              placeholder:text-sm
+              text-center
+              "
+            id="search"
+            placeholder="search for members here"
+            value={search}
+            onChange={handleSearch}
+          />
+        )}
+      </div>
       {openClose && (
         <div
           className={`mt-1 border h-[200px] overflow-auto p-3 rounded bg-white ${dropdownstyle}`}
         >
-          {data.map((option) => (
-            <div
-              key={option.id}
-              className={`w-full flex gap-2 p-2 hover:bg-cyan-100 rounded cursor-pointer ${dropdownstyle}`}
-              onClick={() => handleCheckboxChange(option)}
-            >
-              <input
-                type="checkbox"
-                checked={selectedOptions.some(
-                  (selected) => selected.id === option.id,
-                )}
-                onChange={() => handleCheckboxChange(option)}
-              />
-              {option.label}
-            </div>
-          ))}
+          {filteredData.length > 0
+            ? filteredData.map((option) => (
+                <div
+                  key={option.id}
+                  className={`w-full flex gap-2 p-2 hover:bg-cyan-100 rounded cursor-pointer ${dropdownstyle}`}
+                  onClick={() => handleCheckboxChange(option)}
+                >
+                  <input
+                    type="checkbox"
+                    checked={selectedOptions.some(
+                      (selected) => selected.id === option.id,
+                    )}
+                    onChange={() => handleCheckboxChange(option)}
+                  />
+                  {option.label}
+                </div>
+              ))
+            : // Render original data if no filtered data is available
+              data.map((option) => (
+                <div
+                  key={option.id}
+                  className={`w-full flex gap-2 p-2 hover:bg-cyan-100 rounded cursor-pointer ${dropdownstyle}`}
+                  onClick={() => handleCheckboxChange(option)}
+                >
+                  <input
+                    type="checkbox"
+                    checked={selectedOptions.some(
+                      (selected) => selected.id === option.id,
+                    )}
+                    onChange={() => handleCheckboxChange(option)}
+                  />
+                  {option.label}
+                </div>
+              ))}
         </div>
       )}
     </>

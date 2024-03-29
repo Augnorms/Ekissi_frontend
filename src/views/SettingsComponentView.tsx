@@ -90,9 +90,12 @@ export const SettingsComponent = () => {
       </div>
 
       {components === "addmembers" ? (
-        <AddMembersComponent listallMembers={listallMembers} refetch={handleFetchmembers}/>
+        <AddMembersComponent
+          listallMembers={listallMembers}
+          refetch={handleFetchmembers}
+        />
       ) : components === "accesslevel" ? (
-        <AccesslevelComponent />
+        <AccesslevelComponent listallMembers={listallMembers} />
       ) : components === "userverification" ? (
         <UserVerificationComponent />
       ) : components === "manageabout" ? (

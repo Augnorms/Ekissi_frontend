@@ -3,11 +3,85 @@ import { TextArea } from "../reusables/formcomponent/TextArea";
 import { Checkbox } from "../reusables/formcomponent/Checkbox";
 import { Multiselect } from "../reusables/formcomponent/Multiselect";
 import Button from "../reusables/formcomponent/Button";
+import { BackgroundDialogue } from "../reusables/BackgroundDialogue";
+import TableComponent from "../reusables/TableComponent";
+import { CloseDiagComp } from "../reusables/CloseDiagComp";
+import { useState } from "react";
+import { AvatarList } from "../reusables/AvatarList";
 
-export const AccesslevelComponent = () => {
+interface ListMembers {
+  [x: string]: string | number;
+  firtname: string;
+  lastname: string;
+  email: string;
+  gender: string;
+  children: number;
+}
+
+type Prop = {
+  listallMembers?: ListMembers[];
+};
+
+export const AccesslevelComponent = (props:Prop) => {
+
+  const members = props?.listallMembers?.map((data)=>{
+    return {
+      id: data.id.toString(),
+      label: `${data.firstname} ${data.lastname}`
+    }
+  });
+
+  //table content here..
+ const headers = [
+   { key: "accesslevelname", label: "Accesslevelname" },
+   { key: "members", label: "Members" },
+   { key: "action", label: "Action" },
+ ];
+  const renderCellContent = (headerKey: string, item: Record<string, any>) => {
+     switch (headerKey) {
+       case "accesslevelname":
+         return <div className="whitespace-nowrap">{item.name}</div>;
+
+       case "members":
+
+         if (Array.isArray(item.members)) {
+           return (
+             <div className="whitespace-nowrap">
+               <AvatarList
+                 avatarArray={item.members}
+                 width="35"
+                 height="35"
+                 sliceFirstIdx={0}
+                 sliceSecondIdx={3}
+               />
+             </div>
+           );
+         } 
+
+        break;
+
+       case "action":
+         function emitAction(_id: string | number, _label: string): void {}
+
+         return (
+           <img
+             src="/images/flatEclipse.svg"
+             alt="eclipse"
+             className="cursor-pointer"
+           />
+         );
+     }
+  }
+
+  const[isOpen, setIsOpen] = useState<boolean>(false);
+
+  const handleClose = ()=>{
+    setIsOpen(!isOpen);
+  }
+
   return (
-    <div className="w-full h-[83vh] bg-slate-100">
-      <div className="w-full grid grid-cols-3 h-1/2 shadow-xl gap-1">
+    <div className="w-full  bg-slate-100 p-5">
+      <div className="w-full grid grid-cols-3 h-[80vh] shadow-xl gap-1">
         <div className="w-full bg-white overflow-auto">
           <div className="p-2 font-bold underline text-xl">
             Create Access Level
@@ -244,7 +318,14 @@ export const AccesslevelComponent = () => {
         <div className="w-full bg-white p-2 overflow-auto">
           <div className="text-sm font-bold w-full mb-5 flex justify-between">
             <div className="underline flex items-center">Assign Members</div>
-            <div>
+            <div className="flex gap-2">
+              <Button
+                buttonLabel="table"
+                className="border w-full p-2 
+                rounded text-white bg-cyan-800"
+                onClick={handleClose}
+              />
+
               <Button
                 buttonLabel="create"
                 className="border w-full p-2 
@@ -254,20 +335,37 @@ export const AccesslevelComponent = () => {
           </div>
 
           <Multiselect
-            data={[
-              { id: "1", label: "Aili" },
-              { id: "2", label: "Ailima" },
-              { id: "3", label: "Ailibaba" },
-            ]}
-            placeholder="Choose relationship"
-            label={"Relationship"}
+            data={members}
+            placeholder="Select Members"
+            label={"Members"}
             style="border-2 border-cyan-300"
             dropdownstyle="border-2 border-cyan-300 mb-1"
           />
-          <div className="w-full mt-2 p-2 border rounded"></div>
         </div>
       </div>
-      <div className="w-full"></div>
+      <BackgroundDialogue status={isOpen} backgroundColor="bg-black">
+        <div className="w-[70%] h-[500px] bg-white p-2 rounded overflow-auto">
+          <CloseDiagComp
+            styles="flex justify-end -mt-2"
+            onClick={handleClose}
+          />
+
+          <TableComponent
+            headers={headers}
+            items={[
+              {
+                id: 1,
+                name: "new access",
+                members: [
+                  { id: "1", logo: "", initials: "Augustine Normanyo" },
+                  { id: "2", logo: "", initials: "Judith Quaye" },
+                ],
+              },
+            ]}
+            renderCellContent={renderCellContent}
+          />
+        </div>
+      </BackgroundDialogue>
     </div>
   );
 };

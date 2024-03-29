@@ -10,7 +10,7 @@ import axios from "axios";
 import { useNavigate } from "react-router-dom";
 import { SuccessBlock } from "../reusables/SuccessBlock";
 import { ErrorBlock } from "../reusables/ErrorBlock";
-import { Encrypt, formatDate } from "../helperfunctions/functions";
+import { Encrypt } from "../helperfunctions/functions";
 
 interface transformData {
   nameofcompany: string;
@@ -406,7 +406,7 @@ export const AddMembersComponent = (props: Prop) => {
       case "action":
         function emitAction(_id: string | number, _label: string): void {
           // handling action emit
-          console.log(_id, _label);
+ 
           if (_label === "Edit") {
             setEmitStatus(_label);
             const member = props.listallMembers?.find(
@@ -493,7 +493,8 @@ export const AddMembersComponent = (props: Prop) => {
       <div className="w-full bg-white p-2 text-center font-bold text-xl">
         {emitStatus === "Edit" ? "Edit Member Form" : "Add Member Form"}
       </div>
-      <div className="w-full shadow-md p-2 mt-1 bg-slate-200 grid grid-cols-2 lg:grid-cols-4 gap-2">
+      
+      <div className="w-full shadow-md p-10 mt-1 bg-slate-200 grid grid-cols-2 lg:grid-cols-4 gap-2">
         <Inputs
           type="text"
           style={
@@ -643,7 +644,7 @@ export const AddMembersComponent = (props: Prop) => {
           status={occupation == "1" ? true : false}
           backgroundColor=""
         >
-          <div className="w-[60%] bg-white p-2 rounded-md">
+          <div className="w-[60%] bg-white p-5 rounded-md">
             <div className="flex">
               <div className="w-[50%] text-center">
                 {emitStatus === "Edit" ? (
@@ -660,14 +661,14 @@ export const AddMembersComponent = (props: Prop) => {
             <div className="w-[100%] flex justify-end">
               <Button
                 buttonLabel="Add fields"
-                className="w-[10%] border p-2 
+                className="w-fit border p-2 
                 rounded-xl text-white bg-emerald-400"
                 onClick={handleAddFieldCopy}
               />
 
               <Button
                 buttonLabel="Remove fields"
-                className="w-[15%] border p-2 
+                className="w-fit border p-2 
                 rounded-xl text-white bg-red-400"
                 onClick={handleRemoveFieldCopy}
               />
