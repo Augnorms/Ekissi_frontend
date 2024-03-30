@@ -5,7 +5,23 @@
 *{
   padding: 0px;
   margin: 0px;
+
+  ::-webkit-scrollbar {
+    width: 6px;
+    height: 5px;
+    border-radius: 8px;
+  }
+
+  ::-webkit-scrollbar-thumb {
+    background-color: rgb(34 211 238);
+    border-radius: 6px;
+  }
+
+  ::-webkit-scrollbar-track {
+    background-color: #fff;
+  }
 }
+
 body {
   width: 100%;
   font-family: 'Poppins', sans-serif;
@@ -74,3 +90,4 @@ body {
   color: white;
   border-left: 3px solid deeppink;
 }
+

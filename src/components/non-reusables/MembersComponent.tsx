@@ -41,6 +41,7 @@ export const MembersComponent = (props:Prop) => {
     navigate(`/profile/${Encrypt(String(id))}`);
   }
 
+  //handling table actions
   const [isDropdownOpen, setIsDropdownOpen] = useState(false);
   const [dropDownId, setDropDownId] = useState<number>(0);
   const handleMouseClick = (param: number) => {

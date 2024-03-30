@@ -12,6 +12,7 @@ import { SuccessBlock } from "../reusables/SuccessBlock";
 import { ErrorBlock } from "../reusables/ErrorBlock";
 import { Encrypt } from "../helperfunctions/functions";
 
+
 interface transformData {
   nameofcompany: string;
   startdate: string;
@@ -377,6 +378,12 @@ export const AddMembersComponent = (props: Prop) => {
     setIsDropdownOpen(false);
   };
 
+  const [isShow, setIsShow] = useState<boolean>(false);
+
+  const handleClose = ()=>{
+    setIsShow(!isShow);
+  }
+
   const headers = [
     { key: "Firstname", label: "Firstname" },
     { key: "Lastname", label: "Lastname" },
@@ -435,12 +442,14 @@ export const AddMembersComponent = (props: Prop) => {
                   ? JSON.parse(member.occupation)
                   : [],
               );
+              handleClose(); //closes the table display
               setInputs([]); //clears the empty fileds populated in the input array for occupation
             }          
           }
 
           if(_label === 'View'){
             navigate(`/profile/${Encrypt(_id.toString())}`);
+            handleClose(); //closes the table display
           }
         }
 
@@ -453,32 +462,34 @@ export const AddMembersComponent = (props: Prop) => {
               onClick={() => handleMouseClick(item.id)}
             />
 
-            {isDropdownOpen && dropDownId === item.id && (
-              <Dropdown
-                onMouseLeave={handleMouseLeave}
-                dropdownItems={[
-                  {
-                    id: item.id,
-                    image: "/images/view.svg",
-                    label: "View",
-                    dataCy: "view",
-                  },
-                  {
-                    id: item.id,
-                    image: "/images/editicon.svg",
-                    label: "Edit",
-                    dataCy: "edit",
-                  },
-                  {
-                    id: item.id,
-                    image: "/images/delete.svg",
-                    label: "Delete",
-                    dataCy: "delete",
-                  },
-                ]}
-                emitAction={emitAction}
-              />
-            )}
+            <div className="absolute right-28">
+              {isDropdownOpen && dropDownId === item.id && (
+                <Dropdown
+                  onMouseLeave={handleMouseLeave}
+                  dropdownItems={[
+                    {
+                      id: item.id,
+                      image: "/images/view.svg",
+                      label: "View",
+                      dataCy: "view",
+                    },
+                    {
+                      id: item.id,
+                      image: "/images/editicon.svg",
+                      label: "Edit",
+                      dataCy: "edit",
+                    },
+                    {
+                      id: item.id,
+                      image: "/images/delete.svg",
+                      label: "Delete",
+                      dataCy: "delete",
+                    },
+                  ]}
+                  emitAction={emitAction}
+                />
+              )}
+            </div>
           </div>
         );
       default:
@@ -493,7 +504,7 @@ export const AddMembersComponent = (props: Prop) => {
       <div className="w-full bg-white p-2 text-center font-bold text-xl">
         {emitStatus === "Edit" ? "Edit Member Form" : "Add Member Form"}
       </div>
-      
+
       <div className="w-full shadow-md p-10 mt-1 bg-slate-200 grid grid-cols-2 lg:grid-cols-4 gap-2">
         <Inputs
           type="text"
@@ -877,14 +888,19 @@ export const AddMembersComponent = (props: Prop) => {
             disabled={
               firstname === "" ||
               lastname === "" ||
-              (emitStatus ==='' && /^(?=.*[!@#$%^&*(),.?":{}|<>])(?=.*[A-Z]).{8,}$/.test(
-                password,
-              ) === false )||
+              (emitStatus === "" &&
+                /^(?=.*[!@#$%^&*(),.?":{}|<>])(?=.*[A-Z]).{8,}$/.test(
+                  password,
+                ) === false) ||
               /^[\w-]+(\.[\w-]+)*@[A-Za-z0-9]+(\.[A-Za-z0-9]+)*(\.[A-Za-z]{2,})$/.test(
                 email,
               ) === false
             }
-            onClick={emitStatus === 'Edit' ? handleEditOfMember : handleCreationOfMember}
+            onClick={
+              emitStatus === "Edit"
+                ? handleEditOfMember
+                : handleCreationOfMember
+            }
           />
           <Button
             buttonLabel="Clear"
@@ -895,13 +911,27 @@ export const AddMembersComponent = (props: Prop) => {
         </div>
       </div>
 
-      <div className="h-[34vh] mt-2 overflow-auto">
-        <TableComponent
-          headers={headers}
-          items={props.listallMembers || []}
-          renderCellContent={renderCellContent}
+      <div className="w-full p-2 flex justify-end">
+        <Button
+          buttonLabel="show table"
+          className="w-fit border p-2 
+             rounded-md text-white bg-cyan-700"
+          onClick={handleClose}
         />
       </div>
+
+      <BackgroundDialogue status={isShow} backgroundColor="bg-black">
+        <div className="w-[70%] h-[600px] bg-white rounded-md mt-2 overflow-auto relative">
+          <CloseDiagComp styles="flex justify-end" onClick={handleClose} />
+          <div className="p-10">
+            <TableComponent
+              headers={headers}
+              items={props.listallMembers || []}
+              renderCellContent={renderCellContent}
+            />
+          </div>
+        </div>
+      </BackgroundDialogue>
     </>
   );
 };

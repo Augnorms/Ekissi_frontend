@@ -138,7 +138,7 @@ export const AccesslevelComponent = (props:Prop) => {
                 cursor-pointer
                 "
                 label="View"
-                fieldid="view"
+                fieldid="view-access"
                 labelStyle="text-cyan-500"
               />
 
@@ -151,7 +151,7 @@ export const AccesslevelComponent = (props:Prop) => {
                 cursor-pointer
                 "
                 label="Manage"
-                fieldid="manage"
+                fieldid="manage-access"
                 labelStyle="text-cyan-500"
               />
             </div>
@@ -171,7 +171,7 @@ export const AccesslevelComponent = (props:Prop) => {
                 cursor-pointer
                 "
                 label="View"
-                fieldid="view"
+                fieldid="view-verify"
                 labelStyle="text-cyan-500"
               />
 
@@ -184,7 +184,7 @@ export const AccesslevelComponent = (props:Prop) => {
                 cursor-pointer
                 "
                 label="Manage"
-                fieldid="manage"
+                fieldid="manage-verify"
                 labelStyle="text-cyan-500"
               />
             </div>
@@ -202,7 +202,7 @@ export const AccesslevelComponent = (props:Prop) => {
                 cursor-pointer
                 "
                 label="View"
-                fieldid="view"
+                fieldid="view-member"
                 labelStyle="text-cyan-500"
               />
 
@@ -215,7 +215,7 @@ export const AccesslevelComponent = (props:Prop) => {
                 cursor-pointer
                 "
                 label="Manage"
-                fieldid="manage"
+                fieldid="manage-member"
                 labelStyle="text-cyan-500"
               />
             </div>
@@ -233,7 +233,7 @@ export const AccesslevelComponent = (props:Prop) => {
                 cursor-pointer
                 "
                 label="View"
-                fieldid="view"
+                fieldid="view-about"
                 labelStyle="text-cyan-500"
               />
 
@@ -246,7 +246,7 @@ export const AccesslevelComponent = (props:Prop) => {
                 cursor-pointer
                 "
                 label="Manage"
-                fieldid="manage"
+                fieldid="manage-about"
                 labelStyle="text-cyan-500"
               />
             </div>
@@ -264,7 +264,7 @@ export const AccesslevelComponent = (props:Prop) => {
                 cursor-pointer
                 "
                 label="View"
-                fieldid="view"
+                fieldid="view-gallery"
                 labelStyle="text-cyan-500"
               />
 
@@ -277,7 +277,7 @@ export const AccesslevelComponent = (props:Prop) => {
                 cursor-pointer
                 "
                 label="Manage"
-                fieldid="manage"
+                fieldid="manage-gallery"
                 labelStyle="text-cyan-500"
               />
             </div>
@@ -295,7 +295,7 @@ export const AccesslevelComponent = (props:Prop) => {
                 cursor-pointer
                 "
                 label="View"
-                fieldid="view"
+                fieldid="view-account"
                 labelStyle="text-cyan-500"
               />
 
@@ -308,7 +308,38 @@ export const AccesslevelComponent = (props:Prop) => {
                 cursor-pointer
                 "
                 label="Manage"
-                fieldid="manage"
+                fieldid="manage-account"
+                labelStyle="text-cyan-500"
+              />
+            </div>
+          </div>
+
+          <div className="w-full flex mt-5">
+            <div className="text-sm font-bold w-1/2 pl-2">Manage bio</div>
+            <div className="text-sm w-1/2 flex gap-10">
+              <Checkbox
+                style="
+                focus:ring-[#F2BEAB] 
+                accent-pink-500
+                md:accent-pink-500
+                focus:accent-pink-500
+                cursor-pointer
+                "
+                label="View"
+                fieldid="view-bio"
+                labelStyle="text-cyan-500"
+              />
+
+              <Checkbox
+                style="
+                focus:ring-[#F2BEAB] 
+                accent-pink-500
+                md:accent-pink-500
+                focus:accent-pink-500
+                cursor-pointer
+                "
+                label="Manage"
+                fieldid="manage-bio"
                 labelStyle="text-cyan-500"
               />
             </div>
@@ -344,7 +375,7 @@ export const AccesslevelComponent = (props:Prop) => {
         </div>
       </div>
       <BackgroundDialogue status={isOpen} backgroundColor="bg-black">
-        <div className="w-[70%] h-[500px] bg-white p-2 rounded overflow-auto">
+        <div className="w-[70%] h-[600px] bg-white p-2 rounded overflow-auto">
           <CloseDiagComp
             styles="flex justify-end -mt-2"
             onClick={handleClose}

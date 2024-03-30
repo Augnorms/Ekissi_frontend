@@ -3,6 +3,7 @@ import { FaCloudDownloadAlt } from "react-icons/fa";
 import { CiTrash } from "react-icons/ci";
 
 type FileInterface = {
+  style:string;
   fileInput: string;
   fileData: File[];
   setUpdateCounter: React.Dispatch<React.SetStateAction<number>>;
@@ -89,7 +90,7 @@ export const FilesUploads = (props: FileInterface) => {
 
   return (
     <div
-      className={"border border-dashed border-[dodgerblue] text-center p-2"}
+      className={`border border-dashed border-[dodgerblue] text-center p-2 ${props.style}`}
       onDragOver={(e) => e.preventDefault()}
       onDragEnter={handleDragEnter}
       onDragLeave={handleDragLeave}
@@ -116,7 +117,7 @@ export const FilesUploads = (props: FileInterface) => {
               <CiTrash
                 style={{
                   marginTop: "5px",
-                  marginLeft: "5px",
+                  marginLeft: "10px",
                   cursor: "pointer",
                   color: "red",
                 }}
