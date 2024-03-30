@@ -87,18 +87,24 @@ export const LoginPageView = () => {
   const handleLoginEmit = (success:boolean, error:boolean, message:string)=>{
     if(success){
       setLoginDialogue("");
+         setSuccessBlockStatus(success);
+         setBlockMessage(message);
+         setTimeout(() => {
+           setSuccessBlockStatus(false);
+           setBlockMessage("");
+           navigate("/dashboard");
+         }, 4000);
+    }else{
+      setErrorBlockStatus(error);
+      setBlockMessage(message);
+      setTimeout(() => {
+        setErrorBlockStatus(false);
+        setBlockMessage("");
+      }, 4000);
+       navigate("/");
     }
 
-    setSuccessBlockStatus(success);
-    setErrorBlockStatus(error);
-    setBlockMessage(message);
-
-    setTimeout(()=>{
-       setSuccessBlockStatus(false);
-       setErrorBlockStatus(false);
-       setBlockMessage("");
-        navigate("/dashboard");
-    },4000)
+ 
   }
 
   return (

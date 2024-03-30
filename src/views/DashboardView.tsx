@@ -20,6 +20,8 @@ export const DashboardView = () => {
   const handlechangeLogout = (_e: React.MouseEvent<HTMLDivElement>) => {
     if (_e.currentTarget.id === "logout") {
       localStorage.removeItem("token");
+      localStorage.removeItem("page");
+      localStorage.removeItem("component");
       navigate("/");
     }
   };

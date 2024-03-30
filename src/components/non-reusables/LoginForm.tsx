@@ -41,12 +41,16 @@ const handleLogin = async()=>{
     if(response && response?.data?.code === 200){
         clear();
         emitme && emitme(response?.data?.status, false, response?.data?.message); 
+            console.log(response?.data?.message);
         localStorage.setItem("token", response?.data?.token)
     }
 
   }catch(err:any){
-    console.error(err)
-    emitme && emitme(false, true, err.message);
+    if ((err.response && err.response?.status === 400)) {
+      emitme && emitme(false, true, err.response?.data?.message);
+    }else if (err.message === "Request failed with status code 401") {
+      emitme && emitme(false, true, err.response?.data?.message);
+    }
   }finally{
     setIsLoading(false);
   }

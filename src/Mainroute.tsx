@@ -1,4 +1,4 @@
-import { Route, Routes } from "react-router-dom";
+import { Route, Routes, useNavigate } from "react-router-dom";
 import { LoginPageView } from "./views/LoginPageView";
 import { DashboardView } from "./views/DashboardView";
 import { AboutView } from "./views/AboutView";
@@ -7,19 +7,45 @@ import { DigitalProfileView } from "./views/DigitalProfileView";
 import { PageNotFoundView } from "./views/PageNotFoundView";
 import { SettingsComponent } from "./views/SettingsComponentView";
 import { AddMembersComponent } from "./components/settings-components/AddMembersComponent";
+import { Authorisation } from "./auth-service/auth";
+import { useEffect } from "react";
 
 export const Mainroute = () => {
+  const isLoggedIn = Authorisation(); // Check if user is logged in with token
+  const navigate = useNavigate();
+
+  useEffect(() => {
+    if (
+      !isLoggedIn &&
+      window.location.pathname !== "/about" &&
+      window.location.pathname !== "/gallery"
+    ) {
+      navigate("/");
+    }
+  }, [isLoggedIn, navigate]);
+
   return (
     <div>
       <Routes>
+        {/* Login route */}
         <Route path="/" element={<LoginPageView />} />
-        <Route path="/dashboard" element={<DashboardView />} />
-        <Route path="/settings" element={<SettingsComponent />} />
-        <Route path="/addmember" element={<AddMembersComponent />} />
+
+        {/* Public routes */}
         <Route path="/about" element={<AboutView />} />
         <Route path="/gallery" element={<GalleryView />} />
-        <Route path="/profile/:id" element={<DigitalProfileView />} />
-        <Route path="*" element={<PageNotFoundView />} />
+
+        {/* Protected routes */}
+        {isLoggedIn && (
+          <>
+            <Route path="/dashboard" element={<DashboardView />} />
+            <Route path="/settings" element={<SettingsComponent />} />
+            <Route path="/addmember" element={<AddMembersComponent />} />
+            <Route path="/profile/:id" element={<DigitalProfileView />} />
+          </>
+        )}
+
+        {/* Catch-all route for non-matching paths */}
+        {isLoggedIn && <Route path="*" element={<PageNotFoundView />} />}
       </Routes>
     </div>
   );

@@ -55,7 +55,7 @@ export const Tooltip: React.FC<TooltipProps> = ({
             <div
               ref={tooltipRef}
               style={{ top: tooltipPosition.top, left: tooltipPosition.left }}
-              className={`h-[100px] p-5 fixed z-[100] min-w-[10rem] 
+              className={`w-fit h-[100px] p-5 fixed z-[100] min-w-[10rem] 
               border-2 border-[#17191C] cursor-pointer rounded-md overflow-auto ${style}`}
             >
               <div>
