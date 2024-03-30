@@ -2,29 +2,29 @@
 @tailwind components;
 @tailwind utilities;
 
-*{
+* {
   padding: 0px;
   margin: 0px;
+  position: relative;
+}
 
-  ::-webkit-scrollbar {
-    width: 6px;
-    height: 5px;
-    border-radius: 8px;
-  }
+::-webkit-scrollbar {
+  @apply w-1 h-1 rounded-full;
 
-  ::-webkit-scrollbar-thumb {
-    background-color: rgb(34 211 238);
-    border-radius: 6px;
-  }
+  background-color: #fff;
+}
 
-  ::-webkit-scrollbar-track {
-    background-color: #fff;
-  }
+::-webkit-scrollbar-thumb {
+  @apply bg-blue-500 rounded-full;
+}
+
+::-webkit-scrollbar-track {
+  background-color: #fff;
 }
 
 body {
   width: 100%;
-  font-family: 'Poppins', sans-serif;
+  font-family: "Poppins", sans-serif;
 }
 
 .loader {
@@ -74,7 +74,6 @@ body {
   }
 }
 
-
 .dropdown-content {
   position: absolute;
   right: 15px;
@@ -83,11 +82,10 @@ body {
   box-shadow: 0px 4px 8px rgba(16, 24, 64, 0.16);
   border-radius: 8px;
   z-index: 2;
-  margin-bottom:80px;
+  margin-bottom: 80px;
 }
 .dropdown-content a:hover {
   background-color: dodgerblue;
   color: white;
   border-left: 3px solid deeppink;
 }
-

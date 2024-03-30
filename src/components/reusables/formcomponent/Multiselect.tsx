@@ -8,15 +8,23 @@ interface Props {
   ) => void;
   placeholder?: string;
   style?: string;
-  dropdownstyle?:string;
-  clear?:boolean;
-  required?:boolean;
-  label?:string;
+  dropdownstyle?: string;
+  clear?: boolean;
+  required?: boolean;
+  label?: string;
 }
 
 export const Multiselect = (prop: Props) => {
-  let { data, onSelect, clear, placeholder, dropdownstyle, style, required, label } =
-    prop;
+  let {
+    data,
+    onSelect,
+    clear,
+    placeholder,
+    dropdownstyle,
+    style,
+    required,
+    label,
+  } = prop;
 
   const [openClose, setOpenClose] = useState<boolean>(false);
   const [selectedOptions, setSelectedOptions] = useState<
@@ -29,60 +37,62 @@ export const Multiselect = (prop: Props) => {
     setSelectedOptions([]);
   };
 
-const handleCheckboxChange = (option: {
-  id: number | string;
-  label: string;
-}) => {
-  const isSelected = selectedOptions.some(
-    (selected) => selected.id === option.id,
-  );
-
-  if (isSelected) {
-    // If the option is already selected, remove it from the list
-    const updatedOptions = selectedOptions.filter(
-      (selected) => selected.id !== option.id,
+  const handleCheckboxChange = (option: {
+    id: number | string;
+    label: string;
+  }) => {
+    const isSelected = selectedOptions.some(
+      (selected) => selected.id === option.id,
     );
-    setSelectedOptions(updatedOptions);
-  } else {
-    // If the option is not selected, add it to the list
-    setSelectedOptions([...selectedOptions, option]);
-  }
 
-};
-
-useEffect(() => {
-// Call the onSelect callback with the updated selected options
- if (onSelect) {
-     onSelect(selectedOptions);
+    if (isSelected) {
+      // If the option is already selected, remove it from the list
+      const updatedOptions = selectedOptions.filter(
+        (selected) => selected.id !== option.id,
+      );
+      setSelectedOptions(updatedOptions);
+    } else {
+      // If the option is not selected, add it to the list
+      setSelectedOptions([...selectedOptions, option]);
     }
-}, [selectedOptions]);
+  };
 
-//handle clear
-useEffect(()=>{
+  useEffect(() => {
+    // Call the onSelect callback with the updated selected options
+    if (onSelect) {
+      onSelect(selectedOptions);
+    }
+  }, [selectedOptions]);
+
+  //handle clear
+  useEffect(() => {
     if (clear === true) {
-    setSelectedOptions([]);
-    setOpenClose(!openClose);
+      setSelectedOptions([]);
+      setOpenClose(!openClose);
     }
-},[clear])
+  }, [clear]);
 
-const [search, setSearch] = useState<string>("");
+  const [search, setSearch] = useState<string>("");
 
-const handleSearch = (e:React.ChangeEvent<HTMLInputElement>)=>{
-   const id = e.currentTarget.id
-   const value = e.currentTarget.value;
-   if(id === "search"){
-    setSearch(value);
-   }
-};
+  const handleSearch = (e: React.ChangeEvent<HTMLInputElement>) => {
+    const id = e.currentTarget.id;
+    const value = e.currentTarget.value;
+    if (id === "search") {
+      setSearch(value);
+    }
+  };
 
-const [filteredData, setFilteredData] = useState<{ id: number | string; label: string }[]>(data);
+  const [filteredData, setFilteredData] = useState<
+    { id: number | string; label: string }[]
+  >([]);
 
-useEffect(() => {
-  const filtered = data.filter((name) => {
-    return name.label.split(" ")[0].toLowerCase() === search.toLowerCase();
-  });
-  setFilteredData(filtered);
-}, [search, data]);
+  useEffect(() => {
+    const filtered = data?.filter((name) => {
+      const firstPart = name.label.toLowerCase().slice(0, search.length);
+      return firstPart === search.toLowerCase();
+    });
+    setFilteredData(filtered);
+  }, [search, data]);
 
   return (
     <>
@@ -167,7 +177,7 @@ useEffect(() => {
                 </div>
               ))
             : // Render original data if no filtered data is available
-              data.map((option) => (
+              data && data.map((option) => (
                 <div
                   key={option.id}
                   className={`w-full flex gap-2 p-2 hover:bg-cyan-100 rounded cursor-pointer ${dropdownstyle}`}

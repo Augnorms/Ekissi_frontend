@@ -88,7 +88,7 @@ export const DashboardView = () => {
             {page === "dashboard" ? (
               <DashboardComponent />
             ) : page === "heirarchy" ? (
-              <HeirarchyComponent />
+              <HeirarchyComponent listallMembers={listallMembers} />
             ) : page === "Accounts" ? (
               <AccountComponent />
             ) : page === "Members" ? (

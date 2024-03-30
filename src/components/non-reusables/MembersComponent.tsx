@@ -6,6 +6,7 @@ import { SkeletalLoader } from "../reusables/SkeletalLoader";
 import Dropdown from "../reusables/ActionComponent";
 import { Encrypt } from "../helperfunctions/functions";
 import { useNavigate } from "react-router-dom";
+import { Tooltip } from "../reusables/Tooltip";
 
 interface ListMembers {
   [x: string]: string | number;
@@ -57,7 +58,9 @@ export const MembersComponent = (props:Prop) => {
     <div className="w-full h-[100%] p-10">
       <div className="flex gap-1">
         <p className="font-extrabold text-xl">Members Count</p>
-        <span className="mt-1 font-extrabold">({props.listallMembers?.length})</span>
+        <span className="mt-1 font-extrabold">
+          ({props.listallMembers?.length})
+        </span>
       </div>
       <div className="mt-4 mb-4 text-sm">
         <p>
@@ -102,14 +105,23 @@ export const MembersComponent = (props:Prop) => {
                 />
               </div>
               <div className="w-full p-2">
-                <div className="w-full p-2 text-md font-bold">
-                  {`${member.firstname} ${member.lastname}`.slice(0, 16) +
-                    "..."}
-                </div>
+                <Tooltip
+                  content={`${member.firstname} ${member.lastname}`}
+                  style="bg-white border"
+                >
+                  <div className="w-full p-2 text-md font-bold">
+                    {`${member.firstname} ${member.lastname}`.slice(0, 16) +
+                      "..."}
+                  </div>
+                </Tooltip>
+                <Tooltip content={member.email} style="bg-white border">
+                  <div className="w-full p-2 text-sm">
+                    {member.email.slice(0, 15) + "..."}
+                  </div>
+                </Tooltip>
                 <div className="w-full p-2 text-sm">
-                  {member.email.slice(0, 15) + "..."}
+                  {member.phonenumber ? member.phonenumber : "N/A"}
                 </div>
-                <div className="w-full p-2 text-sm">{member.phonenumber?member.phonenumber:"N/A"}</div>
               </div>
               <div className="w-full flex justify-center items-center">
                 <div
