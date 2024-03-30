@@ -73,7 +73,7 @@ export const HeirarchyComponent = (props:Prop) => {
   return (
     <div className="w-full h-[100%] p-4">
       <div className="w-full flex justify-between mb-2">
-        <div className="font-bold text-lg">Members Count ({12})</div>
+        <div className="font-bold text-lg">Members Count ({props?.listallMembers?.length})</div>
         {/*Success and Error Block*/}
         <SuccessBlock blockControl={false} />
         <ErrorBlock blockControl={false} />
