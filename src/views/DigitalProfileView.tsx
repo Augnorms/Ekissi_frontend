@@ -9,9 +9,11 @@ export const DigitalProfileView = () => {
   let params = useParams();
   const [listallMembers, setLisallMembers] = useState<UserDetails[]>([]);
   const [userid, setUserid] = useState<number>(0);
+  const [mainUser, setMainUser] = useState<string | undefined>("");
 
   useEffect(() => {
     params.id && setUserid(Number(Decrypt(params.id)));
+    setMainUser(params?.id && params?.id.split("=")[1]);//checking if the params contains digital
   });
 
 
@@ -39,12 +41,14 @@ export const DigitalProfileView = () => {
           <div className="w-full flex">
             <div className="rounded-md border-r-[3px] border-r-cyan-400 w-[25%] flex">
               <Avatar width={"150"} height={"150"} />
-              <div
-                className="w-10 h-10 rounded-full full shadow-lg relative right-12 z-2 
+              {mainUser === "digital" && (
+                <div
+                  className="w-10 h-10 rounded-full full shadow-lg relative right-12 z-2 
                 flex justify-center items-center border border-cyan-500 hover:scale-[1.2] cursor-pointer"
-              >
-                <img src="/images/editicon.svg" alt="edit-icon" />
-              </div>
+                >
+                  <img src="/images/editicon.svg" alt="edit-icon" />
+                </div>
+              )}
             </div>
             <div className="w-full p-2">
               <p className="w-full text-center text-2xl font-bold underline">
@@ -318,7 +322,8 @@ export const DigitalProfileView = () => {
           </div>
 
           <div className=" grid grid-cols-2 gap-1 mt-4 ">
-            {usersDetails?.occupation && Number(usersDetails.occupation) !== 0  ? (
+            {usersDetails?.occupation &&
+            Number(usersDetails.occupation) !== 0 ? (
               JSON.parse(usersDetails.occupation as any).map(
                 (job: any, index: any) => (
                   <div
@@ -353,7 +358,9 @@ export const DigitalProfileView = () => {
                   <div className="flex justify-center p-4">
                     <img src="/images/emptystat.svg" alt="empty-icon" />
                   </div>
-                  <div className="text-center p-4">No occupation data available</div>
+                  <div className="text-center p-4">
+                    No occupation data available
+                  </div>
                 </div>
               </div>
             )}

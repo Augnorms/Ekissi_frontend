@@ -26,7 +26,7 @@ export const DashboardView = () => {
 
   //handles the digital information of a user by routing to the details page
   const handlechangeDigital = (_e: React.MouseEvent<HTMLDivElement>) => {
-    navigate(`/profile/${Encrypt(_e.currentTarget.id)}`);
+    navigate(`/profile/${Encrypt(_e.currentTarget.id)}digital`);
   };
 
   //tandle the apps component toggle behaviour
@@ -48,7 +48,8 @@ export const DashboardView = () => {
   };
 
   //fetch all members
-    const [listallMembers, setLisallMembers] = useState([]);
+  const [listallMembers, setLisallMembers] = useState([]);
+
   const handleFetchmembers = async () => {
     try {
       const response = await axios.get(import.meta.env.VITE_GET_ALL_MEMBERS);
