@@ -44,6 +44,7 @@ export const DashboardView = () => {
 
     if (e.currentTarget.id === "settings") {
       navigate("/settings");
+      localStorage.removeItem("page");
     }
   };
 

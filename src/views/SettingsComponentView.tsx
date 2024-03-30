@@ -44,6 +44,7 @@ export const SettingsComponent = () => {
         label="Ekissi Family Leanage"
         loginoutlabel={true}
         username={"Augustine Normanyo"}
+        homeicon
       />
       <div className="w-full h-[50px] p-1 shadow-md overflow-y-auto flex gap-2">
         <span

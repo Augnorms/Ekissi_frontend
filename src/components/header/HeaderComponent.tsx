@@ -4,6 +4,7 @@ import { Avatar } from "../reusables/Avatar";
 import { LogoutDialogue } from "../reusables/LogoutDialogue";
 import { useLocation } from "react-router-dom";
 import { AvatarList } from "../reusables/AvatarList";
+import { useNavigate } from "react-router-dom";
 
 export interface HeaderProps {
   logo?: string;
@@ -20,9 +21,11 @@ export interface HeaderProps {
   pagedisplayed?:string;
   displayAppIcon?:boolean;
   displaydropdownIcon?:boolean;
+  homeicon?:boolean
 }
 
 export const HeaderComponent = (props: HeaderProps) => {
+  const navigate = useNavigate();
   const [ismobile, setIsmobile] = useState<boolean>(false);
   const [controlNav, setControlNav] = useState<boolean>(false);
   const [logDialStatus, setlogDialStatus] = useState<boolean>(false);
@@ -161,18 +164,33 @@ export const HeaderComponent = (props: HeaderProps) => {
             </div>
           ) : (
             <div className="w-[200rem] p-2 flex justify-end items-center gap-2">
-
               {/*Dashboard display displayed content*/}
 
-              <div className="w-[80%] text-base p-2 flex justify-between">
-                <div className="w-[50%] text-center font-bold text-md text-cyan-500">{props.pagedisplayed}</div>
-                <div className="w-[50%] flex justify-end">
-                  {props.displayAppIcon && <img
-                    src="/images/appsIcon.svg"
-                    alt="appsi-icon"
+              {props.homeicon && (
+                <div className="flex gap-2">
+                  <p className="text-cyan-400">Home</p>
+                  <img
+                    src="/images/Home.svg"
+                    alt="home-image"
+                    onClick={() => navigate("/dashboard")}
                     className="cursor-pointer"
-                    onClick={props.handleAppToggle}
-                  />}
+                  />
+                </div>
+              )}
+
+              <div className="w-[80%] text-base p-2 flex justify-between">
+                <div className="w-[50%] text-center font-bold text-md text-cyan-500">
+                  {props.pagedisplayed}
+                </div>
+                <div className="w-[50%] flex justify-end">
+                  {props.displayAppIcon && (
+                    <img
+                      src="/images/appsIcon.svg"
+                      alt="appsi-icon"
+                      className="cursor-pointer"
+                      onClick={props.handleAppToggle}
+                    />
+                  )}
                 </div>
               </div>
 
@@ -181,11 +199,13 @@ export const HeaderComponent = (props: HeaderProps) => {
                   <p>{props.username?.split(" ")[0]}</p>
                 </div>
                 <Avatar width={"50"} height={"50"} />
-                {props.displaydropdownIcon && <img
-                  className="cursor-pointer"
-                  src="/images/arrowdown.svg"
-                  onClick={hanldeDisplayLogDiag}
-                />}
+                {props.displaydropdownIcon && (
+                  <img
+                    className="cursor-pointer"
+                    src="/images/arrowdown.svg"
+                    onClick={hanldeDisplayLogDiag}
+                  />
+                )}
               </div>
 
               <LogoutDialogue
@@ -196,6 +216,8 @@ export const HeaderComponent = (props: HeaderProps) => {
                 loggedUserId={props.loggedUserId}
                 show={logDialStatus}
               />
+
+              {/*Dashboard display displayed content*/}
             </div>
           )}
         </div>
