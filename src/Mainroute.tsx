@@ -14,6 +14,7 @@ export const Mainroute = () => {
   const isLoggedIn = Authorisation(); // Check if user is logged in with token
   const navigate = useNavigate();
 
+  //protecting every route with the exception of public routes
   useEffect(() => {
     if (
       !isLoggedIn &&
@@ -35,17 +36,13 @@ export const Mainroute = () => {
         <Route path="/gallery" element={<GalleryView />} />
 
         {/* Protected routes */}
-        {isLoggedIn && (
-          <>
-            <Route path="/dashboard" element={<DashboardView />} />
-            <Route path="/settings" element={<SettingsComponent />} />
-            <Route path="/addmember" element={<AddMembersComponent />} />
-            <Route path="/profile/:id" element={<DigitalProfileView />} />
-          </>
-        )}
+        <Route path="/dashboard" element={<DashboardView />} />
+        <Route path="/settings" element={<SettingsComponent />} />
+        <Route path="/addmember" element={<AddMembersComponent />} />
+        <Route path="/profile/:id" element={<DigitalProfileView />} />
 
         {/* Catch-all route for non-matching paths */}
-        {isLoggedIn && <Route path="*" element={<PageNotFoundView />} />}
+        <Route path="*" element={<PageNotFoundView />} />
       </Routes>
     </div>
   );
