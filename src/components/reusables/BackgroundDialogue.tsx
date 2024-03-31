@@ -26,7 +26,7 @@ export const BackgroundDialogue = ({
         position: "fixed",
         top: status ? "0vh" : "-100vh",
         transition: "top 0.3s ease",
-        zIndex:"2"
+        zIndex:"8"
       }}
     >
       {children}

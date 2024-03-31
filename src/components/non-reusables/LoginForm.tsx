@@ -41,8 +41,7 @@ const handleLogin = async()=>{
     if(response && response?.data?.code === 200){
         clear();
         emitme && emitme(response?.data?.status, false, response?.data?.message); 
-            console.log(response?.data?.message);
-        localStorage.setItem("token", response?.data?.token)
+        localStorage.setItem("token", response?.data?.token);
     }
 
   }catch(err:any){

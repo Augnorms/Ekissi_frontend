@@ -25,7 +25,7 @@ const TableComponent: React.FC<TableProps> = ({
 
   if (items.length === 0) {
     return (
-      <div className="w-full p-2 ">
+      <div className="w-full p-2">
         <table className="min-w-full border border-gray-300">
           <thead className="bg-gray-100">
             <tr>
@@ -49,7 +49,7 @@ const TableComponent: React.FC<TableProps> = ({
   }
 
   return (
-    <div className="overflow-x-auto">
+    <div className="">
       <table className="min-w-full border border-gray-300">
         <thead className="bg-gray-100">
           <tr>

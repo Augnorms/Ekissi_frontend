@@ -6,15 +6,17 @@ import { ManageAboutComponent } from "../components/settings-components/ManageAb
 import { ManageGalleryComponent } from "../components/settings-components/ManageGalleryComponent";
 import axios from "axios";
 import { HeaderComponent } from "../components/header/HeaderComponent";
+import { useJwt } from "react-jwt";
+import { DecodedToken } from "../Interfaces/usersInterface";
+import { LoaderComponent } from "../components/reusables/LoaderComponent";
 
 
 export const SettingsComponent = () => {
-
   const [components, setComponents] = useState<string>(
     localStorage.getItem("component") || "accesslevel",
   );
   const [listallMembers, setLisallMembers] = useState([]);
-
+  const [isLoading, setIsLoading] = useState<boolean>(false);
 
   //handle component displayed in the settings area
   const handleComponents = (event: React.MouseEvent<HTMLSpanElement>) => {
@@ -26,10 +28,13 @@ export const SettingsComponent = () => {
   //fetch all members
   const handleFetchmembers = async () => {
     try {
+      setIsLoading(true);
       const response = await axios.get(import.meta.env.VITE_GET_ALL_MEMBERS);
       setLisallMembers(response?.data?.data);
     } catch (err) {
       console.error(err);
+    }finally{
+      setIsLoading(false);
     }
   };
 
@@ -37,13 +42,22 @@ export const SettingsComponent = () => {
     handleFetchmembers();
   }, []);
 
+  //decode token for users information
+  const token = localStorage.getItem("token") ?? "";
+  const { decodedToken } = useJwt(token) as {
+    decodedToken: DecodedToken | null;
+  };
+
   return (
     <div className="w-full h-[100%] p-2">
+      
+      <LoaderComponent loaderTwo={isLoading} />
+
       <HeaderComponent
         logo="/images/Ekissi2.PNG"
         label="Ekissi Family Leanage"
         loginoutlabel={true}
-        username={"Augustine Normanyo"}
+        username={decodedToken?.fullname}
         homeicon
       />
       <div className="w-full h-[50px] p-1 shadow-md overflow-y-auto flex gap-2">

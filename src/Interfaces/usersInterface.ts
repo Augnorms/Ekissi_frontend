@@ -26,3 +26,16 @@ export type UserDetails = {
   tertiaryeducation: string;
   hometown: string;
 };
+
+export interface DecodedToken {
+  userid: number;
+  fullname: string;
+  email: string;
+  phonenumber: string;
+  dateofbirth: string;
+  gender: string;
+  nationality: string;
+  accesslevel: any; // Adjust the type according to your needs
+  iat: number;
+  exp: number;
+}

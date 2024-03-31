@@ -462,7 +462,7 @@ export const AddMembersComponent = (props: Prop) => {
               onClick={() => handleMouseClick(item.id)}
             />
 
-            <div className="absolute right-28">
+            <div className="absolute right-[30px]">
               {isDropdownOpen && dropDownId === item.id && (
                 <Dropdown
                   onMouseLeave={handleMouseLeave}
@@ -923,7 +923,7 @@ export const AddMembersComponent = (props: Prop) => {
       <BackgroundDialogue status={isShow} backgroundColor="bg-black">
         <div className="w-[70%] h-[600px] bg-white rounded-md mt-2 overflow-auto relative">
           <CloseDiagComp styles="flex justify-end" onClick={handleClose} />
-          <div className="p-10">
+          <div className="p-10 h-[500px]">
             <TableComponent
               headers={headers}
               items={props.listallMembers || []}

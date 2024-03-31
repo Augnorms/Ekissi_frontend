@@ -222,7 +222,7 @@ export const HeaderComponent = (props: HeaderProps) => {
           )}
         </div>
       ) : (
-        <div className="w-full overflow-auto">
+        <div className="w-full">
           {/* Mobile view */}
 
           <div className="w-full font-bold text-base p-1 flex gap-4 shadow-md">
@@ -239,7 +239,7 @@ export const HeaderComponent = (props: HeaderProps) => {
             style={{
               position: "absolute",
               height: "50vh",
-              top: "68px",
+              top: "60px",
               left: controlNav ? "0%" : "-50%",
               transition: "left 0.3s ease",
               zIndex: "20",
@@ -275,7 +275,7 @@ export const HeaderComponent = (props: HeaderProps) => {
 
             <hr />
 
-            <div className="text-base p-2">
+            {/* <div className="text-base p-2">
               <div
                 className="
                   w-[8rem] mt-3 p-2 text-center 
@@ -288,7 +288,7 @@ export const HeaderComponent = (props: HeaderProps) => {
               >
                 {!props.loginoutlabel && "login"}
               </div>
-            </div>
+            </div> */}
           </div>
         </div>
       )}

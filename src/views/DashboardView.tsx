@@ -8,8 +8,12 @@ import { MembersComponent } from "../components/non-reusables/MembersComponent";
 import { useNavigate } from "react-router-dom";
 import { Encrypt } from "../components/helperfunctions/functions";
 import axios from "axios";
+import { useJwt } from "react-jwt";
+import { DecodedToken } from "../Interfaces/usersInterface";
+import { LoaderComponent } from "../components/reusables/LoaderComponent";
 
 export const DashboardView = () => {
+
   const [_openApps, setOpenApps] = useState<boolean>(false);
   const [page, setPage] = useState<string>(
     localStorage.getItem("page") || "dashboard",
@@ -52,13 +56,17 @@ export const DashboardView = () => {
 
   //fetch all members
   const [listallMembers, setLisallMembers] = useState([]);
+  const [isLoading, setIsLoading] = useState<boolean>(false);
 
   const handleFetchmembers = async () => {
     try {
+      setIsLoading(true);
       const response = await axios.get(import.meta.env.VITE_GET_ALL_MEMBERS);
       setLisallMembers(response?.data?.data);
     } catch (err) {
       console.error(err);
+    }finally{
+      setIsLoading(false);
     }
   };
 
@@ -66,15 +74,25 @@ export const DashboardView = () => {
     handleFetchmembers();
   }, []);
 
+  //decode token for users information
+  const token = localStorage.getItem("token") ?? "";
+  const { decodedToken } = useJwt(token) as {
+    decodedToken: DecodedToken | null;
+  };
+
+
   return (
     <>
-      <div className="w-full h-screen ">
+    
+      <LoaderComponent loaderTwo={isLoading} />
+
+      <div className="  w-full h-screen ">
         <HeaderComponent
           logo="/images/Ekissi2.PNG"
           label="Ekissi Family Leanage"
           loginoutlabel={true}
-          loggedUserId={"1"}
-          username={"Augustine Normanyo"}
+          loggedUserId={String(decodedToken?.userid)}
+          username={decodedToken?.fullname}
           handlechangeLogout={handlechangeLogout}
           handlechangeDigital={handlechangeDigital}
           handleAppToggle={handleAppToggle}

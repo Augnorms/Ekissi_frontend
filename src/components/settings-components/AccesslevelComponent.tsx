@@ -381,20 +381,22 @@ export const AccesslevelComponent = (props:Prop) => {
             onClick={handleClose}
           />
 
-          <TableComponent
-            headers={headers}
-            items={[
-              {
-                id: 1,
-                name: "new access",
-                members: [
-                  { id: "1", logo: "", initials: "Augustine Normanyo" },
-                  { id: "2", logo: "", initials: "Judith Quaye" },
-                ],
-              },
-            ]}
-            renderCellContent={renderCellContent}
-          />
+          <div className="p-10">
+            <TableComponent
+              headers={headers}
+              items={[
+                {
+                  id: 1,
+                  name: "new access",
+                  members: [
+                    { id: "1", logo: "", initials: "Augustine Normanyo" },
+                    { id: "2", logo: "", initials: "Judith Quaye" },
+                  ],
+                },
+              ]}
+              renderCellContent={renderCellContent}
+            />
+          </div>
         </div>
       </BackgroundDialogue>
     </div>
