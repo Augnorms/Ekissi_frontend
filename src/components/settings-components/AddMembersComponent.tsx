@@ -36,6 +36,7 @@ type Prop = {
 
 export const AddMembersComponent = (props: Prop) => {
   const navigate = useNavigate();
+  const [memberid, setMemberid] = useState<number>(0);
   const [firstname, setFirstname] = useState<string>("");
   const [lastname, setLastname] = useState<string>("");
   const [email, setEmail] = useState<string>("");
@@ -63,6 +64,8 @@ export const AddMembersComponent = (props: Prop) => {
   const [blockMessage, setBlockMessage] = useState<string>("");
   const [emitStatus, setEmitStatus] = useState<string>("");
   const [editOccupation, setEditOccupation] = useState<transformData[]>([]);
+  const [popupdelete, setPopupdelete] = useState<boolean>(false);
+  const [delete_id, setDelete_id] = useState<number>(0);
 
   const handleChange = (event: React.ChangeEvent<HTMLInputElement>) => {
     const value = event.currentTarget.value;
@@ -185,13 +188,11 @@ export const AddMembersComponent = (props: Prop) => {
       },
     ]);
   };
- 
+
   //removal of input arrays
   const handleRemoveFieldCopy = () => {
     setInputs((prevInputs) => prevInputs.slice(0, prevInputs.length - 4));
   };
-
-
 
   //handles the change for every inputs
   const handleCopyChange = (
@@ -317,28 +318,87 @@ export const AddMembersComponent = (props: Prop) => {
   };
 
   //edit mutation code here
+  const handleEditOfMember = async () => {
+    try {
+      setIsLoading(true);
 
-  const handleEditOfMember = async()=>{
-    console.log({
-      firstname: firstname,
-      lastName: lastname,
-      email: email,
-      gender: gender,
-      dateofbirth: dateOfBirth,
-      placeofbirth: placeOfBirth,
-      occupation: selectedOccupation,
-      nationality: nationality,
-      phonenumber: phoneNumber,
-      mothersname: mothersName,
-      fathersname: fathersName,
-      maritalstatus: maritalStatus,
-      numberofchildren: numberOfChildren,
-      primaryeducation: primaryEducation,
-      secondaryeducation: secondaryEducation,
-      tertiaryeducation: tertiaryEducation,
-      hometown: hometown,
-    });
-  }
+      let response = await axios.put(import.meta.env.VITE_UPDATE_ENDPOINT, {
+        updated_id: memberid,
+        firstname: firstname,
+        lastName: lastname,
+        email: email,
+        gender: gender,
+        dateofbirth: dateOfBirth,
+        placeofbirth: placeOfBirth,
+        occupation: selectedOccupation,
+        nationality: nationality,
+        phonenumber: phoneNumber,
+        mothersname: mothersName,
+        fathersname: fathersName,
+        maritalstatus: maritalStatus,
+        numberofchildren: numberOfChildren,
+        primaryeducation: primaryEducation,
+        secondaryeducation: secondaryEducation,
+        tertiaryeducation: tertiaryEducation,
+        hometown: hometown,
+      });
+
+      if (response && response?.data?.code === 200) {
+        setSuccessBlockStatus(true);
+        setBlockMessage(response?.data?.message);
+        setTimeout(() => {
+          setSuccessBlockStatus(false);
+          setBlockMessage("");
+          props.refetch && props.refetch();
+        }, 3000);
+        resetStates();
+      }
+    } catch (error: any) {
+      console.error(error);
+      setErrorBlockStatus(true);
+      setBlockMessage(error.message);
+      setTimeout(() => {
+        setErrorBlockStatus(false);
+      }, 3000);
+    } finally {
+      setIsLoading(false);
+    }
+  };
+
+  //handle delete mutations here....
+  const handleDelete = async () => {
+    try {
+      setIsLoading(true);
+
+      let response = await axios.post(
+        import.meta.env.VITE_DELETE_MEMBER_ENDPOINT,
+        {
+          user_id: delete_id,
+        },
+      );
+
+      if (response && response?.data?.code === 200) {
+        setSuccessBlockStatus(true);
+        setBlockMessage(response?.data?.message);
+        setTimeout(() => {
+          setSuccessBlockStatus(false);
+          setBlockMessage("");
+          props.refetch && props.refetch();
+        }, 3000);
+        resetStates();
+      }
+    } catch (error: any) {
+      console.error(error);
+      setErrorBlockStatus(true);
+      setBlockMessage(error.message);
+      setTimeout(() => {
+        setErrorBlockStatus(false);
+      }, 3000);
+    } finally {
+      setIsLoading(false);
+      setPopupdelete(false);
+    }
+  };
 
   //clear
   const resetStates = () => {
@@ -380,9 +440,9 @@ export const AddMembersComponent = (props: Prop) => {
 
   const [isShow, setIsShow] = useState<boolean>(false);
 
-  const handleClose = ()=>{
+  const handleClose = () => {
     setIsShow(!isShow);
-  }
+  };
 
   const headers = [
     { key: "Firstname", label: "Firstname" },
@@ -392,6 +452,10 @@ export const AddMembersComponent = (props: Prop) => {
     { key: "Hometown", label: "Hometown" },
     { key: "action", label: "Actions" },
   ];
+
+  const handleCancelDiag = () => {
+    setPopupdelete(false);
+  };
 
   const renderCellContent = (headerKey: string, item: Record<string, any>) => {
     switch (headerKey) {
@@ -413,7 +477,7 @@ export const AddMembersComponent = (props: Prop) => {
       case "action":
         function emitAction(_id: string | number, _label: string): void {
           // handling action emit
- 
+
           if (_label === "Edit") {
             setEmitStatus(_label);
             const member = props.listallMembers?.find(
@@ -421,6 +485,7 @@ export const AddMembersComponent = (props: Prop) => {
             );
 
             if (member) {
+              setMemberid(Number(member.id));
               setFirstname(member.firstname.toString());
               setLastname(member.lastname);
               setEmail(member.email);
@@ -444,11 +509,17 @@ export const AddMembersComponent = (props: Prop) => {
               );
               handleClose(); //closes the table display
               setInputs([]); //clears the empty fileds populated in the input array for occupation
-            }          
+            }
           }
 
-          if(_label === 'View'){
+          if (_label === "View") {
             navigate(`/profile/${Encrypt(_id.toString())}`);
+            handleClose(); //closes the table display
+          }
+
+          if (_label === "Delete") {
+            setPopupdelete(true);
+            setDelete_id(Number(_id));
             handleClose(); //closes the table display
           }
         }
@@ -501,7 +572,13 @@ export const AddMembersComponent = (props: Prop) => {
     <>
       <SuccessBlock blockControl={successBlockStatus} message={blockMessage} />
       <ErrorBlock blockControl={errorBlockStatus} message={blockMessage} />
-      <DeleteDialogue popup={false}/>
+      <DeleteDialogue
+        text={`(user_id ${delete_id})`}
+        popup={popupdelete}
+        loading={isLoading}
+        onCancel={handleCancelDiag}
+        onDelete={handleDelete}
+      />
       <div className="w-full bg-white p-2 text-center font-bold text-xl">
         {emitStatus === "Edit" ? "Edit Member Form" : "Add Member Form"}
       </div>
