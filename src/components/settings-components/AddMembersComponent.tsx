@@ -11,7 +11,7 @@ import { useNavigate } from "react-router-dom";
 import { SuccessBlock } from "../reusables/SuccessBlock";
 import { ErrorBlock } from "../reusables/ErrorBlock";
 import { Encrypt } from "../helperfunctions/functions";
-
+import { DeleteDialogue } from "../reusables/DeleteDialogue";
 
 interface transformData {
   nameofcompany: string;
@@ -501,6 +501,7 @@ export const AddMembersComponent = (props: Prop) => {
     <>
       <SuccessBlock blockControl={successBlockStatus} message={blockMessage} />
       <ErrorBlock blockControl={errorBlockStatus} message={blockMessage} />
+      <DeleteDialogue popup={false}/>
       <div className="w-full bg-white p-2 text-center font-bold text-xl">
         {emitStatus === "Edit" ? "Edit Member Form" : "Add Member Form"}
       </div>

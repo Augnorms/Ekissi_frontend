@@ -27,6 +27,11 @@ const handleChange = (e:React.ChangeEvent<HTMLInputElement>)=>{
     }
 };
 
+const[showPassword, setShowPassword] = useState<boolean>(false);
+const handleshowpassword=()=>{
+   setShowPassword(!showPassword);
+}
+
 //handle login routes
 const handleLogin = async()=>{
   try{
@@ -93,7 +98,7 @@ const clear = () => {
 
       <div className="w-full flex mb-3">
         <Inputs
-          type="password"
+          type={showPassword?"text":"password"}
           style="w-full 
            border-2
            border-cyan-300
@@ -112,6 +117,7 @@ const clear = () => {
           placeholder="Enter your password..."
           value={password}
           onChange={handleChange}
+          onShowpass={handleshowpassword}
         />
       </div>
 
@@ -131,10 +137,7 @@ const clear = () => {
           buttonLabel="Signin"
           className="border w-full p-2 
           rounded-xl text-white bg-cyan-400"
-          disabled={
-            username==""||
-            password==""
-          }
+          disabled={username == "" || password == ""}
           loading={isLoading}
           onClick={handleLogin}
         />
