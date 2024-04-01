@@ -2,7 +2,7 @@ type RadioInterface = {
   style: string;
   labelStyle: string;
   label?: string;
-  fieldid: string;
+  id: string;
   isChecked?: boolean;
   onSelect: (event: React.ChangeEvent<HTMLInputElement>) => void;
 };
@@ -14,13 +14,13 @@ export const Checkbox = (props: RadioInterface) => {
         <input
           type="checkbox"
           className={props.style}
-          id={props.fieldid}
+          id={props.id}
           checked={props.isChecked}
           onChange={props.onSelect}
         />
       </div>
       <div className={props.labelStyle}>
-        <label htmlFor={props.fieldid}>{props.label}</label>
+        <label htmlFor={props.id}>{props.label}</label>
       </div>
     </div>
   );

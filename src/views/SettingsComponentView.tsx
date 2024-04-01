@@ -17,6 +17,7 @@ export const SettingsComponent = () => {
   );
   const [listallMembers, setLisallMembers] = useState([]);
   const [isLoading, setIsLoading] = useState<boolean>(false);
+  const [listallAccessLevel, setListallaccessLevel] = useState([]);
 
   //handle component displayed in the settings area
   const handleComponents = (event: React.MouseEvent<HTMLSpanElement>) => {
@@ -38,8 +39,25 @@ export const SettingsComponent = () => {
     }
   };
 
+  //fetch all access level
+  const handleFetchallaccessLevels = async ()=>{
+    try{
+      setIsLoading(true);
+      const response = await axios.get(
+        import.meta.env.VITE_GET_ALL_ACCESS_LEVEL,
+      );
+      console.log(response?.data?.data)
+      setListallaccessLevel(response?.data?.data);
+    }catch(err){
+     console.error(err);
+    }finally{
+      setIsLoading(false);
+    }
+  };
+
   useEffect(() => {
     handleFetchmembers();
+    handleFetchallaccessLevels();
   }, []);
 
   //decode token for users information
@@ -50,7 +68,6 @@ export const SettingsComponent = () => {
 
   return (
     <div className="w-full h-[100%] p-2">
-      
       <LoaderComponent loaderTwo={isLoading} />
 
       <HeaderComponent
@@ -113,7 +130,10 @@ export const SettingsComponent = () => {
           refetch={handleFetchmembers}
         />
       ) : components === "accesslevel" ? (
-        <AccesslevelComponent listallMembers={listallMembers} />
+        <AccesslevelComponent
+          listallMembers={listallMembers}
+          listallaccesslevel={listallAccessLevel}
+        />
       ) : components === "userverification" ? (
         <UserVerificationComponent />
       ) : components === "manageabout" ? (

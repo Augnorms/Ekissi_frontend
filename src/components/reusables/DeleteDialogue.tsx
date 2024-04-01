@@ -31,7 +31,7 @@ export const DeleteDialogue = (props:Props) => {
               <Button
                 buttonLabel="Delete"
                 className="border w-fit p-2 
-            rounded-xl text-white bg-cyan-400"
+                 rounded-xl text-white bg-cyan-400"
                 disabled={props.disabled}
                 loading={props.loading}
                 onClick={props.onDelete}
@@ -40,7 +40,7 @@ export const DeleteDialogue = (props:Props) => {
               <Button
                 buttonLabel="Cancel"
                 className="border w-fit p-2 
-            rounded-xl text-white bg-red-400"
+                rounded-xl text-white bg-red-400"
                 onClick={props.onCancel}
               />
             </div>
@@ -48,7 +48,7 @@ export const DeleteDialogue = (props:Props) => {
         </div>)
         :(
             <div>
-                
+
             </div>
         )
       }

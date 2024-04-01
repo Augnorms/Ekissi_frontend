@@ -12,6 +12,7 @@ interface Props {
   clear?: boolean;
   required?: boolean;
   label?: string;
+  updateOptions?: { id: number | string; label: string }[];//handle updates
 }
 
 export const Multiselect = (prop: Props) => {
@@ -93,6 +94,14 @@ export const Multiselect = (prop: Props) => {
     });
     setFilteredData(filtered);
   }, [search, data]);
+
+  //this part is to handle updates
+  useEffect(() => {
+    if (prop.updateOptions?.length && prop.updateOptions?.length > 0) {
+      setSelectedOptions(prop.updateOptions || []);
+      setOpenClose(true);
+    }
+  }, []);
 
   return (
     <>
