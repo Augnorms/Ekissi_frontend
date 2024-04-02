@@ -46,7 +46,6 @@ export const SettingsComponent = () => {
       const response = await axios.get(
         import.meta.env.VITE_GET_ALL_ACCESS_LEVEL,
       );
-      console.log(response?.data?.data)
       setListallaccessLevel(response?.data?.data);
     }catch(err){
      console.error(err);
@@ -133,6 +132,7 @@ export const SettingsComponent = () => {
         <AccesslevelComponent
           listallMembers={listallMembers}
           listallaccesslevel={listallAccessLevel}
+          refetch={handleFetchallaccessLevels}
         />
       ) : components === "userverification" ? (
         <UserVerificationComponent />

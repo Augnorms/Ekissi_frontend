@@ -11,6 +11,8 @@ import { AvatarList } from "../reusables/AvatarList";
 import axios from "axios";
 import { SuccessBlock } from "../reusables/SuccessBlock";
 import { ErrorBlock } from "../reusables/ErrorBlock";
+import Dropdown from "../reusables/ActionComponent";
+import { DeleteDialogue } from "../reusables/DeleteDialogue";
 
 interface ListMembers {
   [x: string]: string | number;
@@ -42,7 +44,6 @@ interface AccessLevel {
   users: { id: number; name: string }[];
 }
 
-
 type Prop = {
   listallMembers?: ListMembers[];
   listallaccesslevel?: AccessLevel[];
@@ -50,6 +51,8 @@ type Prop = {
 };
 
 export const AccesslevelComponent = (props: Prop) => {
+  const [updateid, setUpdatieid] = useState<number>(0);
+  const [deleteid, setdeleteid] = useState<number>(0);
   const [accesslevename, setAccesslevelname] = useState<string>("");
   const [accessleveldescription, setAccessleveldescription] =
     useState<string>("");
@@ -73,13 +76,15 @@ export const AccesslevelComponent = (props: Prop) => {
   const [manageBioView, setManageBioView] = useState<boolean>(false);
   const [manageBioManage, setManageBioManage] = useState<boolean>(false);
   const [assignedMembers, setAssignedMembers] = useState<
-    { id: string | number; label: string }[]
+    { id: string | number; label: string }[] | { id: number; name: string }[]
   >([]);
 
+  const [popupdelete, setPopupdelete] = useState<boolean>(false);
   const [successStatus, setSuccessStatus] = useState<boolean>(false);
   const [errorStatus, setErrorStatus] = useState<boolean>(false);
   const [blockMessage, setBlockMessage] = useState<string>("");
   const [isLoading, setIsLoading] = useState<boolean>(false);
+  const [editmode, setEditMode] = useState<boolean>(false);
 
   const members = props?.listallMembers?.map((data) => {
     return {
@@ -89,11 +94,27 @@ export const AccesslevelComponent = (props: Prop) => {
   });
 
   //table content here..
+  const [isDropdownOpen, setIsDropdownOpen] = useState(false);
+  const [dropDownId, setDropDownId] = useState<number>(0);
+  const handleMouseClick = (param: number) => {
+    setIsDropdownOpen(true);
+    setDropDownId(param);
+  };
+
+  const handleMouseLeave = () => {
+    setIsDropdownOpen(false);
+  };
+
+  const handleCancelDiag = () => {
+    setPopupdelete(false);
+  };
+
   const headers = [
     { key: "accesslevelname", label: "Accesslevelname" },
     { key: "members", label: "Members" },
     { key: "action", label: "Action" },
   ];
+
   const renderCellContent = (headerKey: string, item: Record<string, any>) => {
     switch (headerKey) {
       case "accesslevelname":
@@ -101,27 +122,17 @@ export const AccesslevelComponent = (props: Prop) => {
 
       case "members":
         if (Array.isArray(item.users)) {
-          let sliceFirstIdx = 0;
-          let sliceSecondIdx = 2;
-
-          if (item.users.length > 2) {
-            sliceFirstIdx = 0;
-            sliceSecondIdx = item.users.length;
-          }
-
           return (
             <div className="whitespace-nowrap">
               <AvatarList
-                avatarArray={item.users
-                  .slice(sliceFirstIdx, sliceSecondIdx)
-                  .map((member: any) => ({
-                    logo: "",
-                    initials: member.label,
-                  }))}
+                avatarArray={item.users.map((member: any) => ({
+                  logo: "",
+                  initials: member.label,
+                }))}
                 width="35"
                 height="35"
-                sliceFirstIdx={sliceFirstIdx}
-                sliceSecondIdx={sliceSecondIdx}
+                sliceFirstIdx={0}
+                sliceSecondIdx={2}
               />
             </div>
           );
@@ -129,14 +140,76 @@ export const AccesslevelComponent = (props: Prop) => {
         break;
 
       case "action":
-        function emitAction(_id: string | number, _label: string): void {}
+        function emitAction(_id: string | number, _label: string): void {
+          if (_label === "Edit") {
+            const foundAccessLevel = props.listallaccesslevel?.find(
+              (access) => access.id === _id,
+            );
+            if (foundAccessLevel) {
+              setUpdatieid(foundAccessLevel.id);
+              setAccesslevelname(foundAccessLevel.accesslevelname);
+              setAccessleveldescription(
+                foundAccessLevel.accessleveldescription,
+              );
+              setAccesslevelView(foundAccessLevel.AccesslevelView);
+              setAccesslevelManage(foundAccessLevel.AccesslevelManage);
+              setUserverificationView(foundAccessLevel.UserverificationView);
+              setUserverificationManage(
+                foundAccessLevel.UserverificationManage,
+              );
+              setAddMembersView(foundAccessLevel.AddmembersView);
+              setAddMembersManage(foundAccessLevel.AddmembersManage);
+              setManageAboutView(foundAccessLevel.ManageaboutView);
+              setManageAboutViewManage(foundAccessLevel.ManageaboutViewManage);
+              setManageGalleryView(foundAccessLevel.ManagegalleryView);
+              setManageGalleryManage(foundAccessLevel.ManagegalleryManage);
+              setManageAccountView(foundAccessLevel.ManageaccountView);
+              setManageAccountManage(foundAccessLevel.ManageaccountManage);
+              setManageBioView(foundAccessLevel.ManagebioView);
+              setManageBioManage(foundAccessLevel.ManagebioManage);
+              setAssignedMembers(foundAccessLevel.users);
+              setIsOpen(false);
+              setEditMode(true);
+            }
+          }
+
+          if (_label === "Delete") {
+            setPopupdelete(true);
+            setdeleteid(Number(_id));
+          }
+        }
 
         return (
-          <img
-            src="/images/flatEclipse.svg"
-            alt="eclipse"
-            className="cursor-pointer"
-          />
+          <div className="whitespace-nowrap">
+            <img
+              src="/images/flatEclipse.svg"
+              alt="eclipse"
+              className="cursor-pointer"
+              onClick={() => handleMouseClick(item.id)}
+            />
+            <div className="absolute right-[60px]">
+              {isDropdownOpen && dropDownId === item.id && (
+                <Dropdown
+                  onMouseLeave={handleMouseLeave}
+                  dropdownItems={[
+                    {
+                      id: item.id,
+                      image: "/images/editicon.svg",
+                      label: "Edit",
+                      dataCy: "edit",
+                    },
+                    {
+                      id: item.id,
+                      image: "/images/delete.svg",
+                      label: "Delete",
+                      dataCy: "delete",
+                    },
+                  ]}
+                  emitAction={emitAction}
+                />
+              )}
+            </div>
+          </div>
         );
     }
   };
@@ -207,53 +280,139 @@ export const AccesslevelComponent = (props: Prop) => {
   };
 
   //handle creating access level here
-  const handleaccesslevelcreation = async()=>{
-   try{
-    setIsLoading(true);
-    const result = await axios.post(import.meta.env.VITE_CREATE_ACCESS_LEVEL, {
-      accesslevelname: accesslevename,
-      accessleveldescription: accessleveldescription,
-      AccesslevelView: accesslevelView,
-      AccesslevelManage: accesslevelManage,
-      UserverificationView: userverificationManage,
-      UserverificationManage: userverificationManage,
-      AddmembersView: addMembersView,
-      AddmembersManage: addMembersManage,
-      ManageaboutView: manageAboutView,
-      ManageaboutViewManage: manageAboutViewManage,
-      ManagegalleryView: manageGalleryView,
-      ManagegalleryManage: manageGalleryManage,
-      ManageaccountView: manageAccountView,
-      ManageaccountManage: manageAccountManage,
-      ManagebioView: manageBioView,
-      ManagebioManage: manageBioManage,
-      users: assignedMembers,
-    });
+  const handleaccesslevelcreation = async () => {
+    try {
+      setIsLoading(true);
+      const result = await axios.post(
+        import.meta.env.VITE_CREATE_ACCESS_LEVEL,
+        {
+          accesslevelname: accesslevename,
+          accessleveldescription: accessleveldescription,
+          AccesslevelView: accesslevelView,
+          AccesslevelManage: accesslevelManage,
+          UserverificationView: userverificationManage,
+          UserverificationManage: userverificationManage,
+          AddmembersView: addMembersView,
+          AddmembersManage: addMembersManage,
+          ManageaboutView: manageAboutView,
+          ManageaboutViewManage: manageAboutViewManage,
+          ManagegalleryView: manageGalleryView,
+          ManagegalleryManage: manageGalleryManage,
+          ManageaccountView: manageAccountView,
+          ManageaccountManage: manageAccountManage,
+          ManagebioView: manageBioView,
+          ManagebioManage: manageBioManage,
+          users: assignedMembers,
+        },
+      );
 
-    if (result && result.data.code === 200) {
-      setSuccessStatus(true);
-       setBlockMessage(result.data.message);
+      if (result && result.data.code === 200) {
+        setSuccessStatus(true);
+        setBlockMessage(result.data.message);
+        setTimeout(() => {
+          setSuccessStatus(false);
+          setBlockMessage("");
+          props.refetch && props.refetch();
+        }, 3000);
+      }
+      resetStates();
+    } catch (error: any) {
+      setErrorStatus(true);
+      setBlockMessage(error.message);
       setTimeout(() => {
-        setSuccessStatus(false);
+        setErrorStatus(false);
         setBlockMessage("");
       }, 3000);
+    } finally {
+      setIsLoading(false);
     }
-   resetStates();
+  };
 
-   }catch(error:any){
-    setErrorStatus(true);
-    setBlockMessage(error.message);
-    setTimeout(()=>{
-       setErrorStatus(false);
-       setBlockMessage("")
-    },3000)
+  //handling edit mutation of access level
+  const handleEditaccesslevel = async () => {
+    try {
+      setIsLoading(true);
 
-   }finally{
-    setIsLoading(false);
-   }
-  }
+      let response = await axios.put(import.meta.env.VITE_UPDATE_ACCESS_LEVEL, {
+        update_id: updateid,
+        accesslevelname: accesslevename,
+        accessleveldescription: accessleveldescription,
+        AccesslevelView: accesslevelView,
+        AccesslevelManage: accesslevelManage,
+        UserverificationView: userverificationManage,
+        UserverificationManage: userverificationManage,
+        AddmembersView: addMembersView,
+        AddmembersManage: addMembersManage,
+        ManageaboutView: manageAboutView,
+        ManageaboutViewManage: manageAboutViewManage,
+        ManagegalleryView: manageGalleryView,
+        ManagegalleryManage: manageGalleryManage,
+        ManageaccountView: manageAccountView,
+        ManageaccountManage: manageAccountManage,
+        ManagebioView: manageBioView,
+        ManagebioManage: manageBioManage,
+        users: assignedMembers,
+      });
+
+      if (response && response.data.code === 200) {
+        setSuccessStatus(true);
+        setBlockMessage(response.data.message);
+        setTimeout(() => {
+          setSuccessStatus(false);
+          setBlockMessage("");
+          props.refetch && props.refetch();
+        }, 3000);
+      }
+      resetStates();
+    } catch (error: any) {
+      setErrorStatus(true);
+      setBlockMessage(error.message);
+      setTimeout(() => {
+        setErrorStatus(false);
+        setBlockMessage("");
+      }, 3000);
+    } finally {
+      setIsLoading(false);
+    }
+  };
+
+  //handle delete dialog
+  const handleDelete = async () => {
+    try {
+      setIsLoading(true);
+
+      let response = await axios.post(
+        import.meta.env.VITE_DELETE_ACCESS_LEVEL,
+        {
+          user_id: deleteid,
+        },
+      );
+
+      if (response && response.data.code === 200) {
+        setSuccessStatus(true);
+        setBlockMessage(response.data.message);
+        setTimeout(() => {
+          setSuccessStatus(false);
+          setPopupdelete(false); //this for delete dialogue
+          setIsOpen(false);//for table
+          setBlockMessage("");
+          props.refetch && props.refetch();
+        }, 3000);
+      }
+    } catch (error: any) {
+      setErrorStatus(true);
+      setBlockMessage(error.message);
+      setTimeout(() => {
+        setErrorStatus(false);
+        setBlockMessage("");
+      }, 3000);
+    } finally {
+      setIsLoading(false);
+    }
+  };
 
   const [clearMulti, setClearMulti] = useState<boolean>(false);
+
   const resetStates = () => {
     setAccesslevelname("");
     setAccessleveldescription("");
@@ -272,19 +431,26 @@ export const AccesslevelComponent = (props: Prop) => {
     setManageBioView(false);
     setManageBioManage(false);
     setAssignedMembers([]);
-    setClearMulti(!clearMulti);
+    setClearMulti(false);
   };
 
   return (
     <>
       <SuccessBlock blockControl={successStatus} message={blockMessage} />
       <ErrorBlock blockControl={errorStatus} message={blockMessage} />
+      <DeleteDialogue
+        text="this access level"
+        popup={popupdelete}
+        loading={isLoading}
+        onCancel={handleCancelDiag}
+        onDelete={handleDelete}
+      />
 
       <div className="w-full  bg-slate-100 p-5">
         <div className="w-full grid grid-cols-3 h-[80vh] shadow-xl gap-1">
           <div className="w-full bg-white overflow-auto">
             <div className="p-2 font-bold underline text-xl">
-              Create Access Level
+              {editmode ? "Edit Access Level" : "Create Access Level"}
             </div>
 
             <div className=" p-2">
@@ -329,7 +495,7 @@ export const AccesslevelComponent = (props: Prop) => {
 
           <div className="w-full p-2 overflow-auto">
             <div className="p-2 font-bold underline text-md">
-              Manage Access Level
+              {editmode ? "Edit Manage Access Level" : "Manage Access Level"}
             </div>
             <div className="w-full flex">
               <div className="text-sm font-bold w-1/2 pl-2">Access level</div>
@@ -581,8 +747,17 @@ export const AccesslevelComponent = (props: Prop) => {
 
           <div className="w-full bg-white p-2 overflow-auto">
             <div className="text-sm font-bold w-full mb-5 flex justify-between">
-              <div className="underline flex items-center">Assign Members</div>
+              <div className="underline flex items-center">
+                {editmode ? "Edit Assign Members" : "Assign Members"}
+              </div>
               <div className="flex gap-2">
+                <Button
+                  buttonLabel="Cancel"
+                  className="border w-full p-2 
+                rounded text-white bg-red-600"
+                  onClick={resetStates}
+                />
+
                 <Button
                   buttonLabel="table"
                   className="border w-full p-2 
@@ -591,12 +766,14 @@ export const AccesslevelComponent = (props: Prop) => {
                 />
 
                 <Button
-                  buttonLabel="create"
+                  buttonLabel={editmode ? "update" : "create"}
                   className="border w-full p-2 
                   rounded text-white bg-cyan-400"
                   loading={isLoading}
                   disabled={accesslevename === ""}
-                  onClick={handleaccesslevelcreation}
+                  onClick={
+                    editmode ? handleEditaccesslevel : handleaccesslevelcreation
+                  }
                 />
               </div>
             </div>
@@ -623,7 +800,7 @@ export const AccesslevelComponent = (props: Prop) => {
             <div className="p-10">
               <TableComponent
                 headers={headers}
-                items={props.listallaccesslevel||[]}
+                items={props.listallaccesslevel || []}
                 renderCellContent={renderCellContent}
               />
             </div>

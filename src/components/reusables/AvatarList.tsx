@@ -58,7 +58,7 @@ export const AvatarList = ({
 
       {avatarArray && sliceSecondIdx < avatarArray.length && (
         <div
-          className={`w-${width} h-${height} rounded-full flex justify-center items-center shadow-lg bg-slate-200`}
+          className={`w-${width} h-${height} rounded-full flex justify-center items-center shadow-lg bg-slate-200 p-1`}
         >
           +{avatarArray.length - sliceSecondIdx}
         </div>

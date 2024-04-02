@@ -1,4 +1,4 @@
-import { useEffect, useState } from "react";
+import { useEffect, useLayoutEffect, useState } from "react";
 import { Inputs } from "./Inputs";
 
 interface Props {
@@ -12,7 +12,9 @@ interface Props {
   clear?: boolean;
   required?: boolean;
   label?: string;
-  updateOptions?: { id: number | string; label: string }[];//handle updates
+  updateOptions?:
+    | { id: number | string; label: string }[]
+    | { id: number; name: string }[]; //handle updates
 }
 
 export const Multiselect = (prop: Props) => {
@@ -96,12 +98,12 @@ export const Multiselect = (prop: Props) => {
   }, [search, data]);
 
   //this part is to handle updates
-  useEffect(() => {
-    if (prop.updateOptions?.length && prop.updateOptions?.length > 0) {
-      setSelectedOptions(prop.updateOptions || []);
-      setOpenClose(true);
-    }
-  }, []);
+useLayoutEffect(() => {
+  if (prop.updateOptions?.length && prop.updateOptions?.length > 0) {
+    setSelectedOptions(prop.updateOptions || []);
+    setOpenClose(true);
+  }
+}, [prop.updateOptions]);
 
   return (
     <>

@@ -9,7 +9,7 @@ export const ErrorBlock = (props: ErrorInterface) => {
     <div
       className={
         props.blockControl == true
-          ? "max-sm:w-full md:w-[80%] lg:w-[20%] flex border border-[red] shadow-xl  fixed top-1 right-[2%] transition-all duration-300 z-10"
+          ? "max-sm:w-full md:w-[80%] lg:w-[30%] flex border border-[red] shadow-xl  fixed top-1 right-[2%] transition-all duration-300 z-10"
           : "max-sm:w-full md:w-[80%] lg:w-[40%] flex shadow-xl  fixed top-1 right-[-100%] transition-all duration-300 z-50"
       }
     >

@@ -22,7 +22,7 @@ const Dropdown: React.FC<DropdownProps> = ({
 
       {dropdownItems.map((item, index) => (
         <a
-          href="javascript:void(0);"
+          href="#"
           className="flex p-[10px] text-center rounded"
           key={index}
           data-cy={item.dataCy}
