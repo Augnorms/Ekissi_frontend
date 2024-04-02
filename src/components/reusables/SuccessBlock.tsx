@@ -1,4 +1,4 @@
-import { useEffect } from "react";
+
 import { IoCheckmarkCircleOutline } from "react-icons/io5";
 type SuccessInterface = {
   blockControl: boolean;
