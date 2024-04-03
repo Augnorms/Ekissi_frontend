@@ -9,7 +9,7 @@ interface Props {
 export const FooterComponent = (prop: Props,) => {
   const { logo, arrayofmediaicons } = prop;
   return (
-    <div className="w-full p-2 bg-zinc-100 mt-20 sm: lg:h-[200px]">
+    <div className="w-full p-2 bg-zinc-100 sm: lg:h-[200px]">
       <div className="max-sm:flex-wrap sm:flex-wrap lg:flex">
         <div className="flex justify-center items-center lg:w-[30%] h-[160px]">
           <Avatar logo={logo} />

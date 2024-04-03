@@ -18,6 +18,8 @@ export const SettingsComponent = () => {
   const [listallMembers, setLisallMembers] = useState([]);
   const [isLoading, setIsLoading] = useState<boolean>(false);
   const [listallAccessLevel, setListallaccessLevel] = useState([]);
+  const [aboutcontent, setAboutcontent] = useState<string>("");
+  const [aboutcontentid, setAboutcontentid] = useState<number>(0);
 
   //handle component displayed in the settings area
   const handleComponents = (event: React.MouseEvent<HTMLSpanElement>) => {
@@ -57,6 +59,25 @@ export const SettingsComponent = () => {
   useEffect(() => {
     handleFetchmembers();
     handleFetchallaccessLevels();
+  }, []);
+
+  //About content query
+  const handlefetchaboutcontent = async () => {
+    try {
+      setIsLoading(true);
+
+      const respone = await axios.get(import.meta.env.VITE_GET_ABOUT_CONTENT);
+      setAboutcontent(respone?.data?.data[0].history);
+      setAboutcontentid(respone?.data?.data[0].id)
+    } catch (error: any) {
+      console.error(error.message);
+    } finally {
+      setIsLoading(false);
+    }
+  };
+
+  useEffect(() => {
+    handlefetchaboutcontent();
   }, []);
 
   //decode token for users information
@@ -137,7 +158,11 @@ export const SettingsComponent = () => {
       ) : components === "userverification" ? (
         <UserVerificationComponent />
       ) : components === "manageabout" ? (
-        <ManageAboutComponent />
+        <ManageAboutComponent
+          queryContent={aboutcontent}
+          refetch={handlefetchaboutcontent}
+          queryid={aboutcontentid}
+        />
       ) : components === "managegallery" ? (
         <ManageGalleryComponent />
       ) : (
