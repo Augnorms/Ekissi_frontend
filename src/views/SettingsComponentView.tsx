@@ -20,6 +20,7 @@ export const SettingsComponent = () => {
   const [listallAccessLevel, setListallaccessLevel] = useState([]);
   const [aboutcontent, setAboutcontent] = useState<string>("");
   const [aboutcontentid, setAboutcontentid] = useState<number>(0);
+  const [listallgallery, setListallGallery] = useState([]);
 
   //handle component displayed in the settings area
   const handleComponents = (event: React.MouseEvent<HTMLSpanElement>) => {
@@ -79,6 +80,24 @@ export const SettingsComponent = () => {
   useEffect(() => {
     handlefetchaboutcontent();
   }, []);
+
+  //handle fetch for gallery
+    const handleFetchgallery = async () => {
+      try {
+        const response = await axios.get(import.meta.env.VITE_GET_ALL_GALLERY);
+
+        if (response) {
+          let data = response?.data?.data
+          setListallGallery(data);
+        } 
+      } catch (error: any) {
+        console.error(error);
+      }
+    };
+
+    useEffect(() => {
+      handleFetchgallery();
+    }, []);
 
   //decode token for users information
   const token = localStorage.getItem("token") ?? "";
@@ -164,7 +183,10 @@ export const SettingsComponent = () => {
           queryid={aboutcontentid}
         />
       ) : components === "managegallery" ? (
-        <ManageGalleryComponent />
+        <ManageGalleryComponent
+          listallGallery={listallgallery}
+          refetch={handleFetchgallery}
+        />
       ) : (
         "accesslevel"
       )}

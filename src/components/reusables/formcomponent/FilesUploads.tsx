@@ -39,15 +39,48 @@ export const FilesUploads = (props: FileInterface) => {
     handleFiles(files);
   };
 
+  // const handleFiles = (files: FileList | null) => {
+  //   if (files) {
+  //     // Convert FileList to array of File objects
+  //     const fileListArray: File[] = Array.from(files);
+
+  //     // Check file size before adding to fileData
+  //     const isValidSize = fileListArray.every(
+  //       (file) => file.size <= 50 * 1024 * 1024,
+  //     ); // 5 MB in bytes
+  //     // Check file types before adding to fileData
+  //     const isValidFiles = fileListArray.every((file) => {
+  //       const isImage = file.type.startsWith("image/");
+  //       const isPdf = file.type === "application/pdf";
+  //       const isWord = file.type === "application/msword";
+  //       const isExcel =
+  //         file.type ===
+  //           "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet" ||
+  //         file.type === "application/vnd.ms-excel";
+
+  //       return (
+  //         file.size <= 50 * 1024 * 1024 &&
+  //         (isImage || isPdf || isWord || isExcel)
+  //       );
+  //     });
+
+  //     if (isValidSize && isValidFiles) {
+  //       setMaxfile(false);
+
+  //       props.setFiles((prevFiles) => [...prevFiles, ...fileListArray]);
+  //       // Trigger a re-render
+  //       props.setUpdateCounter((prev) => prev + 1);
+  //     } else {
+  //       setMaxfile(true);
+  //     }
+  //   }
+  // };
+
   const handleFiles = (files: FileList | null) => {
     if (files) {
       // Convert FileList to array of File objects
       const fileListArray: File[] = Array.from(files);
 
-      // Check file size before adding to fileData
-      const isValidSize = fileListArray.every(
-        (file) => file.size <= 5 * 1024 * 1024,
-      ); // 5 MB in bytes
       // Check file types before adding to fileData
       const isValidFiles = fileListArray.every((file) => {
         const isImage = file.type.startsWith("image/");
@@ -57,17 +90,15 @@ export const FilesUploads = (props: FileInterface) => {
           file.type ===
             "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet" ||
           file.type === "application/vnd.ms-excel";
+        const isVideo = file.type.startsWith("video/"); // Check if the file is a video
 
-        return (
-          file.size <= 5 * 1024 * 1024 &&
-          (isImage || isPdf || isWord || isExcel)
-        );
+        return isImage || isPdf || isWord || isExcel || isVideo;
       });
 
-      if (isValidSize && isValidFiles) {
+      if (isValidFiles) {
         setMaxfile(false);
 
-        props.setFiles((prevFiles) => [...prevFiles, ...fileListArray]);
+        props.setFiles((prevFiles) => [...prevFiles, ...fileListArray].slice(0, 1));//forcing to take only one file at a time
         // Trigger a re-render
         props.setUpdateCounter((prev) => prev + 1);
       } else {
@@ -75,6 +106,7 @@ export const FilesUploads = (props: FileInterface) => {
       }
     }
   };
+
 
   const handleSplice = (index: number) => {
     // Create a shallow copy of the array
@@ -134,7 +166,7 @@ export const FilesUploads = (props: FileInterface) => {
         className="hidden"
         onChange={handleFileInputChange}
         multiple
-        accept="image/*, application/pdf, application/msword, application/vnd.openxmlformats-officedocument.wordprocessingml.document, application/vnd.ms-excel, application/vnd.openxmlformats-officedocument.spreadsheetml.sheet"
+        accept="image/*, video/*, application/pdf, application/msword, application/vnd.openxmlformats-officedocument.wordprocessingml.document, application/vnd.ms-excel, application/vnd.openxmlformats-officedocument.spreadsheetml.sheet"
       />
       <button
         className="p-2 rounded bg-gray-50"

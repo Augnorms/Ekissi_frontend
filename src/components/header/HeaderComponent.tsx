@@ -5,6 +5,7 @@ import { LogoutDialogue } from "../reusables/LogoutDialogue";
 import { useLocation } from "react-router-dom";
 import { AvatarList } from "../reusables/AvatarList";
 import { useNavigate } from "react-router-dom";
+import { Inputs } from "../reusables/formcomponent/Inputs";
 
 export interface HeaderProps {
   logo?: string;
@@ -17,11 +18,13 @@ export interface HeaderProps {
   handlechangeLogout?: (e: React.MouseEvent<HTMLDivElement>) => void;
   handlechangeDigital?: (e: React.MouseEvent<HTMLDivElement>) => void;
   handlesearch?: (e: React.MouseEvent<HTMLDivElement>) => void;
-  handleAppToggle?:()=>void;
-  pagedisplayed?:string;
-  displayAppIcon?:boolean;
-  displaydropdownIcon?:boolean;
-  homeicon?:boolean
+  handleAppToggle?: () => void;
+  pagedisplayed?: string;
+  displayAppIcon?: boolean;
+  displaydropdownIcon?: boolean;
+  homeicon?: boolean;
+  handleSearchResult?: (e: React.ChangeEvent<HTMLInputElement>) => void;
+  searchValue?: string;
 }
 
 export const HeaderComponent = (props: HeaderProps) => {
@@ -78,7 +81,24 @@ export const HeaderComponent = (props: HeaderProps) => {
           {!props.loginoutlabel ? (
             <div className="w-[200rem] p-3 flex justify-end items-center">
               {enablesearch && router.pathname.split("/")[1] === "gallery" && (
-                <div className="mr-44">search</div>
+                <div className="flex mr-[400px]">
+                  <p className="mt-4 mr-4 font-bold text-lg">Search:</p>
+                  <Inputs
+                    type="text"
+                    style="w-full 
+                      border-2
+                      border-cyan-300
+                      h-8 rounded-xl
+                      text-gray-500 
+                      outline-cyan-300
+                      p-5
+                      placeholder:text-sm"
+                    id={"search"}
+                    placeholder="Enter your search"
+                    onChange={props.handleSearchResult || (() => {})}
+                    value={props.searchValue || ""}
+                  />
+                </div>
               )}
 
               {props?.navlist?.map((data, idx) => (
@@ -168,19 +188,22 @@ export const HeaderComponent = (props: HeaderProps) => {
 
               {props.homeicon && (
                 <div className="flex gap-2">
-                  <p className="text-cyan-400">Home</p>
-                  <img
-                    src="/images/Home.svg"
-                    alt="home-image"
-                    onClick={() => navigate("/dashboard")}
-                    className="cursor-pointer"
-                  />
+                  <p className="text-cyan-400 mt-1">Home</p>
+                  <div className="p-2 bg-slate-200 rounded hover:bg-cyan-400">
+                    <img
+                      src="/images/Home.svg"
+                      alt="home-image"
+                      onClick={() => navigate("/dashboard")}
+                      className="cursor-pointer"
+                    />
+                  </div>
                 </div>
               )}
 
               <div className="w-[80%] text-base p-2 flex justify-between">
-                <div className="w-[50%] text-center font-bold text-md text-cyan-500">
-                  {props.pagedisplayed}
+                <div className="w-[50%] text-center font-bold text-md text-cyan-500 ml-[300px]">
+                  {/*Page displayed component here */}
+                  {props.pagedisplayed?.toLocaleUpperCase()}
                 </div>
                 <div className="w-[50%] flex justify-end">
                   {props.displayAppIcon && (
@@ -194,6 +217,7 @@ export const HeaderComponent = (props: HeaderProps) => {
                 </div>
               </div>
 
+              {/* user profile goes here */}
               <div className="w-[16%] text-base p-1 flex justify-end gap-3">
                 <div className="w-[70%] h-[50px] flex items-center justify-center">
                   <p>{props.username?.split(" ")[0]}</p>
