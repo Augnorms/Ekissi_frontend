@@ -25,6 +25,7 @@ export interface HeaderProps {
   homeicon?: boolean;
   handleSearchResult?: (e: React.ChangeEvent<HTMLInputElement>) => void;
   searchValue?: string;
+  loginUserimage?:string;
 }
 
 export const HeaderComponent = (props: HeaderProps) => {
@@ -222,7 +223,7 @@ export const HeaderComponent = (props: HeaderProps) => {
                 <div className="w-[70%] h-[50px] flex items-center justify-center">
                   <p>{props.username?.split(" ")[0]}</p>
                 </div>
-                <Avatar width={"50"} height={"50"} />
+                <Avatar width={"50"} height={"50"} logo={props.loginUserimage}/>
                 {props.displaydropdownIcon && (
                   <img
                     className="cursor-pointer"

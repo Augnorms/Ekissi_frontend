@@ -38,4 +38,5 @@ export interface DecodedToken {
   accesslevel: any; // Adjust the type according to your needs
   iat: number;
   exp: number;
+  image:string;
 }

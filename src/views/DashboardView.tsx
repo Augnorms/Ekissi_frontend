@@ -99,6 +99,7 @@ export const DashboardView = () => {
           pagedisplayed={page}
           displayAppIcon
           displaydropdownIcon
+          loginUserimage={decodedToken?.image}
         />
 
         <AppsComponent show={_openApps} selectedApp={selectedApp} />

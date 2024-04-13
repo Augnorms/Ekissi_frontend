@@ -39,15 +39,9 @@ export const GalleryView = () => {
     };
   }, []);
 
-  //search function down here...
-  const handlesearch = (e: React.ChangeEvent<HTMLInputElement>) => {
-    const value = e.target.value;
-    setSearchvalue(value);
-  };
-
   const [mouseControl, setMouseControl] = useState<boolean>(false);
 
-  const handleMouseEnter = (id:number) => {
+  const handleMouseEnter = (id: number) => {
     setMouseControl(true);
     setCheckfileId(id);
   };
@@ -61,7 +55,7 @@ export const GalleryView = () => {
   const [isExpand, setIsExpand] = useState<boolean>(false);
   const [checkResourceType, setCheckRespourceType] = useState<string>("");
 
-  const handlExpandImage = (param: string, type:string) => {
+  const handlExpandImage = (param: string, type: string) => {
     setExpandImage(param);
     setCheckRespourceType(type);
     setIsExpand(true);
@@ -98,6 +92,53 @@ export const GalleryView = () => {
     handleFetchgallery();
   }, []);
 
+  //search function down here...
+  const handlesearchimages = (e: React.ChangeEvent<HTMLInputElement>) => {
+    const value = e.target.value;
+    setSearchvalue(value);
+  };
+
+  const handlesearchvideos = (e: React.ChangeEvent<HTMLInputElement>) => {
+    const value = e.target.value;
+    setSearchvalue(value);
+  };
+
+  //for images
+  useEffect(() => {
+    let filtersearch = images.filter((filtres) => {
+      return (
+        filtres.filename.toLocaleLowerCase().slice(0, searchvalue.length) ===
+        searchvalue.toLocaleLowerCase()
+      );
+    });
+
+    if (searchvalue.length > 0 && filtersearch.length > 0) {
+      setImages(filtersearch);
+    } else if (searchvalue.length > 0 && filtersearch.length === 0) {
+      setImages([]);
+    } else {
+      handleFetchgallery();
+    }
+  }, [searchvalue]);
+
+  //for vedios
+  useEffect(() => {
+     let filtersearch = videos.filter((filtres) => {
+       return (
+         filtres.filename.toLocaleLowerCase().slice(0, searchvalue.length) ===
+         searchvalue.toLocaleLowerCase()
+       );
+     });
+
+    if (searchvalue.length > 0 && filtersearch.length > 0) {
+      setVidios(filtersearch);
+    } else if (searchvalue.length > 0 && filtersearch.length === 0) {
+      setVidios([]);
+    }else{
+       handleFetchgallery();
+    }
+  }, [searchvalue]);
+
   return (
     <div className="w-full h-screen">
       <HeaderComponent
@@ -105,7 +146,13 @@ export const GalleryView = () => {
         label="Ekissi Family Leanage"
         navlist={["Home", "About", "Gallery"]}
         loginoutlabel={false}
-        handleSearchResult={handlesearch}
+        handleSearchResult={
+          imgvidset === "images"
+            ? handlesearchimages
+            : imgvidset === "videos"
+              ? handlesearchvideos
+              : handlesearchimages
+        }
         searchValue={searchvalue}
       />
 
@@ -167,6 +214,9 @@ export const GalleryView = () => {
                             {/* Display filename or any other text */}
                           </div>
                         )}
+                        <div className="w-full rounded p-2 text-center shadow-lg bg-white">
+                          {image.filename}
+                        </div>
                       </div>
                     ))
                   : [...new Array(18)].map((_data, idx) => (
@@ -206,6 +256,9 @@ export const GalleryView = () => {
                             {/* Display filename or any other text */}
                           </div>
                         )}
+                        <div className="w-full rounded p-2 text-center shadow-lg bg-white">
+                          {video.filename}
+                        </div>
                       </div>
                     ))
                   : [...new Array(18)].map((_data, idx) => (
@@ -232,10 +285,10 @@ export const GalleryView = () => {
                     />
                   ) : checkResourceType === "video" ? (
                     <video
-                      src={expandImage} 
+                      src={expandImage}
                       className="w-full h-full rounded"
                       title="gallery-video"
-                      controls 
+                      controls
                     />
                   ) : (
                     <></>

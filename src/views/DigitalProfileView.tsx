@@ -4,18 +4,27 @@ import { Decrypt } from "../components/helperfunctions/functions";
 import { Avatar } from "../components/reusables/Avatar";
 import axios from "axios";
 import { UserDetails } from "../Interfaces/usersInterface";
+import { ErrorBlock } from "../components/reusables/ErrorBlock";
+import { SuccessBlock } from "../components/reusables/SuccessBlock";
 
 export const DigitalProfileView = () => {
   let params = useParams();
   const [listallMembers, setLisallMembers] = useState<UserDetails[]>([]);
   const [userid, setUserid] = useState<number>(0);
   const [mainUser, setMainUser] = useState<string | undefined>("");
+  const [profileimage, setProfileimage] = useState<string>("");
+
+  const [updateid, setUpdateid] = useState<number>(0);
+  const [isLoading, setIsLoading] = useState<boolean>(false);
+
+  const [successBlockStatus, setSuccessBlockStatus] = useState<boolean>(false);
+  const [errorBlockStatus, setErrorBlockStatus] = useState<boolean>(false);
+  const [blockMessage, setBlockMessage] = useState<string>("");
 
   useEffect(() => {
     params.id && setUserid(Number(Decrypt(params.id)));
-    setMainUser(params?.id && params?.id.split("=")[1]);//checking if the params contains digital
+    setMainUser(params?.id && params?.id.split("=")[1]); //checking if the params contains digital
   });
-
 
   //fetch all members
   const handleFetchmembers = async () => {
@@ -27,24 +36,180 @@ export const DigitalProfileView = () => {
     }
   };
 
-  useEffect(() => {
-    handleFetchmembers();
-  }, []);
+  //fetch users image
+  const fetchmembersprofileImage = async () => {
+    try {
+      const response = await axios.post(
+        import.meta.env.VITE_GET_USERS_PROFILE_IMAGE,
+        {
+          req_id: String(userid),
+        },
+      );
+
+      if (response) {
+        setUpdateid(response?.data?.imageid);
+        setProfileimage(response?.data?.data);
+      }
+    } catch (error: any) {
+      console.error(error);
+    }
+  };
+
+useEffect(() => {
+  handleFetchmembers();
+}, []);
+
+useEffect(() => {
+  fetchmembersprofileImage();
+}, [userid]); // Add userid to the dependency array to trigger the effect whenever userid changes
 
   //find a users detailed information
   const usersDetails = listallMembers?.find((info) => info?.id === userid);
 
+  //handling image upload here
+  const handleImageUpload = () => {
+    const input = document.createElement("input");
+    input.type = "file";
+    input.accept = "image/*";
+    input.addEventListener(
+      "change",
+      handleInputChange as unknown as EventListener,
+    );
+    input.click();
+  };
+
+  const handleInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    const files = e.currentTarget.files;
+
+    if (files && files.length > 0) {
+      const selectedImage = files[0];
+
+      if(profileimage === ""){
+        //create image
+        handleUploads(selectedImage as Blob);
+      }else{
+        //update image
+        handleUpdateUploads(selectedImage as Blob);
+      }
+    }
+  };
+
+  const handleUploads = async (imageparam: Blob) => {
+    try {
+      setIsLoading(true);
+      const data = new FormData();
+
+      // Append file and upload preset to FormData for each file
+      data.append("file", imageparam as Blob);
+      data.append("upload_preset", "ekissicloud");
+      data.append("cloud_name", "dkpqdqz3i");
+
+      const response = await axios.post(
+        import.meta.env.VITE_CLOUDINARY_URL,
+        data,
+      );
+
+      const fileUrl = response.data.secure_url;
+
+      if (response && fileUrl) {
+        const uploadResponse = await axios.post(
+          import.meta.env.VITE_CREATE_PROFILE_IMAGE,
+          {
+            memberId: String(userid),
+            image: fileUrl,
+          },
+        );
+
+        if (uploadResponse && uploadResponse?.data?.status === true) {
+          setSuccessBlockStatus(true);
+          setBlockMessage(uploadResponse?.data?.message);
+          setTimeout(() => {
+            setSuccessBlockStatus(false);
+            setBlockMessage("");
+          }, 3000);
+          setProfileimage(uploadResponse?.data?.data?.image);
+        }
+      }
+    } catch (error: any) {
+      console.error(error);
+      setErrorBlockStatus(true);
+      setBlockMessage(error.message);
+      setTimeout(() => {
+        setErrorBlockStatus(false);
+      }, 3000);
+    } finally {
+      setIsLoading(false);
+    }
+  };
+
+  //update profile image
+  const handleUpdateUploads = async (imageparam: Blob) => {
+    try {
+      setIsLoading(true);
+      const data = new FormData();
+
+      // Append file and upload preset to FormData for each file
+      data.append("file", imageparam as Blob);
+      data.append("upload_preset", "ekissicloud");
+      data.append("cloud_name", "dkpqdqz3i");
+
+      const response = await axios.post(
+        import.meta.env.VITE_CLOUDINARY_URL,
+        data,
+      );
+
+      const fileUrl = response.data.secure_url;
+
+      if (response && fileUrl) {
+        const uploadResponse = await axios.put(
+          import.meta.env.VITE_UPDATE_PROFILE_IMAGE,
+          {
+            updateId: updateid,
+            image: fileUrl,
+          },
+        );
+
+        if (uploadResponse && uploadResponse?.data?.status === true) {
+          setSuccessBlockStatus(true);
+          setBlockMessage(uploadResponse?.data?.message);
+          setTimeout(() => {
+            setSuccessBlockStatus(false);
+            setBlockMessage("");
+          }, 3000);
+          setProfileimage(uploadResponse?.data?.data?.image);
+        }
+      }
+    } catch (error: any) {
+      console.error(error);
+      setErrorBlockStatus(true);
+      setBlockMessage(error.message);
+      setTimeout(() => {
+        setErrorBlockStatus(false);
+      }, 3000);
+    } finally {
+      setIsLoading(false);
+    }
+  };
+
   return (
     <div className="w-full h-screen bg-slate-100 p-10">
+      <SuccessBlock blockControl={successBlockStatus} message={blockMessage} />
+      <ErrorBlock blockControl={errorBlockStatus} message={blockMessage} />
       <div className="w-[100%] h-[100%] shadow-xl rounded bg-white grid grid-cols-2 grid-rows-2 gap-2 p-2">
         <div className="w-full  shadow-lg p-2 overflow-auto">
           <div className="w-full flex">
             <div className="rounded-md border-r-[3px] border-r-cyan-400 w-[25%] flex">
-              <Avatar width={"150"} height={"150"} />
+              <Avatar
+                width={"150"}
+                height={"150"}
+                loading={isLoading}
+                logo={profileimage}
+              />
               {mainUser === "digital" && (
                 <div
                   className="w-10 h-10 rounded-full full shadow-lg relative right-12 z-2 
-                flex justify-center items-center border border-cyan-500 hover:scale-[1.2] cursor-pointer"
+                  flex justify-center items-center border border-cyan-500 hover:scale-[1.2] cursor-pointer"
+                  onClick={handleImageUpload}
                 >
                   <img src="/images/editicon.svg" alt="edit-icon" />
                 </div>
