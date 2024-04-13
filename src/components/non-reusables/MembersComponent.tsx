@@ -94,8 +94,8 @@ export const MembersComponent = (props:Prop) => {
       <hr />
       <div className="mt-4 w-full h-[55vh] overflow-auto grid grid-cols-4 grid-rows-2 p-2 gap-1">
         {props.listallMembers?.length && props.listallMembers?.length > 0 ? (
-          props.listallMembers.map((member) => (
-            <div className="w-full border rounded-md shadow-md grid grid-cols-2 grid-rows-2 relative">
+          props.listallMembers.map((member, idx) => (
+            <div className="w-full border rounded-md shadow-md grid grid-cols-2 grid-rows-2 relative" key={idx}>
               <div className="w-full flex justify-center p-2">
                 <Avatar
                   width="100"
