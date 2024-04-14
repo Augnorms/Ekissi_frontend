@@ -1,6 +1,6 @@
 import { useState } from "react";
 import { SearchComp } from "../reusables/formcomponent/SearchComp";
-import { Select } from "../reusables/formcomponent/Select";
+// import { Select } from "../reusables/formcomponent/Select";
 import { Avatar } from "../reusables/Avatar";
 import { SkeletalLoader } from "../reusables/SkeletalLoader";
 import Dropdown from "../reusables/ActionComponent";
@@ -15,6 +15,7 @@ interface ListMembers {
   email: string;
   gender: string;
   children: number;
+  image:string;
 }
 
 type Prop = {
@@ -26,16 +27,11 @@ export const MembersComponent = (props:Prop) => {
  
   const navigate = useNavigate();
   const [searchVal, setSearchVal] = useState<string>("");
-  const [selected, setSelected] = useState<string>("");
+  // const [selected, setSelected] = useState<string>("");
 
   const handlesearch = (e: React.ChangeEvent<HTMLInputElement>) => {
     const value = e.currentTarget.value;
     setSearchVal(value);
-  };
-
-  const handleSelect = (event: React.ChangeEvent<HTMLSelectElement>) => {
-    const value = event.target.value;
-    setSelected(value);
   };
 
   const emitAction = (id:string|number)=>{
@@ -78,8 +74,8 @@ export const MembersComponent = (props:Prop) => {
         </div>
 
         <div className="w-[15%] flex gap-2 ">
-          <p className="mt-4 mr-2">Filter</p>
-          <Select
+          {/* <p className="mt-4 mr-2">Filter</p> */}
+          {/* <Select
             placeholder="Select your status"
             style="w-full ring-2 ring-cyan-500 p-1.5 rounded-xl border"
             data={[
@@ -88,81 +84,91 @@ export const MembersComponent = (props:Prop) => {
             ]}
             onChange={handleSelect}
             value={selected}
-          />
+          /> */}
         </div>
       </div>
       <hr />
       <div className="mt-4 w-full h-[55vh] overflow-auto grid grid-cols-4 grid-rows-2 p-2 gap-1">
-        {props.listallMembers?.length && props.listallMembers?.length > 0 ? (
-          props.listallMembers.map((member, idx) => (
-            <div className="w-full border rounded-md shadow-md grid grid-cols-2 grid-rows-2 relative" key={idx}>
-              <div className="w-full flex justify-center p-2">
-                <Avatar
-                  width="100"
-                  height="100"
-                  logo="null"
-                  initials={member.firstname + " " + member.lastname}
-                />
-              </div>
-              <div className="w-full p-2">
-                <Tooltip
-                  content={`${member.firstname} ${member.lastname}`}
-                  style="bg-white border"
-                >
-                  <div className="w-full p-2 text-md font-bold">
-                    {`${member.firstname} ${member.lastname}`.slice(0, 16) +
-                      "..."}
-                  </div>
-                </Tooltip>
-                <Tooltip content={member.email} style="bg-white border">
-                  <div className="w-full p-2 text-sm">
-                    {member.email.slice(0, 15) + "..."}
-                  </div>
-                </Tooltip>
-                <div className="w-full p-2 text-sm">
-                  {member.phonenumber ? member.phonenumber : "N/A"}
-                </div>
-              </div>
-              <div className="w-full flex justify-center items-center">
-                <div
-                  className="w-[60%] 
-               text-center border 
-               p-2 rounded cursor-pointer 
-               hover:bg-cyan-300
-               hover:text-white
-               "
-                  onClick={() => emitAction(member.id)}
-                >
-                  view
-                </div>
-              </div>
-              <div className="w-full flex justify-end items-end p-4 mb-4">
-                <img
-                  className="cursor-pointer"
-                  src="/images/flatEclipse.svg"
-                  alt="flateclipse"
-                  onClick={() => handleMouseClick(Number(member.id))}
-                />
-              </div>
-              <div className="absolute top-20 right-4">
-                {isDropdownOpen && dropDownId === member.id && (
-                  <Dropdown
-                    onMouseLeave={handleMouseLeave}
-                    dropdownItems={[
-                      {
-                        id: member.id,
-                        image: "/images/view.svg",
-                        label: "View",
-                        dataCy: "view",
-                      },
-                    ]}
-                    emitAction={emitAction}
+        {props.listallMembers?.length &&
+          props.listallMembers
+            ?.filter((member) =>
+              `${member.firstname} ${member.lastname}`
+                .toLowerCase()
+                .includes(searchVal.toLowerCase()),
+            )
+            .map((member, idx) => (
+              <div
+                className="w-full border rounded-md shadow-md grid grid-cols-2 grid-rows-2 relative"
+                key={idx}
+              >
+                <div className="w-full flex justify-center p-2">
+                  <Avatar
+                    width="100"
+                    height="100"
+                    logo={member.image}
+                    initials={member.firstname + " " + member.lastname}
                   />
-                )}
+                </div>
+                <div className="w-full p-2">
+                  <Tooltip
+                    content={`${member.firstname} ${member.lastname}`}
+                    style="bg-white border"
+                  >
+                    <div className="w-full p-2 text-md font-bold">
+                      {`${member.firstname} ${member.lastname}`.slice(0, 16) +
+                        "..."}
+                    </div>
+                  </Tooltip>
+                  <Tooltip content={member.email} style="bg-white border">
+                    <div className="w-full p-2 text-sm">
+                      {member.email.slice(0, 15) + "..."}
+                    </div>
+                  </Tooltip>
+                  <div className="w-full p-2 text-sm">
+                    {member.phonenumber ? member.phonenumber : "N/A"}
+                  </div>
+                </div>
+                <div className="w-full flex justify-center items-center">
+                  <div
+                    className="w-[60%] 
+                      text-center border 
+                      p-2 rounded cursor-pointer 
+                      hover:bg-cyan-300
+                      hover:text-white
+                    "
+                    onClick={() => emitAction(member.id)}
+                  >
+                    view
+                  </div>
+                </div>
+                <div className="w-full flex justify-end items-end p-4 mb-4">
+                  <img
+                    className="cursor-pointer"
+                    src="/images/flatEclipse.svg"
+                    alt="flateclipse"
+                    onClick={() => handleMouseClick(Number(member.id))}
+                  />
+                </div>
+                <div className="absolute top-20 right-4">
+                  {isDropdownOpen && dropDownId === member.id && (
+                    <Dropdown
+                      onMouseLeave={handleMouseLeave}
+                      dropdownItems={[
+                        {
+                          id: member.id,
+                          image: "/images/view.svg",
+                          label: "View",
+                          dataCy: "view",
+                        },
+                      ]}
+                      emitAction={emitAction}
+                    />
+                  )}
+                </div>
               </div>
-            </div>
-          ))
-        ) : (
+            ))}
+        {/* Display skeleton loaders if list is empty */}
+        {!props.listallMembers?.length && (
           <>
             {[...Array(8)].map((_, index) => (
               <SkeletalLoader key={index} />
@@ -170,6 +176,7 @@ export const MembersComponent = (props:Prop) => {
           </>
         )}
       </div>
+
       <div>{/*pgination goes here..*/}</div>
     </div>
   );
