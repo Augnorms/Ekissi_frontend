@@ -103,42 +103,6 @@ export const GalleryView = () => {
     setSearchvalue(value);
   };
 
-  //for images
-  useEffect(() => {
-    let filtersearch = images.filter((filtres) => {
-      return (
-        filtres.filename.toLocaleLowerCase().slice(0, searchvalue.length) ===
-        searchvalue.toLocaleLowerCase()
-      );
-    });
-
-    if (searchvalue.length > 0 && filtersearch.length > 0) {
-      setImages(filtersearch);
-    } else if (searchvalue.length > 0 && filtersearch.length === 0) {
-      setImages([]);
-    } else {
-      handleFetchgallery();
-    }
-  }, [searchvalue]);
-
-  //for vedios
-  useEffect(() => {
-     let filtersearch = videos.filter((filtres) => {
-       return (
-         filtres.filename.toLocaleLowerCase().slice(0, searchvalue.length) ===
-         searchvalue.toLocaleLowerCase()
-       );
-     });
-
-    if (searchvalue.length > 0 && filtersearch.length > 0) {
-      setVidios(filtersearch);
-    } else if (searchvalue.length > 0 && filtersearch.length === 0) {
-      setVidios([]);
-    }else{
-       handleFetchgallery();
-    }
-  }, [searchvalue]);
-
   return (
     <div className="w-full h-screen">
       <HeaderComponent
@@ -188,37 +152,43 @@ export const GalleryView = () => {
             {imgvidset === "images" ? (
               <div className="w-full h-[95vh] bg-slate-100 mt-2 grid sm:grid-cols-1 md:grid-cols-2 lg:grid-cols-6 gap-2 grid-rows-3 p-2">
                 {images.length > 0
-                  ? images.map((image, index) => (
-                      <div
-                        key={index}
-                        className="w-full h-[100%] bg-white shadow-xl rounded relative cursor-pointer object-contain"
-                        onMouseEnter={() => handleMouseEnter(image.id)}
-                        onMouseLeave={handleMouseLeave}
-                      >
-                        <img
-                          src={image.fileurl} // Assuming image object has a 'fileurl' property
-                          className="w-full h-full rounded"
-                          alt="gallery-image"
-                        />
-                        {mouseControl && checkfileId === image.id && (
-                          <div
-                            className="w-full h-[100%] absolute top-0 z-[5] rounded flex justify-center items-center bg-black opacity-50 text-white cursor-pointer"
-                            onClick={() =>
-                              handlExpandImage(
-                                image.fileurl,
-                                image.resourcetype,
-                              )
-                            }
-                          >
-                            {image.filename}{" "}
-                            {/* Display filename or any other text */}
+                  ? images
+                      .filter((image) =>
+                        image.filename
+                          .toLowerCase()
+                          .includes(searchvalue.toLowerCase()),
+                      )
+                      .map((image, index) => (
+                        <div
+                          key={index}
+                          className="w-full h-[100%] bg-white shadow-xl rounded relative cursor-pointer object-contain"
+                          onMouseEnter={() => handleMouseEnter(image.id)}
+                          onMouseLeave={handleMouseLeave}
+                        >
+                          <img
+                            src={image.fileurl} // Assuming image object has a 'fileurl' property
+                            className="w-full h-full rounded"
+                            alt="gallery-image"
+                          />
+                          {mouseControl && checkfileId === image.id && (
+                            <div
+                              className="w-full h-[100%] absolute top-0 z-[5] rounded flex justify-center items-center bg-black opacity-50 text-white cursor-pointer"
+                              onClick={() =>
+                                handlExpandImage(
+                                  image.fileurl,
+                                  image.resourcetype,
+                                )
+                              }
+                            >
+                              {image.filename}{" "}
+                              {/* Display filename or any other text */}
+                            </div>
+                          )}
+                          <div className="w-full rounded p-2 text-center shadow-lg bg-white">
+                            {image.filename}
                           </div>
-                        )}
-                        <div className="w-full rounded p-2 text-center shadow-lg bg-white">
-                          {image.filename}
                         </div>
-                      </div>
-                    ))
+                      ))
                   : [...new Array(18)].map((_data, idx) => (
                       <SkeleletalLoaderGallery key={idx} />
                     ))}
@@ -229,38 +199,43 @@ export const GalleryView = () => {
                 lg:grid-cols-6 gap-2 grid-rows-3 p-2"
               >
                 {videos.length > 0
-                  ? videos.map((video, index) => (
-                      <div
-                        key={index}
-                        className="w-full h-[100%] bg-white shadow-xl rounded relative cursor-pointer object-contain"
-                        onMouseEnter={() => handleMouseEnter(video.id)}
-                        onMouseLeave={handleMouseLeave}
-                      >
-                        <video
-                          src={video.fileurl} // Assuming video object has a 'fileurl' property
-                          className="w-full h-full rounded"
-                          title="gallery-video"
-                          controls // Add controls for video playback
-                        />
-                        {mouseControl && checkfileId === video.id && (
-                          <div
-                            className="w-full h-[100%] absolute top-0 z-[5] rounded flex justify-center items-center bg-black opacity-50 text-white cursor-pointer"
-                            onClick={() =>
-                              handlExpandImage(
-                                video.fileurl,
-                                video.resourcetype,
-                              )
-                            }
-                          >
-                            {video.filename}{" "}
-                            {/* Display filename or any other text */}
+                  ? videos.filter((video) =>
+                        video.filename
+                          .toLowerCase()
+                          .includes(searchvalue.toLowerCase()),
+                      )
+                      .map((video, index) => (
+                        <div
+                          key={index}
+                          className="w-full h-[100%] bg-white shadow-xl rounded relative cursor-pointer object-contain"
+                          onMouseEnter={() => handleMouseEnter(video.id)}
+                          onMouseLeave={handleMouseLeave}
+                        >
+                          <video
+                            src={video.fileurl} // Assuming video object has a 'fileurl' property
+                            className="w-full h-full rounded"
+                            title="gallery-video"
+                            controls // Add controls for video playback
+                          />
+                          {mouseControl && checkfileId === video.id && (
+                            <div
+                              className="w-full h-[100%] absolute top-0 z-[5] rounded flex justify-center items-center bg-black opacity-50 text-white cursor-pointer"
+                              onClick={() =>
+                                handlExpandImage(
+                                  video.fileurl,
+                                  video.resourcetype,
+                                )
+                              }
+                            >
+                              {video.filename}{" "}
+                              {/* Display filename or any other text */}
+                            </div>
+                          )}
+                          <div className="w-full rounded p-2 text-center shadow-lg bg-white">
+                            {video.filename}
                           </div>
-                        )}
-                        <div className="w-full rounded p-2 text-center shadow-lg bg-white">
-                          {video.filename}
                         </div>
-                      </div>
-                    ))
+                      ))
                   : [...new Array(18)].map((_data, idx) => (
                       <SkeleletalLoaderGallery key={idx} />
                     ))}

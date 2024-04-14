@@ -120,7 +120,7 @@ export const MembersComponent = (props:Prop) => {
                     </div>
                   </Tooltip>
                   <Tooltip content={member.email} style="bg-white border">
-                    <div className="w-full p-2 text-sm">
+                    <div className="w-full p-2 text-sm cursor-pointer">
                       {member.email.slice(0, 15) + "..."}
                     </div>
                   </Tooltip>
