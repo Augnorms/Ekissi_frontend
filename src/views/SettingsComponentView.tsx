@@ -115,6 +115,7 @@ export const SettingsComponent = () => {
         loginoutlabel={true}
         username={decodedToken?.fullname}
         homeicon
+        loginUserimage={decodedToken?.image}
       />
       <div className="w-full h-[50px] p-1 shadow-md overflow-y-auto flex gap-2">
         <span

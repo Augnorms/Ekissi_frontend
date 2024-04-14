@@ -1,22 +1,22 @@
 import { useState } from "react";
 import { SearchComp } from "../reusables/formcomponent/SearchComp";
-import { Select } from "../reusables/formcomponent/Select";
+// import { Select } from "../reusables/formcomponent/Select";
 import Button from "../reusables/formcomponent/Button";
 import { AccountSummary } from "../reusables/AccountSummary";
 
 export const AccountComponent = () => {
     const [searchVal, setSearchVal] = useState<string>("");
-    const [selected, setSelected] = useState<string>("");
+    // const [selected, setSelected] = useState<string>("");
 
     const handlesearch = (e: React.ChangeEvent<HTMLInputElement>) => {
       const value = e.currentTarget.value;
       setSearchVal(value);
     };
 
-    const handleSelect = (event: React.ChangeEvent<HTMLSelectElement>) => {
-      const value = event.target.value;
-      setSelected(value);
-    };
+    // const handleSelect = (event: React.ChangeEvent<HTMLSelectElement>) => {
+    //   const value = event.target.value;
+    //   setSelected(value);
+    // };
 
   return (
     <div className="w-full h-[100%] p-4 overflow-auto">
@@ -54,7 +54,7 @@ export const AccountComponent = () => {
           </div>
 
           <div className="w-[30%] -mt-2 flex gap-2">
-            <p className="mt-4 ml-5">Filter</p>
+            {/* <p className="mt-4 ml-5">Filter</p>
             <Select
               placeholder="Select your status"
               style="w-full ring-2 ring-cyan-500 p-1.5 rounded-xl border"
@@ -64,7 +64,7 @@ export const AccountComponent = () => {
               ]}
               onChange={handleSelect}
               value={selected}
-            />
+            /> */}
           </div>
         </div>
 
