@@ -83,7 +83,6 @@ export const DashboardView = () => {
 
   return (
     <>
-    
       <LoaderComponent loaderTwo={isLoading} />
 
       <div className="  w-full h-screen ">
@@ -111,7 +110,7 @@ export const DashboardView = () => {
             ) : page === "heirarchy" ? (
               <HeirarchyComponent listallMembers={listallMembers} />
             ) : page === "Accounts" ? (
-              <AccountComponent />
+              <AccountComponent listallMembers={listallMembers} />
             ) : page === "Members" ? (
               <MembersComponent listallMembers={listallMembers} />
             ) : (
