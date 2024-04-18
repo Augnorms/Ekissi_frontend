@@ -64,6 +64,7 @@ export const HeirarchyComponent = (props:Prop) => {
       };
     });
 
+   //populating the select field with data 
    const parents: Option[] =
      props?.listallMembers?.map((data) => ({
        id: data.id.toString(),

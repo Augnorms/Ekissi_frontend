@@ -7,6 +7,7 @@ import { DigitalProfileView } from "./views/DigitalProfileView";
 import { PageNotFoundView } from "./views/PageNotFoundView";
 import { SettingsComponent } from "./views/SettingsComponentView";
 import { AddMembersComponent } from "./components/settings-components/AddMembersComponent";
+import { AccountComponentDetailsView } from "./views/AccountComponentDetailsView";
 import { Authorisation } from "./auth-service/auth";
 import { useEffect } from "react";
 
@@ -40,6 +41,7 @@ export const Mainroute = () => {
         <Route path="/settings" element={<SettingsComponent />} />
         <Route path="/addmember" element={<AddMembersComponent />} />
         <Route path="/profile/:id" element={<DigitalProfileView />} />
+        <Route path="/accountdetails" element={<AccountComponentDetailsView />} />
 
         {/* Catch-all route for non-matching paths */}
         <Route path="*" element={<PageNotFoundView />} />

@@ -56,6 +56,7 @@ export const DashboardView = () => {
 
   //fetch all members
   const [listallMembers, setLisallMembers] = useState([]);
+  const [listallAccounts, setListallAccount] = useState([]);
   const [isLoading, setIsLoading] = useState<boolean>(false);
 
   const handleFetchmembers = async () => {
@@ -73,6 +74,25 @@ export const DashboardView = () => {
   useEffect(() => {
     handleFetchmembers();
   }, []);
+
+  const handleFetchaccounts = async()=>{
+    try{
+      setIsLoading(true);
+
+      const response = await axios.get(import.meta.env.VITE_GET_ALL_ACCOUNTS);
+      setListallAccount(response?.data?.data); 
+
+    }catch(err){
+      console.error(err);
+    }finally{
+     setIsLoading(false);
+    }
+  }
+
+  useEffect(()=>{
+    handleFetchaccounts();
+  },[]);
+  
 
   //decode token for users information
   const token = localStorage.getItem("token") ?? "";
@@ -110,7 +130,11 @@ export const DashboardView = () => {
             ) : page === "heirarchy" ? (
               <HeirarchyComponent listallMembers={listallMembers} />
             ) : page === "Accounts" ? (
-              <AccountComponent listallMembers={listallMembers} />
+              <AccountComponent
+                listallMembers={listallMembers}
+                refetch={handleFetchaccounts}
+                listallaccounts={listallAccounts}
+              />
             ) : page === "Members" ? (
               <MembersComponent listallMembers={listallMembers} />
             ) : (
