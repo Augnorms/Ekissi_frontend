@@ -12,6 +12,7 @@ import axios from "axios";
 import { Select } from "../reusables/formcomponent/Select";
 import TableComponent from "../reusables/TableComponent";
 import Dropdown from "../reusables/ActionComponent";
+import * as XLSX from "xlsx";
 // import { useNavigate } from "react-router-dom";
 
 type Transaction = {
@@ -73,14 +74,38 @@ export const AccountComponent = (prop: Prop) => {
     transaction.name.toLowerCase().includes(searchVal.toLowerCase()),
   );
 
-  const contributions = prop.listallaccounts?.map((data)=>data.amount);
+  const contributions = prop.listallaccounts?.map((data) => data.amount);
 
-  const totalamount = contributions?.reduce((cur, acc)=>cur + acc, 0);  
+  const totalamount = contributions?.reduce((cur, acc) => cur + acc, 0);
 
   // const handleSelect = (event: React.ChangeEvent<HTMLSelectElement>) => {
   //   const value = event.target.value;
   //   setSelected(value);
   // };
+
+  //handling exports here
+  const handleExports = () => {
+    if (filteredTransactions && filteredTransactions.length === 0) return;
+
+    else if (filteredTransactions) {
+      const flattenedData = filteredTransactions.map((transaction) => ({
+        date: transaction.date,
+        name: transaction.name,
+        amount: transaction.amount,
+        email: transaction.member.email,
+      }));
+
+      const worksheet = XLSX.utils.json_to_sheet(flattenedData);
+
+      const workbook = XLSX.utils.book_new();
+
+      XLSX.utils.book_append_sheet(workbook, worksheet, "EkissiFamily");
+
+      const excelFileName = "EkissiFamily.xlsx";
+
+      XLSX.writeFile(workbook, excelFileName);
+    }
+  };
 
   //populating the select field with data
   const parents: Option[] =
@@ -342,6 +367,7 @@ export const AccountComponent = (prop: Prop) => {
             logo="/images/export.svg"
             buttonLabel="Export Account"
             className="border p-2 rounded-md text-white bg-red-900"
+            onClick={handleExports}
           />
         </div>
       </div>
