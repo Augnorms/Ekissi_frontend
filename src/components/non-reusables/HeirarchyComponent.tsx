@@ -1,12 +1,12 @@
 import Button from "../reusables/formcomponent/Button";
-import Hierarchy from "../reusables/HeirarchyStructure";
+import {Hierarchy} from "../reusables/HeirarchyStructure";
 import { BackgroundDialogue } from "../reusables/BackgroundDialogue";
 import { CloseDiagComp } from "../reusables/CloseDiagComp";
-import { useState } from "react";
-import { Multiselect } from "../reusables/formcomponent/Multiselect";
+import {  useState } from "react";
 import { Select } from "../reusables/formcomponent/Select";
 import { SuccessBlock } from "../reusables/SuccessBlock";
 import { ErrorBlock } from "../reusables/ErrorBlock";
+import axios from "axios";
 
 interface ListMembers {
   [x: string]: string | number;
@@ -22,15 +22,27 @@ type Option = {
   name: string;
 };
 
+type heirarchy = {
+  id:number;
+  label:string;
+  children:[]
+};
+
 type Prop = {
   listallMembers?: ListMembers[];
+  listheirarchy?: heirarchy[];
   refetch?: () => void;
+  refetchHeirarchy?:()=>void;
 };
 
 export const HeirarchyComponent = (props:Prop) => {
   const [isclose, setIsClose] = useState<boolean>(false);
   const [parent, setParent] = useState<string>("");
-  const [_relation, setRelation] = useState<number|string[]>([]);
+  const [child, setChild] = useState<string>("");
+  const [isLoading, setIsLoading] = useState<boolean>(false);
+  const [successBlockStatus, setSuccessBlockStatus] = useState<boolean>(false);
+  const [errorBlockStatus, setErrorBlockStatus] = useState<boolean>(false);
+   const [blockMessage, setBlockMessage] = useState<string>("");
 
   const handleCloseDialogue = () => {
     setIsClose(false);
@@ -43,41 +55,73 @@ export const HeirarchyComponent = (props:Prop) => {
   //parent select function
   const handleParent = (event: React.ChangeEvent<HTMLSelectElement>) => {
     setParent(event.currentTarget.value);
-    console.log(event.currentTarget.value);
   };
 
-  // relation select function
-  const handleRelation = (
-    options: { id: number | string; label: string }[],
-  ) => {
-    
-    // Extracting ids from options
-    const ids = options.map((rel_id)=>rel_id.id)
-
-    setRelation(ids as number | string[]);
+  const handleChildren = (event: React.ChangeEvent<HTMLSelectElement>) => {
+    setChild(event.currentTarget.value);
   };
-
-    const members = props?.listallMembers?.map((data) => {
-      return {
-        id: data.id.toString(),
-        label: `${data.firstname} ${data.lastname}`,
-      };
-    });
 
    //populating the select field with data 
    const parents: Option[] =
      props?.listallMembers?.map((data) => ({
        id: data.id.toString(),
        name: `${data.firstname} ${data.lastname}`,
-     })) || [];
+     })) || []; 
+
+   const handlecreation = async()=>{
+      try{
+        setIsLoading(true);
+
+        const response = await axios.post(
+          import.meta.env.VITE_CREATE_HEIRARCHY,
+          {
+            parent_id: parent,
+            child_id: child
+          },
+        );
+
+        if (response && response?.data?.status === true) {
+          setSuccessBlockStatus(true);
+          setBlockMessage(response?.data?.message);
+          close();
+          setTimeout(() => {
+            setSuccessBlockStatus(false);
+            props.refetchHeirarchy && props.refetchHeirarchy();
+            setBlockMessage("");
+          }, 3000);
+          handleclear();
+        }
+
+      }catch(error:any){
+        console.error(error);
+        setErrorBlockStatus(true);
+        setBlockMessage(error.message);
+        setTimeout(() => {
+          setErrorBlockStatus(false);
+        }, 3000);
+      }finally{
+       setIsLoading(false);
+      }
+   };
+
+   const handleclear = ()=>{
+     setParent("");
+     setChild("");
+     setIsClose(false);
+   }
 
   return (
     <div className="w-full h-[100%] p-4">
       <div className="w-full flex justify-between mb-2">
-        <div className="font-bold text-lg">Members Count ({props?.listallMembers?.length})</div>
+        <div className="font-bold text-lg">
+          Members Count ({props?.listallMembers?.length})
+        </div>
         {/*Success and Error Block*/}
-        <SuccessBlock blockControl={false} />
-        <ErrorBlock blockControl={false} />
+        <SuccessBlock
+          blockControl={successBlockStatus}
+          message={blockMessage}
+        />
+        <ErrorBlock blockControl={errorBlockStatus} message={blockMessage} />
 
         <div>
           <Button
@@ -92,7 +136,7 @@ export const HeirarchyComponent = (props:Prop) => {
       <hr />
       {/* Hierarchy */}
       <div className="w-full h-[90%] overflow-auto">
-        <Hierarchy />
+        <Hierarchy listheirarchy={props.listheirarchy} />
       </div>
 
       {/*creating a relationship */}
@@ -118,21 +162,28 @@ export const HeirarchyComponent = (props:Prop) => {
             onChange={handleParent}
           />
 
-          <Multiselect
-            data={members}
-            placeholder="Choose relationship"
-            label={"Relationship"}
-            style="border-2 border-cyan-300"
-            dropdownstyle="border-2 border-cyan-300 mb-1"
-            onSelect={handleRelation}
+          <Select
+            labelOne="Parent"
+            style="
+                  w-full rounded-md
+                  p-3 border-2 border-cyan-300
+                  dark:placeholder-gray-400 
+                  dark:text-white dark:focus:ring-[#F2BEAB] 
+                  dark:focus:border-cyan-300 mb-4
+                  "
+            data={parents}
+            placeholder="Select child"
+            value={child}
+            onChange={handleChildren}
           />
 
           <Button
             buttonLabel="Create Relationship"
             className="w-full border p-2 
              rounded-md text-white bg-cyan-400 mt-4"
-            onClick={handleOpenDialogue}
-            loading={false}
+            onClick={handlecreation}
+            loading={isLoading}
+            disabled={parent === "" || child === ""}
           />
         </div>
       </BackgroundDialogue>

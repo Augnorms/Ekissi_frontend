@@ -21,17 +21,20 @@ const TreeNode: React.FC<TreeNodeProps> = ({ node }) => {
     setIsExpanded(!isExpanded);
   };
 
+  //preview each member
   const handleEachMember = (id:number)=>{
-   console.log(id);
    navigate(`/profile/${Encrypt(String(id))}`);
   }
 
-  const initials = getInitials(
-    node.label
-      .split(" ")
-      .map((word) => word.charAt(0))
-      .join(" "),
-  );
+const initials = getInitials(
+  node.label 
+    ? node.label 
+        .split(" ")
+        .map((word) => word.charAt(0))
+        .join(" ")
+    : "", 
+);
+
 
   return (
     <div>
@@ -47,7 +50,7 @@ const TreeNode: React.FC<TreeNodeProps> = ({ node }) => {
         <div
           className="cursor-pointer"
           onClick={() => handleEachMember(node.id)}
-          style={{ color: isExpanded ? "dodgerblue" : ""}}
+          style={{ color: isExpanded ? "dodgerblue" : "" }}
         >
           {node.label}
         </div>
@@ -79,137 +82,21 @@ const Tree: React.FC<TreeProps> = ({ data }) => {
   );
 };
 
-// Usage
-const heirarchyData: Node[] = [
-  {
-    id: 16,
-    label: "Mama Aquincy",
-    children: [
-      {
-        id: 1,
-        label: "Dorothy Ada Payne",
-        children: [
-          {
-            id: 4,
-            label: "Florence Austin",
-            children: [
-              {
-                id: 8,
-                label: "Richard Torkonoo",
-                children: [
-                  {
-                    id: 19,
-                    label: "Emmy Torkornoo",
-                    children: [],
-                  },
-                  {
-                    id: 21,
-                    label: "Daryl Tokornoo",
-                    children: [],
-                  },
-                ],
-              },
-              {
-                id: 9,
-                label: "Roberta Torkonoo",
-                children: [],
-              },
-              {
-                id: 10,
-                label: "Reginald Torkonoo",
-                children: [
-                  {
-                    id: 22,
-                    label: "Jeremy Torkonoo",
-                    children: [],
-                  },
-                ],
-              },
-              {
-                id: 17,
-                label: "Roselyn Torkonoo",
-                children: [],
-              },
-            ],
-          },
-          {
-            id: 5,
-            label: "Josephine Korkor Quiacoe",
-            children: [
-              {
-                id: 11,
-                label: "Nelly Djukey",
-                children: [],
-              },
-              {
-                id: 13,
-                label: "Ruth Djukey",
-                children: [],
-              },
-            ],
-          },
-          {
-            id: 6,
-            label: "James Sunny Quaicoe",
-            children: [
-              {
-                id: 18,
-                label: "Sannichie Quaicoe",
-                children: [],
-              },
-            ],
-          },
-          {
-            id: 7,
-            label: "Ruth Aboah",
-            children: [
-              {
-                id: 12,
-                label: "Augustine Normanyo",
-                children: [
-                  {
-                    id: 23,
-                    label: "junior normanyo",
-                    children: [],
-                  },
-                  {
-                    id: 24,
-                    label: "John",
-                    children: [],
-                  },
-                ],
-              },
-              {
-                id: 14,
-                label: "Florence Normanyo",
-                children: [],
-              },
-            ],
-          },
-        ],
-      },
-      {
-        id: 2,
-        label: "Kofi Ada Payne",
-        children: [
-          {
-            id: 24,
-            label: "John",
-            children: [],
-          },
-        ],
-      },
-      {
-        id: 3,
-        label: "Emma Ada Payne",
-        children: [],
-      },
-    ],
-  },
-];
+type heirarchy = {
+  id: number;
+  label: string;
+  children: [];
+};
+interface HierarchyProp {
+  listheirarchy?: heirarchy[];
+}
 
-const Hierarchy: React.FC = () => {
-  return <Tree data={heirarchyData} />;
+
+export const Hierarchy: React.FC<HierarchyProp> = ({ listheirarchy }) => {
+  return <Tree data={listheirarchy||[]} />;
 };
 
-export default Hierarchy;
+
+
+
+
