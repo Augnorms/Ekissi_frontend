@@ -1,4 +1,4 @@
-import { useState } from "react";
+import {  useState } from "react";
 import { SearchComp } from "../reusables/formcomponent/SearchComp";
 // import { Select } from "../reusables/formcomponent/Select";
 import Button from "../reusables/formcomponent/Button";
@@ -135,7 +135,6 @@ export const AccountComponent = (prop: Prop) => {
 
   const handleIsopen = () => {
     setOpenDialog(!openDialog);
-    close();
   };
 
   //create accout here

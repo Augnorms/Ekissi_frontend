@@ -88,7 +88,7 @@ export const MembersComponent = (props:Prop) => {
         </div>
       </div>
       <hr />
-      <div className="mt-4 w-full h-[55vh] overflow-auto grid grid-cols-4 grid-rows-2 p-2 gap-1">
+      <div className="mt-4 w-full h-[55vh] overflow-auto grid grid-cols-4 p-2 gap-1">
         {props.listallMembers?.length &&
           props.listallMembers
             ?.filter((member) =>
@@ -149,7 +149,7 @@ export const MembersComponent = (props:Prop) => {
                     onClick={() => handleMouseClick(Number(member.id))}
                   />
                 </div>
-                <div className="absolute top-20 right-4">
+                <div className="absolute top-32 right-4">
                   {isDropdownOpen && dropDownId === member.id && (
                     <Dropdown
                       onMouseLeave={handleMouseLeave}
