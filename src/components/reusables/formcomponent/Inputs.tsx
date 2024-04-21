@@ -8,7 +8,8 @@ type InputsProps = {
   type: string;
   id?: string;
   style: string;
-  labelStyle?:string;
+  maxlength?: number;
+  labelStyle?: string;
   useIcons?: boolean;
   iconUser?: boolean;
   iconUserPass?: boolean;
@@ -21,6 +22,7 @@ type InputsProps = {
   disabled?: boolean;
   onChange: (event: React.ChangeEvent<HTMLInputElement>) => void;
   onShowpass?: MouseEventHandler<SVGElement>;
+  inputRef?: any;
 };
 
 export const Inputs = (props: InputsProps) => {
@@ -56,6 +58,8 @@ export const Inputs = (props: InputsProps) => {
           value={props.value}
           onChange={props.onChange}
           disabled={props.disabled}
+          maxLength={props.maxlength}
+          ref={props.inputRef}
         />
         {props.addpasswordVisibility ? (
           <div className="flex items-center p-2 cursor-pointer position absolute top-0 right-0">

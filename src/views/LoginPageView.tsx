@@ -104,14 +104,33 @@ export const LoginPageView = () => {
        navigate("/");
     }
 
- 
+  }
+
+  const handleVerificationEmit = (success:boolean, error:boolean, message:string)=>{
+     if (success) {
+       setSuccessBlockStatus(success);
+       setBlockMessage(message);
+       setTimeout(() => {
+         setSuccessBlockStatus(false);
+         setBlockMessage("");
+
+       }, 4000);
+     } else {
+       setErrorBlockStatus(error);
+       setBlockMessage(message);
+       setTimeout(() => {
+         setErrorBlockStatus(false);
+         setBlockMessage("");
+       }, 4000);
+  
+     }
   }
 
   return (
     <>
       <SuccessBlock blockControl={successBlockStatus} message={blockmessage} />
       <ErrorBlock blockControl={errorBlockStatus} message={blockmessage} />
-      
+
       <div className="w-full">
         <HeaderComponent
           logo="/images/Ekissi2.PNG"
@@ -135,6 +154,7 @@ export const LoginPageView = () => {
             <ResetForm
               onClickcancel={handleforgotpassword}
               onClickclose={Closedialog}
+              emitme={handleVerificationEmit}
             />
           )}
         </BackgroundDialogue>

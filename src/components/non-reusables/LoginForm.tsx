@@ -98,7 +98,7 @@ const clear = () => {
 
       <div className="w-full flex mb-3">
         <Inputs
-          type={showPassword?"text":"password"}
+          type={showPassword ? "text" : "password"}
           style="w-full 
            border-2
            border-cyan-300
@@ -110,10 +110,10 @@ const clear = () => {
           "
           id={"password"}
           useIcons
-          iconUser
+          iconUserPass
           labelOne="Password:"
           addpasswordVisibility
-          showPaswword={false}
+          showPaswword={showPassword}
           placeholder="Enter your password..."
           value={password}
           onChange={handleChange}
