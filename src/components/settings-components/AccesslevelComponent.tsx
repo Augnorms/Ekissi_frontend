@@ -284,7 +284,7 @@ export const AccesslevelComponent = (props: Prop) => {
     try {
       setIsLoading(true);
       const result = await axios.post(
-        import.meta.env.VITE_CREATE_ACCESS_LEVEL,
+        `${import.meta.env.VITE_ENDPOINT}/createaccesslevel`,
         {
           accesslevelname: accesslevename,
           accessleveldescription: accessleveldescription,
@@ -333,26 +333,29 @@ export const AccesslevelComponent = (props: Prop) => {
     try {
       setIsLoading(true);
 
-      let response = await axios.put(import.meta.env.VITE_UPDATE_ACCESS_LEVEL, {
-        update_id: updateid,
-        accesslevelname: accesslevename,
-        accessleveldescription: accessleveldescription,
-        AccesslevelView: accesslevelView,
-        AccesslevelManage: accesslevelManage,
-        UserverificationView: userverificationManage,
-        UserverificationManage: userverificationManage,
-        AddmembersView: addMembersView,
-        AddmembersManage: addMembersManage,
-        ManageaboutView: manageAboutView,
-        ManageaboutViewManage: manageAboutViewManage,
-        ManagegalleryView: manageGalleryView,
-        ManagegalleryManage: manageGalleryManage,
-        ManageaccountView: manageAccountView,
-        ManageaccountManage: manageAccountManage,
-        ManagebioView: manageBioView,
-        ManagebioManage: manageBioManage,
-        users: assignedMembers,
-      });
+      let response = await axios.put(
+        `${import.meta.env.VITE_ENDPOINT}/updateaccesslevel`,
+        {
+          update_id: updateid,
+          accesslevelname: accesslevename,
+          accessleveldescription: accessleveldescription,
+          AccesslevelView: accesslevelView,
+          AccesslevelManage: accesslevelManage,
+          UserverificationView: userverificationManage,
+          UserverificationManage: userverificationManage,
+          AddmembersView: addMembersView,
+          AddmembersManage: addMembersManage,
+          ManageaboutView: manageAboutView,
+          ManageaboutViewManage: manageAboutViewManage,
+          ManagegalleryView: manageGalleryView,
+          ManagegalleryManage: manageGalleryManage,
+          ManageaccountView: manageAccountView,
+          ManageaccountManage: manageAccountManage,
+          ManagebioView: manageBioView,
+          ManagebioManage: manageBioManage,
+          users: assignedMembers,
+        },
+      );
 
       if (response && response.data.code === 200) {
         setSuccessStatus(true);
@@ -382,7 +385,7 @@ export const AccesslevelComponent = (props: Prop) => {
       setIsLoading(true);
 
       let response = await axios.post(
-        import.meta.env.VITE_DELETE_ACCESS_LEVEL,
+        `${import.meta.env.VITE_ENDPOINT}/deletaccesslevel`,
         {
           user_id: deleteid,
         },

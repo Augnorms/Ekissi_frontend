@@ -274,26 +274,29 @@ export const AddMembersComponent = (props: Prop) => {
     try {
       setIsLoading(true);
 
-      let response = await axios.post(import.meta.env.VITE_CREATE_MEMBER, {
-        firstname: firstname,
-        lastName: lastname,
-        email: email,
-        password: password,
-        gender: gender,
-        dateofbirth: dateOfBirth,
-        placeofbirth: placeOfBirth,
-        occupation: selectedOccupation,
-        nationality: nationality,
-        phonenumber: phoneNumber,
-        mothersname: mothersName,
-        fathersname: fathersName,
-        maritalstatus: maritalStatus,
-        numberofchildren: numberOfChildren,
-        primaryeducation: primaryEducation,
-        secondaryeducation: secondaryEducation,
-        tertiaryeducation: tertiaryEducation,
-        hometown: hometown,
-      });
+      let response = await axios.post(
+        `${import.meta.env.VITE_ENDPOINT}/createmember`,
+        {
+          firstname: firstname,
+          lastName: lastname,
+          email: email,
+          password: password,
+          gender: gender,
+          dateofbirth: dateOfBirth,
+          placeofbirth: placeOfBirth,
+          occupation: selectedOccupation,
+          nationality: nationality,
+          phonenumber: phoneNumber,
+          mothersname: mothersName,
+          fathersname: fathersName,
+          maritalstatus: maritalStatus,
+          numberofchildren: numberOfChildren,
+          primaryeducation: primaryEducation,
+          secondaryeducation: secondaryEducation,
+          tertiaryeducation: tertiaryEducation,
+          hometown: hometown,
+        },
+      );
 
       if (response && response?.data?.code === 200) {
         setSuccessBlockStatus(true);
@@ -322,26 +325,29 @@ export const AddMembersComponent = (props: Prop) => {
     try {
       setIsLoading(true);
 
-      let response = await axios.put(import.meta.env.VITE_UPDATE_ENDPOINT, {
-        updated_id: memberid,
-        firstname: firstname,
-        lastName: lastname,
-        email: email,
-        gender: gender,
-        dateofbirth: dateOfBirth,
-        placeofbirth: placeOfBirth,
-        occupation: selectedOccupation,
-        nationality: nationality,
-        phonenumber: phoneNumber,
-        mothersname: mothersName,
-        fathersname: fathersName,
-        maritalstatus: maritalStatus,
-        numberofchildren: numberOfChildren,
-        primaryeducation: primaryEducation,
-        secondaryeducation: secondaryEducation,
-        tertiaryeducation: tertiaryEducation,
-        hometown: hometown,
-      });
+      let response = await axios.put(
+        `${import.meta.env.VITE_ENDPOINT}/updatemembers`,
+        {
+          updated_id: memberid,
+          firstname: firstname,
+          lastName: lastname,
+          email: email,
+          gender: gender,
+          dateofbirth: dateOfBirth,
+          placeofbirth: placeOfBirth,
+          occupation: selectedOccupation,
+          nationality: nationality,
+          phonenumber: phoneNumber,
+          mothersname: mothersName,
+          fathersname: fathersName,
+          maritalstatus: maritalStatus,
+          numberofchildren: numberOfChildren,
+          primaryeducation: primaryEducation,
+          secondaryeducation: secondaryEducation,
+          tertiaryeducation: tertiaryEducation,
+          hometown: hometown,
+        },
+      );
 
       if (response && response?.data?.code === 200) {
         setSuccessBlockStatus(true);
@@ -371,7 +377,7 @@ export const AddMembersComponent = (props: Prop) => {
       setIsLoading(true);
 
       let response = await axios.post(
-        import.meta.env.VITE_DELETE_MEMBER_ENDPOINT,
+        `${import.meta.env.VITE_ENDPOINT}/deletemember`,
         {
           user_id: delete_id,
         },

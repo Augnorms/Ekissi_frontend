@@ -37,10 +37,10 @@ const handleLogin = async()=>{
   try{
     setIsLoading(true)
 
-    let response = await axios.post(import.meta.env.VITE_LOGIN_ENDPOINT, {
+    let response = await axios.post(`${import.meta.env.VITE_ENDPOINT}/login`, {
       username: username,
       password: password,
-      rememberMe: 0
+      rememberMe: 0,
     });
 
     if(response && response?.data?.code === 200){

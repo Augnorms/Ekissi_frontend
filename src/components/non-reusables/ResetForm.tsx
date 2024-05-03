@@ -29,9 +29,12 @@ export const ResetForm = (props: Props) => {
     try {
       setIsLoading(true);
 
-      const response = await axios.post(import.meta.env.VITE_VERIFY_EMAIL, {
-        email: email,
-      });
+      const response = await axios.post(
+        `${import.meta.env.VITE_ENDPOINT}/verifiemail`,
+        {
+          email: email,
+        },
+      );
 
       if (response && response.data?.code === 201) {
         setEmail("");
@@ -70,7 +73,7 @@ export const ResetForm = (props: Props) => {
       setIsLoading(true);
 
       const response = await axios.post(
-        import.meta.env.VITE_CHECK_VERIFICATION_CODE,
+        `${import.meta.env.VITE_ENDPOINT}/checkverificationcodes`,
         {
           verification_code: verifyCodes,
         },
@@ -122,10 +125,13 @@ export const ResetForm = (props: Props) => {
     try {
       setIsLoading(true);
       
-      const response = await axios.put(import.meta.env.VITE_UPDATE_PASSWORD, {
-        user_id: userid,
-        password: password,
-      });
+      const response = await axios.put(
+        `${import.meta.env.VITE_ENDPOINT}/resetpassword`,
+        {
+          user_id: userid,
+          password: password,
+        },
+      );
 
       if(response){
         emitme &&

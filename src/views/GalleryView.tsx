@@ -71,7 +71,9 @@ export const GalleryView = () => {
 
   const handleFetchgallery = async () => {
     try {
-      const response = await axios.get(import.meta.env.VITE_GET_ALL_GALLERY);
+      const response = await axios.get(
+        `${import.meta.env.VITE_ENDPOINT}/getallgallery`,
+      );
 
       if (response) {
         let filterImages = response?.data?.data?.filter(

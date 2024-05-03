@@ -29,7 +29,9 @@ export const DigitalProfileView = () => {
   //fetch all members
   const handleFetchmembers = async () => {
     try {
-      const response = await axios.get(import.meta.env.VITE_GET_ALL_MEMBERS);
+      const response = await axios.get(
+        `${import.meta.env.VITE_ENDPOINT}/fetchallmembers`,
+      );
       setLisallMembers(response?.data?.data);
     } catch (err) {
       console.error(err);
@@ -40,7 +42,7 @@ export const DigitalProfileView = () => {
   const fetchmembersprofileImage = async () => {
     try {
       const response = await axios.post(
-        import.meta.env.VITE_GET_USERS_PROFILE_IMAGE,
+        `${import.meta.env.VITE_ENDPOINT}/fetchmemberprofileimage`,
         {
           req_id: String(userid),
         },
@@ -113,7 +115,7 @@ useEffect(() => {
 
       if (response && fileUrl) {
         const uploadResponse = await axios.post(
-          import.meta.env.VITE_CREATE_PROFILE_IMAGE,
+          `${import.meta.env.VITE_ENDPOINT}/createprofileimage`,
           {
             memberId: String(userid),
             image: fileUrl,
@@ -162,7 +164,7 @@ useEffect(() => {
 
       if (response && fileUrl) {
         const uploadResponse = await axios.put(
-          import.meta.env.VITE_UPDATE_PROFILE_IMAGE,
+          `${import.meta.env.VITE_ENDPOINT}/updateprofileimage`,
           {
             updateId: updateid,
             image: fileUrl,

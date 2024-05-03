@@ -142,12 +142,15 @@ export const AccountComponent = (prop: Prop) => {
     try {
       setIsLoading(true);
 
-      const response = await axios.post(import.meta.env.VITE_CREATE_ACCOUNT, {
-        memberid: selectedMember,
-        date: date,
-        name: name,
-        amount: amount,
-      });
+      const response = await axios.post(
+        `${import.meta.env.VITE_ENDPOINT}/createaccount`,
+        {
+          memberid: selectedMember,
+          date: date,
+          name: name,
+          amount: amount,
+        },
+      );
 
       if (response && response?.data?.status === true) {
         setSuccessBlockStatus(true);
@@ -176,12 +179,15 @@ export const AccountComponent = (prop: Prop) => {
     try {
       setIsLoading(true);
 
-      const response = await axios.put(import.meta.env.VITE_UPDATE_ACCOUNT, {
-        updateid: update_id,
-        date: date,
-        name: name,
-        amount: amount,
-      });
+      const response = await axios.put(
+        `${import.meta.env.VITE_ENDPOINT}/updateaccount`,
+        {
+          updateid: update_id,
+          date: date,
+          name: name,
+          amount: amount,
+        },
+      );
 
       if (response && response?.data?.status === true) {
         setSuccessBlockStatus(true);

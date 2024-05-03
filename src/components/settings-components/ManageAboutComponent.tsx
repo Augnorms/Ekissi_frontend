@@ -37,7 +37,7 @@ const createAboutcontent = async()=>{
     setIsLoading(true);
 
     const response = await axios.post(
-      import.meta.env.VITE_CREATE_ABOUT_CONTENT,
+      `${import.meta.env.VITE_ENDPOINT}/createaboutcontent`,
       {
         aboutcontent: textContent,
       },
@@ -72,9 +72,9 @@ const handleUpdatecontent = async()=>{
      setUploadLoading(true);
 
      const response = await axios.put(
-       import.meta.env.VITE_UPDATE_ABOUT_CONTENT,
+       `${import.meta.env.VITE_ENDPOINT}/updatedaboutpagecontent`,
        {
-         id:props.queryid,
+         id: props.queryid,
          aboutcontent: textContent,
        },
      );

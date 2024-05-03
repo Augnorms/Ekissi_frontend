@@ -69,7 +69,7 @@ export const ManageGalleryComponent = (props: Prop) => {
 
       if (response && resourceType === "image") {
         const serverResponse = await axios.post(
-          import.meta.env.VITE_CREATE_GALLERY,
+          `${import.meta.env.VITE_ENDPOINT}/creategallery`,
           {
             filename: filename,
             fileurl: fileUrl,
@@ -89,7 +89,7 @@ export const ManageGalleryComponent = (props: Prop) => {
         }
       } else if (response && resourceType === "video") {
         const serverResponse = await axios.post(
-          import.meta.env.VITE_CREATE_GALLERY,
+          `${import.meta.env.VITE_ENDPOINT}/creategallery`,
           {
             filename: filename,
             fileurl: fileUrl,
@@ -240,7 +240,7 @@ export const ManageGalleryComponent = (props: Prop) => {
 
       if (response && resourceType === "image") {
         let Updateresponse = await axios.put(
-          import.meta.env.VITE_UPDATE_GALLERY,
+          `${import.meta.env.VITE_ENDPOINT}/updategallery`,
           {
             id: fileId,
             filename: filename,
@@ -267,7 +267,7 @@ export const ManageGalleryComponent = (props: Prop) => {
       } else if (response && resourceType === "video") {
         if (response && resourceType === "video") {
           let Updateresponse = await axios.put(
-            import.meta.env.VITE_UPDATE_GALLERY,
+            `${import.meta.env.VITE_ENDPOINT}/updategallery`,
             {
               id: fileId,
               filename: filename,
@@ -315,9 +315,12 @@ export const ManageGalleryComponent = (props: Prop) => {
   const handleDelete = async () => {
     try {
       setIsLoading(true);
-      let response = await axios.post(import.meta.env.VITE_DELETE_GALLERY, {
-        id:fileId
-      });
+      let response = await axios.post(
+        `${import.meta.env.VITE_ENDPOINT}/deletegallery`,
+        {
+          id: fileId,
+        },
+      );
 
       if (response && response?.data?.code === 200) {
         setSuccessBlockStatus(true);

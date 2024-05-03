@@ -63,7 +63,9 @@ export const DashboardView = () => {
   const handleFetchmembers = async () => {
     try {
       setIsLoading(true);
-      const response = await axios.get(import.meta.env.VITE_GET_ALL_MEMBERS);
+      const response = await axios.get(
+        `${import.meta.env.VITE_ENDPOINT}/fetchallmembers`,
+      );
       setLisallMembers(response?.data?.data);
     } catch (err) {
       console.error(err);
@@ -80,7 +82,9 @@ export const DashboardView = () => {
     try{
       setIsLoading(true);
 
-      const response = await axios.get(import.meta.env.VITE_GET_ALL_ACCOUNTS);
+      const response = await axios.get(
+        `${import.meta.env.VITE_ENDPOINT}/getallaccounts`,
+      );
       setListallAccount(response?.data?.data); 
 
     }catch(err){
@@ -99,7 +103,9 @@ export const DashboardView = () => {
     try{
     setIsLoading(true);
 
-    const response = await axios.get(import.meta.env.VITE_GET_HEIRRACHY);
+    const response = await axios.get(
+      `${import.meta.env.VITE_ENDPOINT}/getallrelation`,
+    );
 
      if(response){
       setListallHeirrarchy(response?.data?.data);

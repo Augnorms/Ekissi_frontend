@@ -33,7 +33,9 @@ export const SettingsComponent = () => {
   const handleFetchmembers = async () => {
     try {
       setIsLoading(true);
-      const response = await axios.get(import.meta.env.VITE_GET_ALL_MEMBERS);
+      const response = await axios.get(
+        `${import.meta.env.VITE_ENDPOINT}/fetchallmembers`,
+      );
       setLisallMembers(response?.data?.data);
     } catch (err) {
       console.error(err);
@@ -47,7 +49,7 @@ export const SettingsComponent = () => {
     try{
       setIsLoading(true);
       const response = await axios.get(
-        import.meta.env.VITE_GET_ALL_ACCESS_LEVEL,
+        `${import.meta.env.VITE_ENDPOINT}/getallaccesslevel`,
       );
       setListallaccessLevel(response?.data?.data);
     }catch(err){
@@ -67,7 +69,9 @@ export const SettingsComponent = () => {
     try {
       setIsLoading(true);
 
-      const respone = await axios.get(import.meta.env.VITE_GET_ABOUT_CONTENT);
+      const respone = await axios.get(
+        `${import.meta.env.VITE_ENDPOINT}/getaboutcontent`,
+      );
       setAboutcontent(respone?.data?.data[0].history);
       setAboutcontentid(respone?.data?.data[0].id)
     } catch (error: any) {
@@ -84,7 +88,9 @@ export const SettingsComponent = () => {
   //handle fetch for gallery
     const handleFetchgallery = async () => {
       try {
-        const response = await axios.get(import.meta.env.VITE_GET_ALL_GALLERY);
+        const response = await axios.get(
+          `${import.meta.env.VITE_ENDPOINT}/getallgallery`,
+        );
 
         if (response) {
           let data = response?.data?.data

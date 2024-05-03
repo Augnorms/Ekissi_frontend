@@ -79,7 +79,9 @@ export const AboutView = () => {
     try {
       setIsLoading(true);
 
-      const respone = await axios.get(import.meta.env.VITE_GET_ABOUT_CONTENT);
+      const respone = await axios.get(
+        `${import.meta.env.VITE_ENDPOINT}/getaboutcontent`,
+      );
       setAboutcontent(respone?.data?.data[0].history);
     } catch (error: any) {
       console.error(error.message);

@@ -73,10 +73,10 @@ export const HeirarchyComponent = (props:Prop) => {
         setIsLoading(true);
 
         const response = await axios.post(
-          import.meta.env.VITE_CREATE_HEIRARCHY,
+          `${import.meta.env.VITE_ENDPOINT}/createrelation`,
           {
             parent_id: parent,
-            child_id: child
+            child_id: child,
           },
         );
 
