@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { SearchComp } from "../reusables/formcomponent/SearchComp";
 // import { Select } from "../reusables/formcomponent/Select";
 import { Avatar } from "../reusables/Avatar";
@@ -49,6 +49,8 @@ export const MembersComponent = (props:Prop) => {
   const handleMouseLeave = () => {
     setIsDropdownOpen(false);
   };
+
+  useEffect(()=>console.log(props.listallMembers))
 
   return (
     <div className="w-full h-[100%] p-10 overflow-auto">
