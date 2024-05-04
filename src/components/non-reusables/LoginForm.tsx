@@ -12,7 +12,7 @@ interface Props{
 
 export const LoginForm = (props:Props) => {
 const { onClick, onForgotpass, emitme } = props;
-const [username, setUsername] = useState<string>("");
+const [email, setEmail] = useState<string>("");
 const [password, setPassword] = useState<string>("");
 const [_rememberMe, _setRememberMe] = useState<number>(0);
 const [isLoading, setIsLoading] = useState<boolean>(false);
@@ -20,8 +20,8 @@ const [isLoading, setIsLoading] = useState<boolean>(false);
 const handleChange = (e:React.ChangeEvent<HTMLInputElement>)=>{
     const value = e.currentTarget.value
     const id = e.currentTarget.id
-    if (id === "username") {
-      setUsername(value);
+    if (id === "email") {
+      setEmail(value);
     }else if (id === "password") {
       setPassword(value)
     }
@@ -38,7 +38,7 @@ const handleLogin = async()=>{
     setIsLoading(true)
 
     let response = await axios.post(`${import.meta.env.VITE_ENDPOINT}/login`, {
-      username: username,
+      email: email,
       password: password,
       rememberMe: 0,
     });
@@ -61,7 +61,7 @@ const handleLogin = async()=>{
 }
 
 const clear = () => {
- setUsername("");
+ setEmail("");
  setPassword("");
  _setRememberMe(0)
 };
@@ -76,7 +76,7 @@ const clear = () => {
 
       <div className="w-full flex mb-3">
         <Inputs
-          type="text"
+          type="email"
           style="w-full 
            border-2
            border-cyan-300
@@ -86,12 +86,12 @@ const clear = () => {
            p-5
            placeholder:text-sm
           "
-          id={"username"}
+          id={"email"}
           useIcons
           iconUser
-          labelOne="Username:"
-          placeholder="Enter your username..."
-          value={username}
+          labelOne="Email:"
+          placeholder="Enter your email..."
+          value={email}
           onChange={handleChange}
         />
       </div>
@@ -137,7 +137,7 @@ const clear = () => {
           buttonLabel="Signin"
           className="border w-full p-2 
           rounded-xl text-white bg-cyan-400"
-          disabled={username == "" || password == ""}
+          disabled={email == "" || password == ""}
           loading={isLoading}
           onClick={handleLogin}
         />

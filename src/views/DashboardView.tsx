@@ -196,7 +196,7 @@ export const DashboardView = () => {
   const { decodedToken } = useJwt(token) as {
     decodedToken: DecodedToken | null;
   };
-console.log(decodedToken?.accesslevel?.accessLevelData?.accesslevelname);
+
   return (
     <>
       <LoaderComponent loaderTwo={isLoading} />

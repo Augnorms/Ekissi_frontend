@@ -51,7 +51,7 @@ export const MembersComponent = (props:Prop) => {
   };
 
   return (
-    <div className="w-full h-[100%] p-10">
+    <div className="w-full h-[100%] p-10 overflow-auto">
       <div className="flex gap-1">
         <p className="font-extrabold text-xl">Members Count</p>
         <span className="mt-1 font-extrabold">
@@ -88,7 +88,7 @@ export const MembersComponent = (props:Prop) => {
         </div>
       </div>
       <hr />
-      <div className="mt-4 w-full h-[55vh] overflow-auto grid grid-cols-4 p-2 gap-1">
+      <div className="mt-4 w-full grid grid-cols-4 p-2 gap-1">
         {props.listallMembers?.length &&
           props.listallMembers
             ?.filter((member) =>
@@ -98,7 +98,7 @@ export const MembersComponent = (props:Prop) => {
             )
             .map((member, idx) => (
               <div
-                className="w-full border rounded-md shadow-md grid grid-cols-2 grid-rows-2 relative"
+                className="w-full border rounded-md shadow-md grid grid-cols-2 grid-rows-1 relative"
                 key={idx}
               >
                 <div className="w-full flex justify-center p-2">

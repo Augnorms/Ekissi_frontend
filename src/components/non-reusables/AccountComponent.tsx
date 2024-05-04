@@ -234,16 +234,16 @@ export const AccountComponent = (prop: Prop) => {
   const renderCellContent = (headerKey: string, item: Record<string, any>) => {
     switch (headerKey) {
       case "date":
-        return <div className="whitespace-nowrap">{item.date}</div>;
+        return <div className="whitespace-nowrap">{item?.date}</div>;
 
       case "name":
-        return <div className="whitespace-nowrap">{item.name}</div>;
+        return <div className="whitespace-nowrap">{item?.name}</div>;
 
       case "amount":
-        return <div className="whitespace-nowrap">{`GHC ${item.amount}`}</div>;
+        return <div className="whitespace-nowrap">{`GHC ${item?.amount}`}</div>;
 
       case "email":
-        return <div className="whitespace-nowrap">{item.member.email}</div>;
+        return <div className="whitespace-nowrap">{item?.email}</div>;
 
       case "action":
         function emitAction(_id: string | number, _label: string): void {
