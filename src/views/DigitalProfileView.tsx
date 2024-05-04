@@ -80,13 +80,14 @@ useEffect(() => {
     input.click();
   };
 
+ 
   const handleInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const files = e.currentTarget.files;
 
     if (files && files.length > 0) {
       const selectedImage = files[0];
 
-      if(profileimage === ""){
+      if(!profileimage){
         //create image
         handleUploads(selectedImage as Blob);
       }else{
