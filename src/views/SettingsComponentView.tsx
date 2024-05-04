@@ -21,6 +21,7 @@ export const SettingsComponent = () => {
   const [aboutcontent, setAboutcontent] = useState<string>("");
   const [aboutcontentid, setAboutcontentid] = useState<number>(0);
   const [listallgallery, setListallGallery] = useState([]);
+  const [listallverification, setListallverification] = useState([]);
 
   //handle component displayed in the settings area
   const handleComponents = (event: React.MouseEvent<HTMLSpanElement>) => {
@@ -105,6 +106,29 @@ export const SettingsComponent = () => {
       handleFetchgallery();
     }, []);
 
+
+    //handle all verifications
+    const handleallverifications = async()=>{
+      try{
+
+        const response = await axios.get(
+          `${import.meta.env.VITE_ENDPOINT}/allverification`,
+        );
+
+        if(response){
+          setListallverification(response?.data?.data)
+          console.log(response?.data?.data);
+        }
+
+      }catch(error:any){
+        console.error(error);
+      }
+    }
+
+    useEffect(()=>{
+      handleallverifications();
+    },[])
+
   //decode token for users information
   const token = localStorage.getItem("token") ?? "";
   const { decodedToken } = useJwt(token) as {
@@ -182,7 +206,7 @@ export const SettingsComponent = () => {
           refetch={handleFetchallaccessLevels}
         />
       ) : components === "userverification" ? (
-        <UserVerificationComponent />
+        <UserVerificationComponent listallverification={listallverification} />
       ) : components === "manageabout" ? (
         <ManageAboutComponent
           queryContent={aboutcontent}

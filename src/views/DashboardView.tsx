@@ -13,7 +13,6 @@ import { DecodedToken } from "../Interfaces/usersInterface";
 import { LoaderComponent } from "../components/reusables/LoaderComponent";
 
 export const DashboardView = () => {
-
   const [_openApps, setOpenApps] = useState<boolean>(false);
   const [page, setPage] = useState<string>(
     localStorage.getItem("page") || "dashboard",
@@ -58,6 +57,9 @@ export const DashboardView = () => {
   const [listallMembers, setLisallMembers] = useState([]);
   const [listallAccounts, setListallAccount] = useState([]);
   const [listallHeirrarchy, setListallHeirrarchy] = useState([]);
+  const [allmemcount, setAllmemcount] = useState(0);
+  const [allfemalecount, setAllfemalecount] = useState(0);
+  const [allmalecount, setAllmalecount] = useState(0);
   const [isLoading, setIsLoading] = useState<boolean>(false);
 
   const handleFetchmembers = async () => {
@@ -69,7 +71,7 @@ export const DashboardView = () => {
       setLisallMembers(response?.data?.data);
     } catch (err) {
       console.error(err);
-    }finally{
+    } finally {
       setIsLoading(false);
     }
   };
@@ -78,58 +80,123 @@ export const DashboardView = () => {
     handleFetchmembers();
   }, []);
 
-  const handleFetchaccounts = async()=>{
-    try{
+  const handleFetchaccounts = async () => {
+    try {
       setIsLoading(true);
 
       const response = await axios.get(
         `${import.meta.env.VITE_ENDPOINT}/getallaccounts`,
       );
-      setListallAccount(response?.data?.data); 
-
-    }catch(err){
+      setListallAccount(response?.data?.data);
+    } catch (err) {
       console.error(err);
-    }finally{
-     setIsLoading(false);
-    }
-  }
-
-  useEffect(()=>{
-    handleFetchaccounts();
-  },[]);
-
-  //get heirrarchy structure
-  const handleHeirrarchy = async()=>{
-    try{
-    setIsLoading(true);
-
-    const response = await axios.get(
-      `${import.meta.env.VITE_ENDPOINT}/getallrelation`,
-    );
-
-     if(response){
-      setListallHeirrarchy(response?.data?.data);
-     }
-
-    }catch(error){
-    console.error(error);
-    }finally{
+    } finally {
       setIsLoading(false);
     }
-  }
-  
-  useEffect(()=>{
-    handleHeirrarchy();
-  }, [])
+  };
 
+  useEffect(() => {
+    handleFetchaccounts();
+  }, []);
+
+  //get heirrarchy structure
+  const handleHeirrarchy = async () => {
+    try {
+      setIsLoading(true);
+
+      const response = await axios.get(
+        `${import.meta.env.VITE_ENDPOINT}/getallrelation`,
+      );
+
+      if (response) {
+        setListallHeirrarchy(response?.data?.data);
+      }
+    } catch (error) {
+      console.error(error);
+    } finally {
+      setIsLoading(false);
+    }
+  };
+
+  useEffect(() => {
+    handleHeirrarchy();
+  }, []);
+
+  //handle members count
+  const handleallmembercount = async () => {
+    try {
+      setIsLoading(true);
+
+      const response = await axios.get(
+        `${import.meta.env.VITE_ENDPOINT}/allmemberscount`,
+      );
+
+      if (response) {
+        setAllmemcount(response?.data?.count);
+      }
+    } catch (error) {
+      console.error(error);
+    } finally {
+      setIsLoading(false);
+    }
+  };
+
+  useEffect(() => {
+    handleallmembercount();
+  }, []);
+
+  //handle male count
+  const handleallmalecount = async () => {
+    try {
+      setIsLoading(true);
+
+      const response = await axios.get(
+        `${import.meta.env.VITE_ENDPOINT}/malecount`,
+      );
+
+      if (response) {
+        setAllmalecount(response?.data?.count);
+      }
+    } catch (error) {
+      console.error(error);
+    } finally {
+      setIsLoading(false);
+    }
+  };
+
+  useEffect(() => {
+    handleallmalecount();
+  }, []);
+
+  //all female count
+  const handleallfemalecount = async () => {
+    try {
+      setIsLoading(true);
+
+      const response = await axios.get(
+        `${import.meta.env.VITE_ENDPOINT}/femalecount`,
+      );
+
+      if (response) {
+        setAllfemalecount(response?.data?.count);
+      }
+    } catch (error) {
+      console.error(error);
+    } finally {
+      setIsLoading(false);
+    }
+  };
+
+  useEffect(() => {
+    handleallfemalecount();
+  }, []);
 
   //decode token for users information
   const token = localStorage.getItem("token") ?? "";
   const { decodedToken } = useJwt(token) as {
     decodedToken: DecodedToken | null;
   };
-
-
+console.log(decodedToken?.accesslevel?.accessLevelData?.accesslevelname);
   return (
     <>
       <LoaderComponent loaderTwo={isLoading} />
@@ -150,12 +217,22 @@ export const DashboardView = () => {
           loginUserimage={decodedToken?.image}
         />
 
-        <AppsComponent show={_openApps} selectedApp={selectedApp} />
+        <AppsComponent
+          show={_openApps}
+          selectedApp={selectedApp}
+          accesslevelname={
+            decodedToken?.accesslevel?.accessLevelData?.accesslevelname
+          }
+        />
 
         <div className="w-full h-[90%] p-5 bg-[url('/images/grey-image-bg.jpg')]">
           <div className="w-full h-[100%] shadow-lg bg-white rounded-lg">
             {page === "dashboard" ? (
-              <DashboardComponent />
+              <DashboardComponent
+                allmemcount={allmemcount}
+                allmalecount={allmalecount}
+                allfemalecount={allfemalecount}
+              />
             ) : page === "heirarchy" ? (
               <HeirarchyComponent
                 listallMembers={listallMembers}

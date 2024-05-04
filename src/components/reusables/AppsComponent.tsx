@@ -1,10 +1,11 @@
 interface Props {
   selectedApp?: (e: React.MouseEvent<HTMLDivElement>) => void;
   show?: boolean;
+  accesslevelname?:string;
 }
 
 export const AppsComponent = (props: Props) => {
-  const { selectedApp } = props;
+  const { selectedApp, accesslevelname } = props;
   return (
     <div
       className="
@@ -76,7 +77,7 @@ export const AppsComponent = (props: Props) => {
         <p className="text-xs">Members</p>
       </div>
 
-      <div
+      {accesslevelname === "Admin" && <div
         id="settings"
         onClick={selectedApp}
         className="w-full shadow-md rounded cursor-pointer item-center p-2 hover:bg-cyan-200 hover:text-white"
@@ -88,7 +89,7 @@ export const AppsComponent = (props: Props) => {
           alt="settings-icon"
         />
         <p className="text-xs">Settings</p>
-      </div>
+      </div>}
     </div>
   );
 };
