@@ -68,19 +68,23 @@ const TableComponent: React.FC<TableProps> = ({
             <tr key={index}>
               {headers.map((header) => (
                 <td key={header.key} className="py-2 px-4 border-b">
-                  {renderCellContent(header.key, item)}
+                  {renderCellContent &&renderCellContent(header.key, item)}
                 </td>
               ))}
             </tr>
           ))}
         </tbody>
       </table>
-      {items.length > 9 ? <Pagination
-        totalItems={items.length}
-        itemsPerPage={itemsPerPage}
-        currentPage={currentPage}
-        onPageChange={setCurrentPage}
-      />:<></>}
+      {items.length > 9 ? (
+        <Pagination
+          totalItems={items.length}
+          itemsPerPage={itemsPerPage}
+          currentPage={currentPage}
+          onPageChange={setCurrentPage}
+        />
+      ) : (
+        <></>
+      )}
     </div>
   );
 };

@@ -87,20 +87,31 @@ export const Multiselect = (prop: Props) => {
 
   const [filteredData, setFilteredData] = useState<
     { id: number | string; label: string }[]
-  >([]);
+  | undefined>([]);
 
   useEffect(() => {
     const filtered = data?.filter((name) => {
       const firstPart = name.label.toLowerCase().slice(0, search.length);
       return firstPart === search.toLowerCase();
     });
+    
     setFilteredData(filtered);
   }, [search, data]);
 
   //this part is to handle updates
 useLayoutEffect(() => {
   if (prop.updateOptions?.length && prop.updateOptions?.length > 0) {
-    setSelectedOptions(prop.updateOptions || []);
+    setSelectedOptions(
+      prop.updateOptions
+        ? prop.updateOptions.map((option) => {
+            if ("label" in option) {
+              return { id: option.id, label: option.label };
+            } else {
+              return { id: option.id, label: option.name };
+            }
+          })
+        : [],
+    );
     setOpenClose(true);
   }
 }, [prop.updateOptions]);
@@ -170,7 +181,7 @@ useLayoutEffect(() => {
         <div
           className={`mt-1 border h-[200px] overflow-auto p-3 rounded bg-white ${dropdownstyle}`}
         >
-          {filteredData.length > 0
+          {filteredData && filteredData.length > 0
             ? filteredData.map((option) => (
                 <div
                   key={option.id}
@@ -188,7 +199,8 @@ useLayoutEffect(() => {
                 </div>
               ))
             : // Render original data if no filtered data is available
-              data && data.map((option) => (
+              data &&
+              data.map((option) => (
                 <div
                   key={option.id}
                   className={`w-full flex gap-2 p-2 hover:bg-cyan-100 rounded cursor-pointer ${dropdownstyle}`}
