@@ -408,7 +408,7 @@ export const ManageGalleryComponent = (props: Prop) => {
                 rounded text-white bg-cyan-400"
           loading={isLoading}
           onClick={editStat ? handleupdate : handleUploads}
-          disabled={filename === "" || files.length === 0}
+          disabled={filename === "" || files?.length === 0}
         />
       </div>
 

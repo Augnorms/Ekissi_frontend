@@ -115,7 +115,7 @@ export const AddMembersComponent = (props: Prop) => {
   };
 
   const onClick = () => {
-    if (editOccupation.length > 0) {
+    if (editOccupation?.length > 0) {
       setOccupation("");
     } else {
       setOccupation("");
@@ -191,7 +191,7 @@ export const AddMembersComponent = (props: Prop) => {
 
   //removal of input arrays
   const handleRemoveFieldCopy = () => {
-    setInputs((prevInputs) => prevInputs.slice(0, prevInputs.length - 4));
+    setInputs((prevInputs) => prevInputs.slice(0, prevInputs?.length - 4));
   };
 
   //handles the change for every inputs
@@ -206,7 +206,7 @@ export const AddMembersComponent = (props: Prop) => {
 
   const handleSlice = () => {
     const chunks = [];
-    for (let i = 0; i < inputs.length; i += 4) {
+    for (let i = 0; i < inputs?.length; i += 4) {
       const chunk = inputs.slice(i, i + 4);
       chunks.push(chunk);
     }
@@ -230,28 +230,28 @@ export const AddMembersComponent = (props: Prop) => {
     setInputs((prevInputs) => [
       ...prevInputs,
       {
-        id: `companyname-${prevInputs.length}`,
+        id: `companyname-${prevInputs?.length}`,
         label: "Companyname:",
         type: "text",
         placeholder: "Enter your companyname...",
         value: occupationData.nameofcompany,
       },
       {
-        id: `startdate-${prevInputs.length}`,
+        id: `startdate-${prevInputs?.length}`,
         label: "Startdate:",
         type: "date",
         placeholder: "Select start date...",
         value: occupationData.startdate,
       },
       {
-        id: `enddate-${prevInputs.length}`,
+        id: `enddate-${prevInputs?.length}`,
         label: "Enddate:",
         type: "date",
         placeholder: "Select end date...",
         value: occupationData.enddate,
       },
       {
-        id: `position-${prevInputs.length}`,
+        id: `position-${prevInputs?.length}`,
         label: "Position:",
         type: "text",
         placeholder: "Enter position here...",
@@ -261,7 +261,7 @@ export const AddMembersComponent = (props: Prop) => {
   };
 
   useEffect(() => {
-    if (editOccupation.length > 0) {
+    if (editOccupation?.length > 0) {
       editOccupation.forEach((occupationData) => {
         handleEditFieldCopy(occupationData);
       });
@@ -721,7 +721,7 @@ export const AddMembersComponent = (props: Prop) => {
 
         <Select
           labelOne={`Occupation`}
-          labelTwo={`${editOccupation.length > 0 ? editOccupation.length : selectedOccupation.length}`}
+          labelTwo={`${editOccupation?.length > 0 ? editOccupation?.length : selectedOccupation?.length}`}
           style="
                   w-full rounded-xl
                   p-2 border-2 border-cyan-300
