@@ -49,18 +49,18 @@ export const AvatarList = ({
               />
             ) : (
               <span className="text-xl font-bold">
-                {data.initials.length === 2 ? data.initials : getInitials(data.initials)}
+                {data.initials?.length === 2 ? data.initials : getInitials(data.initials)}
               </span>
             )}
           </div>
         </div>
       ))}
 
-      {avatarArray && sliceSecondIdx < avatarArray.length && (
+      {avatarArray && sliceSecondIdx < avatarArray?.length && (
         <div
           className={`w-${width} h-${height} rounded-full flex justify-center items-center shadow-lg bg-slate-200 p-1`}
         >
-          +{avatarArray.length - sliceSecondIdx}
+          +{avatarArray?.length - sliceSecondIdx}
         </div>
       )}
     </div>
