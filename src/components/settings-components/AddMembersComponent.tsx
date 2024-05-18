@@ -311,7 +311,7 @@ export const AddMembersComponent = (props: Prop) => {
     } catch (error: any) {
       console.error(error);
       setErrorBlockStatus(true);
-      setBlockMessage(error.message);
+      setBlockMessage(error.response?.data?.message);
       setTimeout(() => {
         setErrorBlockStatus(false);
       }, 3000);
