@@ -85,7 +85,7 @@ export const DashboardComponent = (props: Props) => {
       </div>
 
       <div className="col-span-1 shadow-xl rounded-lg p-4 grid grid-cols-2 gap-2">
-        {Array.from({ length: 4 }, (_, idx) => (
+        {Array.from({ length: 3 }, (_, idx) => (
           <div
             key={idx} // Adding a key is important for React
             id={
@@ -95,9 +95,7 @@ export const DashboardComponent = (props: Props) => {
                   ? "Members"
                   : idx == 2
                     ? "Accounts"
-                    : idx == 3
-                      ? "settings"
-                      : ""
+                    :  ""
             }
             className="w-full h-[150px] shadow-md rounded cursor-pointer item-center p-2 hover:bg-cyan-200 hover:text-white"
             onClick={selectedApp}
@@ -110,9 +108,7 @@ export const DashboardComponent = (props: Props) => {
                     ? "Members"
                     : idx == 2
                       ? "Accounts"
-                      : idx == 3
-                        ? "settings"
-                        : ""
+                      :  ""
               }
               src={
                 idx == 0
@@ -121,9 +117,7 @@ export const DashboardComponent = (props: Props) => {
                     ? "/images/group.svg"
                     : idx == 2
                       ? "/images/Accounts.svg"
-                      : idx == 3
-                        ? "/images/settings.svg"
-                        : ""
+                      :  ""
               }
               alt="Members-icon"
             />
@@ -134,9 +128,7 @@ export const DashboardComponent = (props: Props) => {
                   ? "Members"
                   : idx == 2
                     ? "Accounts"
-                    : idx == 3
-                      ? "Settings"
-                      : ""}
+                    :  ""}
             </p>
           </div>
         ))}
