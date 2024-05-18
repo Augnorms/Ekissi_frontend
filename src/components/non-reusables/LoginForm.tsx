@@ -50,7 +50,7 @@ const handleLogin = async()=>{
     }
 
   }catch(err:any){
-    if ((err.response && err.response?.status === 400)) {
+    if ((err.response)) {
       emitme && emitme(false, true, err.response?.data?.message);
     }else if (err.message === "Request failed with status code 401") {
       emitme && emitme(false, true, err.response?.data?.message);
