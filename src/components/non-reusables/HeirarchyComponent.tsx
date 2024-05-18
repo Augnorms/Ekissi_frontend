@@ -163,7 +163,7 @@ export const HeirarchyComponent = (props:Prop) => {
           />
 
           <Select
-            labelOne="Parent"
+            labelOne="Child"
             style="
                   w-full rounded-md
                   p-3 border-2 border-cyan-300
