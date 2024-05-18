@@ -53,6 +53,18 @@ export const DashboardView = () => {
     }
   };
 
+  const dasboardSelectedApp = (e: React.MouseEvent<HTMLDivElement>) => {
+
+    setPage(e.currentTarget.id);
+
+    localStorage.setItem("page", e.currentTarget.id);
+
+    if (e.currentTarget.id === "settings") {
+      navigate("/settings");
+      localStorage.removeItem("page");
+    }
+  };
+
   //fetch all members
   const [listallMembers, setLisallMembers] = useState([]);
   const [listallAccounts, setListallAccount] = useState([]);
@@ -232,6 +244,7 @@ export const DashboardView = () => {
                 allmemcount={allmemcount}
                 allmalecount={allmalecount}
                 allfemalecount={allfemalecount}
+                selectedApp={dasboardSelectedApp}
               />
             ) : page === "heirarchy" ? (
               <HeirarchyComponent

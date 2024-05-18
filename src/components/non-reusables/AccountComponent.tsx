@@ -243,7 +243,7 @@ export const AccountComponent = (prop: Prop) => {
         return <div className="whitespace-nowrap">{`GHC ${item?.amount}`}</div>;
 
       case "email":
-        return <div className="whitespace-nowrap">{item?.email}</div>;
+        return <div className="whitespace-nowrap">{item?.member?.email}</div>;
 
       case "action":
         function emitAction(_id: string | number, _label: string): void {
